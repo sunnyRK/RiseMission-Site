@@ -3,24 +3,691 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Rise Mission</title>
+
+<title>Rise Mission — The alarm you can't snooze away</title>
+<meta name="description" content="Rise Mission is the iPhone alarm that makes sure you're actually awake. Do push-ups, solve math, type a phrase, or scan a QR code to dismiss it. On-device, private, and fair by design.">
+<meta name="theme-color" content="#0B0D10">
+
+<!-- Mark that JS is available BEFORE first paint. Scroll-reveal only hides
+     content when this class is present, so no-JS visitors and crawlers
+     (SEO / social scrapers) always see the full page. -->
+<script>document.documentElement.classList.add('js');</script>
+
+<!-- Favicon / touch icon (real app icon) -->
+<link rel="icon" type="image/png" href="assets/icon.png">
+<link rel="apple-touch-icon" href="assets/icon.png">
+
+<link rel="canonical" href="https://risemission.app/">
+
+<!-- Open Graph / Twitter cards. Absolute URLs required by social scrapers. -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://risemission.app/">
+<meta property="og:title" content="Rise Mission — The alarm you can't snooze away">
+<meta property="og:description" content="The iPhone alarm that checks you're really up: push-ups, math, typing, or a QR scan across the room. On-device, private, and fair.">
+<meta property="og:image" content="https://risemission.app/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Rise Mission — The alarm you can't snooze away">
+<meta name="twitter:description" content="The iPhone alarm that checks you're really up: push-ups, math, typing, or a QR scan across the room.">
+<meta name="twitter:image" content="https://risemission.app/assets/og-image.png">
+
 <style>
-  body { margin: 0; background: #0B0D10; color: #F2F4F7;
-         font-family: -apple-system, "SF Pro Text", system-ui, sans-serif;
-         display: grid; place-items: center; min-height: 100vh; text-align: center; }
-  .mark { display: inline-flex; width: 56px; height: 56px; border-radius: 16px;
-          background: #FF8A2A; color: #0B0D10; font-weight: 800; font-size: 20px;
-          align-items: center; justify-content: center; margin-bottom: 16px; }
-  a { color: #FF8A2A; text-decoration: none; font-weight: 700; }
-  p { color: rgba(242,244,247,.6); }
+  /* ---------- Design tokens (mirrors the app) ---------- */
+  :root {
+    --bg:        #0B0D10;
+    --surface-1: #15181D;
+    --surface-2: #1A1E24;
+    --line:      rgba(242,244,247,0.10);
+    --line-soft: rgba(242,244,247,0.06);
+    --text:      #F2F4F7;
+    --muted:     rgba(242,244,247,0.62);
+    --faint:     rgba(242,244,247,0.42);
+    --accent:    #FF8A2A;
+    --accent-2:  #FFB066;
+    --success:   #3BD68C;
+    --radius:    22px;
+    --radius-sm: 14px;
+    --maxw:      1080px;
+    --ease:      cubic-bezier(.2,.7,.2,1);
+    --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+            "Segoe UI", system-ui, Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; text-decoration: none; }
+  /* height:auto is essential — the phone screenshots carry width/height HTML
+     attributes for CLS, and without this they'd render at the literal pixel
+     height (stretched) once CSS sets width:100%. */
+  img { display: block; max-width: 100%; height: auto; }
+
+  .wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 22px; }
+
+  /* ---------- Type ---------- */
+  h1, h2, h3 { letter-spacing: -0.025em; line-height: 1.05; margin: 0; font-weight: 800; }
+  h1 { font-size: clamp(38px, 7.2vw, 68px); }
+  h2 { font-size: clamp(28px, 4.6vw, 44px); }
+  h3 { font-size: 20px; letter-spacing: -0.01em; }
+  .eyebrow {
+    display: inline-block; font-size: 12.5px; font-weight: 800; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 14px;
+  }
+  .lede { font-size: clamp(17px, 2.1vw, 20px); color: var(--muted); }
+
+  /* ---------- Buttons ---------- */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+    font-weight: 700; font-size: 16px; padding: 15px 26px; border-radius: 999px;
+    border: 1px solid transparent; cursor: pointer; transition: transform .18s var(--ease), background .18s, border-color .18s, opacity .18s;
+    white-space: nowrap;
+  }
+  .btn:active { transform: translateY(1px) scale(.99); }
+  .btn-primary { background: var(--accent); color: #14100A; box-shadow: 0 10px 34px -12px rgba(255,138,42,.7); }
+  .btn-primary:hover { background: var(--accent-2); }
+  .btn-ghost { background: rgba(255,255,255,.04); color: var(--text); border-color: var(--line); }
+  .btn-ghost:hover { background: rgba(255,255,255,.08); }
+
+  /* ---------- Nav ---------- */
+  header.nav {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: saturate(140%) blur(14px);
+    -webkit-backdrop-filter: saturate(140%) blur(14px);
+    background: rgba(11,13,16,0.72);
+    border-bottom: 1px solid transparent; transition: border-color .3s;
+  }
+  header.nav.scrolled { border-bottom-color: var(--line-soft); }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 66px; }
+  .brand { display: flex; align-items: center; gap: 11px; font-weight: 800; font-size: 17px; letter-spacing: -0.01em; }
+  .brand .logo { width: 30px; height: 30px; }
+  .nav-links { display: flex; align-items: center; gap: 28px; }
+  .nav-links a.link { font-size: 15px; color: var(--muted); transition: color .18s; }
+  .nav-links a.link:hover { color: var(--text); }
+  .nav-cta { padding: 10px 18px; font-size: 14.5px; }
+  @media (max-width: 720px) { .nav-links .link { display: none; } }
+
+  /* ---------- Sunrise logo mark ---------- */
+  .logo path, .logo rect, .logo circle { fill: var(--accent); }
+
+  /* ---------- Section rhythm ---------- */
+  section { padding: 84px 0; position: relative; }
+  @media (max-width: 720px) { section { padding: 60px 0; } }
+  .section-head { max-width: 640px; margin: 0 auto 46px; text-align: center; }
+  .section-head .lede { margin-top: 16px; }
+
+  /* ---------- Hero ---------- */
+  .hero { padding-top: 56px; padding-bottom: 40px; overflow: hidden; }
+  .hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 40px; align-items: center; }
+  @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; text-align: center; gap: 44px; } }
+
+  .status-pill {
+    display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600;
+    color: var(--muted); background: rgba(255,138,42,.08); border: 1px solid rgba(255,138,42,.22);
+    padding: 7px 14px; border-radius: 999px; margin-bottom: 22px;
+  }
+  .status-pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 0 rgba(255,138,42,.6); animation: pulse 2.4s infinite; }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255,138,42,.55);} 70%{ box-shadow: 0 0 0 9px rgba(255,138,42,0);} 100%{ box-shadow:0 0 0 0 rgba(255,138,42,0);} }
+  @media (prefers-reduced-motion: reduce) { .status-pill .dot { animation: none; } }
+
+  .hero h1 span.hl { color: var(--accent); }
+  .hero .lede { margin-top: 22px; max-width: 540px; }
+  @media (max-width: 900px) { .hero .lede { margin-left: auto; margin-right: auto; } }
+
+  .hero-cta { margin-top: 32px; }
+  .trust-row { display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 26px; color: var(--faint); font-size: 13.5px; font-weight: 600; }
+  @media (max-width: 900px) { .trust-row { justify-content: center; } }
+  .trust-row span { display: inline-flex; align-items: center; gap: 7px; }
+  .trust-row span::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--success); }
+
+  /* ---------- Phone frame ---------- */
+  .phone-stage { position: relative; display: flex; justify-content: center; }
+  .glow {
+    position: absolute; inset: -10% -20%; z-index: 0; pointer-events: none;
+    background: radial-gradient(45% 45% at 60% 35%, rgba(255,138,42,.28), transparent 70%);
+    filter: blur(10px);
+  }
+  .phone {
+    position: relative; z-index: 1; width: 270px; max-width: 76vw;
+    border-radius: 46px; padding: 11px;
+    background: linear-gradient(160deg, #23262d, #0e1013 60%);
+    box-shadow: 0 40px 90px -30px rgba(0,0,0,.8), 0 0 0 1px rgba(255,255,255,.06),
+                inset 0 0 0 1.5px rgba(255,255,255,.04);
+  }
+  .phone::before {
+    content: ""; position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
+    width: 92px; height: 26px; background: #000; border-radius: 999px; z-index: 3;
+  }
+  .phone img { width: 100%; border-radius: 36px; display: block; background: var(--bg); }
+  .phone.tilt { transform: rotate(-1.5deg); }
+
+  /* ---------- Trust strip ---------- */
+  .strip { border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); background: var(--surface-1); }
+  .strip .wrap { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px 40px; padding: 22px; }
+  .strip .item { display: inline-flex; align-items: center; gap: 10px; color: var(--muted); font-size: 14.5px; font-weight: 600; }
+  .strip .item svg { width: 18px; height: 18px; color: var(--accent); flex: none; }
+
+  /* ---------- Challenge cards ---------- */
+  .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  @media (max-width: 900px) { .cards { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 480px) { .cards { grid-template-columns: 1fr; } }
+  .card {
+    background: var(--surface-1); border: 1px solid var(--line-soft); border-radius: var(--radius);
+    padding: 26px 22px; transition: transform .2s var(--ease), border-color .2s, background .2s;
+  }
+  .card:hover { transform: translateY(-4px); border-color: rgba(255,138,42,.35); background: var(--surface-2); }
+  .card .ic {
+    width: 46px; height: 46px; border-radius: 13px; display: grid; place-items: center;
+    background: rgba(255,138,42,.12); color: var(--accent); margin-bottom: 18px;
+  }
+  .card .ic svg { width: 24px; height: 24px; }
+  .card h3 { margin-bottom: 8px; }
+  .card p { margin: 0; color: var(--muted); font-size: 14.5px; }
+
+  /* ---------- Feature (split) rows ---------- */
+  .feature { display: grid; grid-template-columns: 1fr 1fr; gap: 54px; align-items: center; }
+  .feature.rev .fig { order: 2; }
+  @media (max-width: 860px) { .feature { grid-template-columns: 1fr; gap: 34px; text-align: center; } .feature.rev .fig { order: 0; } }
+  .feature .fig { display: flex; justify-content: center; }
+  .feature ul { list-style: none; padding: 0; margin: 22px 0 0; }
+  @media (max-width: 860px) { .feature ul { max-width: 460px; margin-left: auto; margin-right: auto; } }
+  .feature li { position: relative; padding-left: 30px; margin-bottom: 15px; color: var(--muted); font-size: 15.5px; }
+  .feature li::before {
+    content: ""; position: absolute; left: 0; top: 7px; width: 16px; height: 16px; border-radius: 50%;
+    background: rgba(59,214,140,.15);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%233BD68C' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: center; background-size: 12px;
+  }
+  .feature li b { color: var(--text); font-weight: 700; }
+
+  /* ---------- Demo video ---------- */
+  .demo-frame {
+    position: relative; max-width: 300px; margin: 0 auto;
+    border-radius: 46px; padding: 11px;
+    background: linear-gradient(160deg, #23262d, #0e1013 60%);
+    box-shadow: 0 40px 90px -34px rgba(0,0,0,.8), 0 0 0 1px rgba(255,255,255,.06);
+  }
+  .demo-screen {
+    position: relative; aspect-ratio: 9 / 19.5; border-radius: 36px; overflow: hidden;
+    background:
+      radial-gradient(60% 50% at 50% 30%, rgba(255,138,42,.14), transparent 70%),
+      var(--surface-1);
+    display: grid; place-items: center; text-align: center;
+  }
+  .demo-screen .play {
+    width: 66px; height: 66px; border-radius: 50%; background: var(--accent); color: #14100A;
+    display: grid; place-items: center; margin: 0 auto 16px; box-shadow: 0 12px 30px -8px rgba(255,138,42,.6);
+  }
+  .demo-screen .play svg { width: 26px; height: 26px; margin-left: 3px; }
+  .demo-label { font-weight: 700; }
+  .demo-sub { color: var(--faint); font-size: 13px; margin-top: 4px; }
+  /*
+    TO ADD YOUR DEMO: replace the .demo-screen block's contents with
+    <video src="assets/demo.mp4" poster="assets/screenshots/02-ringing.png"
+           controls playsinline style="width:100%;height:100%;object-fit:cover"></video>
+    (or a YouTube/Vimeo <iframe>). Keep it vertical 9:16 for reels-style clips.
+  */
+
+  /* ---------- Gallery ---------- */
+  .gallery {
+    display: flex; gap: 18px; overflow-x: auto; padding: 6px 22px 24px;
+    scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .gallery::-webkit-scrollbar { display: none; }
+  .gallery .shot {
+    flex: 0 0 auto; width: 210px; scroll-snap-align: center;
+    border-radius: 30px; padding: 7px; background: linear-gradient(160deg,#23262d,#0e1013 60%);
+    box-shadow: 0 24px 50px -28px rgba(0,0,0,.8), 0 0 0 1px rgba(255,255,255,.05);
+  }
+  .gallery .shot img { border-radius: 24px; }
+
+  /* ---------- Stats row ---------- */
+  .stat-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 40px; }
+  @media (max-width: 720px){ .stat-grid { grid-template-columns: 1fr; } }
+  .stat { background: var(--surface-1); border: 1px solid var(--line-soft); border-radius: var(--radius); padding: 28px 24px; text-align: center; }
+  .stat .big { font-size: 40px; font-weight: 800; letter-spacing: -0.03em; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .stat p { margin: 6px 0 0; color: var(--muted); font-size: 14.5px; }
+
+  /* ---------- Waitlist ---------- */
+  .cta-band {
+    background:
+      radial-gradient(80% 120% at 50% -10%, rgba(255,138,42,.16), transparent 60%),
+      var(--surface-1);
+    border: 1px solid var(--line-soft); border-radius: 30px; padding: 56px 28px; text-align: center;
+  }
+  .waitlist { max-width: 460px; margin: 26px auto 0; }
+  .waitlist form { display: flex; gap: 10px; }
+  @media (max-width: 520px){ .waitlist form { flex-direction: column; } }
+  .waitlist input[type=email] {
+    flex: 1; min-width: 0; background: var(--bg); border: 1px solid var(--line); color: var(--text);
+    padding: 15px 18px; border-radius: 999px; font-size: 16px; font-family: inherit; outline: none;
+    transition: border-color .18s;
+  }
+  .waitlist input[type=email]:focus { border-color: var(--accent); }
+  .waitlist .note { color: var(--faint); font-size: 13px; margin-top: 14px; }
+  .waitlist .msg { min-height: 22px; margin-top: 16px; font-weight: 600; font-size: 15px; }
+  .waitlist .msg.ok { color: var(--success); }
+  .waitlist .msg.err { color: #FF6259; }
+
+  /* App Store badge (pre-built, hidden until launch — see LAUNCHED flag in script) */
+  .appstore { display: none; }
+  .appstore.on { display: inline-flex; }
+  .appstore-badge {
+    display: inline-flex; align-items: center; gap: 12px; background: #000; border: 1px solid var(--line);
+    padding: 12px 22px; border-radius: 14px; transition: border-color .18s;
+  }
+  .appstore-badge:hover { border-color: var(--line); background: #0a0a0a; }
+  .appstore-badge svg { width: 26px; height: 26px; }
+  .appstore-badge .t { text-align: left; line-height: 1.1; }
+  .appstore-badge .t small { display: block; font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+  .appstore-badge .t b { font-size: 19px; font-weight: 700; letter-spacing: -0.01em; }
+
+  /* ---------- Footer ---------- */
+  footer { border-top: 1px solid var(--line-soft); padding: 54px 0 46px; }
+  .foot-grid { display: flex; justify-content: space-between; align-items: flex-start; gap: 30px; flex-wrap: wrap; }
+  .foot-brand { max-width: 300px; }
+  .foot-brand .brand { margin-bottom: 12px; }
+  .foot-brand p { color: var(--faint); font-size: 14px; margin: 0; }
+  .foot-links { display: flex; gap: 60px; flex-wrap: wrap; }
+  .foot-col h4 { font-size: 12px; text-transform: uppercase; letter-spacing: .12em; color: var(--faint); margin: 0 0 14px; }
+  .foot-col a { display: block; color: var(--muted); font-size: 14.5px; margin-bottom: 10px; transition: color .18s; }
+  .foot-col a:hover { color: var(--text); }
+  .foot-bottom { margin-top: 40px; padding-top: 22px; border-top: 1px solid var(--line-soft); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; color: var(--faint); font-size: 13px; }
+
+  /* ---------- Scroll reveal ---------- */
+  .reveal { transition: opacity .7s var(--ease), transform .7s var(--ease); }
+  .js .reveal { opacity: 0; transform: translateY(18px); }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .js .reveal { opacity: 1; transform: none; transition: none; } }
 </style>
 </head>
 <body>
-<main>
-  <div class="mark">RM</div>
-  <h1>Rise Mission</h1>
-  <p>The alarm that makes sure you're actually awake.</p>
-  <p><a href="support.html">Support</a> · <a href="privacy.html">Privacy Policy</a></p>
-</main>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top" aria-label="Rise Mission home">
+      <svg class="logo" viewBox="0 0 100 100" aria-hidden="true">
+        <circle cx="37" cy="30" r="4.5"/><circle cx="50" cy="24.5" r="5"/><circle cx="63" cy="30" r="4.5"/>
+        <path d="M25 66 A25 25 0 0 1 75 66 Z"/>
+        <rect x="17" y="70" width="66" height="7" rx="3.5"/>
+      </svg>
+      <span>Rise Mission</span>
+    </a>
+    <nav class="nav-links">
+      <a class="link" href="#challenges">Challenges</a>
+      <a class="link" href="#fair">Fair by design</a>
+      <a class="link" href="#privacy">Privacy</a>
+      <a class="btn btn-primary nav-cta" href="#waitlist">Get notified</a>
+    </nav>
+  </div>
+</header>
+
+<a id="top"></a>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="status-pill"><span class="dot"></span> Coming soon to iPhone · in App Store review</span>
+      <h1>The alarm you <span class="hl">can't snooze</span> away.</h1>
+      <p class="lede">Rise Mission rings with Apple's system alarms — then makes you prove you're awake.
+        Do push-ups counted by your camera, solve math, type a phrase, or walk to a QR code and scan it.
+        Stop negotiating with the snooze button.</p>
+      <div class="hero-cta">
+        <a href="#waitlist" class="btn btn-primary">Get notified at launch →</a>
+        <!-- App Store badge appears here automatically once LAUNCHED = true -->
+        <a class="appstore" href="#" data-appstore>
+          <span class="appstore-badge">
+            <svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.42 2.2-1.12 3-.77.9-2.02 1.6-3.06 1.52-.13-1.1.42-2.28 1.1-3.02.76-.86 2.1-1.5 3.08-1.5zM20.5 17.2c-.55 1.27-.82 1.84-1.53 2.96-.99 1.56-2.38 3.5-4.1 3.51-1.53.02-1.92-.99-4-.98-2.08.01-2.5 1-4.03.97-1.72-.02-3.04-1.77-4.03-3.33C-.02 16.9-.3 11.6 1.4 8.9c1.02-1.66 2.63-2.7 4.14-2.7 1.53 0 2.5 1 4.02 1 1.48 0 2.38-1 4.15-1 1.34 0 2.75.73 3.76 2-3.3 1.8-2.76 6.5.03 8z"/></svg>
+            <span class="t"><small>Download on the</small><b>App Store</b></span>
+          </span>
+        </a>
+      </div>
+      <div class="trust-row">
+        <span>On-device</span><span>No account</span><span>No ads</span><span>No tracking</span>
+      </div>
+    </div>
+
+    <div class="phone-stage">
+      <div class="glow"></div>
+      <div class="phone tilt">
+        <img src="assets/screenshots/02-ringing.png" alt="Rise Mission alarm ringing at 6:30 AM with a Start Challenge button" loading="eager" width="660" height="1430">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRUST STRIP ============ -->
+<div class="strip">
+  <div class="wrap">
+    <span class="item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="3"/><path d="M12 18h.01"/></svg>
+      Built on Apple AlarmKit
+    </span>
+    <span class="item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Rings in Silent, Focus &amp; on Lock Screen
+    </span>
+    <span class="item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M2 12h20"/></svg>
+      Every challenge has a fair backup
+    </span>
+  </div>
+</div>
+
+<!-- ============ CHALLENGES ============ -->
+<section id="challenges">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Wake-up challenges</span>
+      <h2>Four ways to prove you're up</h2>
+      <p class="lede">Pick the one that gets <em>you</em> out of bed. Set a backup for the mornings that don't go to plan.</p>
+    </div>
+    <div class="cards">
+      <div class="card reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"/><path d="M5 21l3-6 4-1 4 1 3 6M8 15l-2-4h12l-2 4"/></svg></div>
+        <h3>Push-ups</h3>
+        <p>Your camera counts full reps, entirely on your iPhone. Pick 1 to 5 — start small.</p>
+      </div>
+      <div class="card reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h6M8 5v6M14 8h5M14 16h5M6.5 14.5l3 3M9.5 14.5l-3 3"/></svg></div>
+        <h3>Math</h3>
+        <p>Solve quick problems on a big, half-asleep-friendly keypad. Three difficulty levels.</p>
+      </div>
+      <div class="card reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M8 14h8"/></svg></div>
+        <h3>Typing</h3>
+        <p>Type a phrase exactly — one of ours, or set your own words to wake up to.</p>
+      </div>
+      <div class="card reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3M21 21v.01M17 21h.01M21 17v.01"/></svg></div>
+        <h3>QR code</h3>
+        <p>Stick a code in the bathroom, walk there, and scan it. Only <em>your</em> registered code works.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAIR BY DESIGN ============ -->
+<section id="fair" style="background:var(--surface-1);border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);">
+  <div class="wrap">
+    <div class="feature reveal">
+      <div>
+        <span class="eyebrow">Fair by design</span>
+        <h2>It's your alarm, not your warden.</h2>
+        <p class="lede" style="margin-top:16px;">A hard alarm shouldn't punish you for a dark room or a bad camera angle. Rise Mission is built to be tough <em>and</em> forgiving.</p>
+        <ul>
+          <li><b>Every physical challenge has a mental backup.</b> Camera can't see you, room's too dark, or you can't safely do push-ups? The backup runs instead — and your streak stays safe.</li>
+          <li><b>Emergency dismiss is always there.</b> Hold five seconds, confirm, and the alarm stops. It breaks your perfect streak, but you're never trapped.</li>
+          <li><b>Honest about the limits.</b> The system Stop button always exists — we record wake-ups truthfully instead of pretending an alarm is impossible to turn off.</li>
+        </ul>
+      </div>
+      <div class="fig">
+        <div class="phone">
+          <img src="assets/screenshots/03-math.png" alt="Math backup challenge with a note that your streak is safe" loading="lazy" width="660" height="1430">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRIVACY ============ -->
+<section id="privacy">
+  <div class="wrap">
+    <div class="feature rev reveal">
+      <div class="fig">
+        <div class="phone">
+          <img src="assets/screenshots/04-success.png" alt="Success screen: You're awake, 7-day streak, completed via backup with streak protected" loading="lazy" width="660" height="1430">
+        </div>
+      </div>
+      <div>
+        <span class="eyebrow">Private by default</span>
+        <h2>Your mornings never leave your phone.</h2>
+        <p class="lede" style="margin-top:16px;">No account. No ads. No tracking. No servers of ours that your data could travel to.</p>
+        <ul>
+          <li><b>Camera stays on-device.</b> Push-up and QR frames are analyzed in memory with Apple's Vision framework and immediately discarded — never recorded, saved, or uploaded.</li>
+          <li><b>Nothing to collect.</b> Alarms, streaks and history live only on your iPhone. The App Store privacy label says it plainly: <b style="color:var(--success)">Data Not Collected</b>.</li>
+          <li><b>No strings.</b> Free in 1.0, no in-app purchases, no sign-in. Delete the app and the data goes with it.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DEMO ============ -->
+<section style="background:var(--surface-1);border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">See it in action</span>
+      <h2>Alarm → challenge → awake</h2>
+      <p class="lede">A 20-second look at a real morning with Rise Mission.</p>
+    </div>
+    <div class="demo-frame reveal">
+      <div class="demo-screen">
+        <div>
+          <div class="play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></div>
+          <div class="demo-label">Demo video coming soon</div>
+          <div class="demo-sub">The full ring-to-awake flow, dropping here shortly.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GALLERY ============ -->
+<section>
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Inside the app</span>
+      <h2>Designed for the worst part of the day</h2>
+      <p class="lede">Big, high-contrast, half-asleep-friendly screens — dark by default.</p>
+    </div>
+  </div>
+  <div class="gallery reveal" role="list" aria-label="App screenshots">
+    <div class="shot" role="listitem"><img src="assets/screenshots/01-home.png" alt="Home screen with your next alarm and streak" loading="lazy"></div>
+    <div class="shot" role="listitem"><img src="assets/screenshots/08-challenges.png" alt="Choosing a wake-up challenge and reps" loading="lazy"></div>
+    <div class="shot" role="listitem"><img src="assets/screenshots/07-editor.png" alt="Alarm editor with challenge and backup" loading="lazy"></div>
+    <div class="shot" role="listitem"><img src="assets/screenshots/02-ringing.png" alt="Alarm ringing screen" loading="lazy"></div>
+    <div class="shot" role="listitem"><img src="assets/screenshots/05-history.png" alt="Wake-up history calendar" loading="lazy"></div>
+    <div class="shot" role="listitem"><img src="assets/screenshots/06-stats.png" alt="Statistics: streaks, completion rate and trends" loading="lazy"></div>
+  </div>
+</section>
+
+<!-- ============ STATS / TRACK ============ -->
+<section id="track" style="padding-top:20px;">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Track your mornings</span>
+      <h2>Streaks that actually mean something</h2>
+      <p class="lede">One credit per alarm, protected through technical hiccups. See the whole picture on a calendar and in your trends.</p>
+    </div>
+    <div class="stat-grid">
+      <div class="stat reveal"><div class="big">7-day</div><p>Streaks that survive backup completions and technical fallbacks</p></div>
+      <div class="stat reveal"><div class="big">100%</div><p>Completion rate, average challenge time, and snooze frequency</p></div>
+      <div class="stat reveal"><div class="big">30-day</div><p>Trends and a full wake-up history on a calendar you can scroll</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WAITLIST ============ -->
+<section id="waitlist">
+  <div class="wrap">
+    <div class="cta-band reveal">
+      <span class="eyebrow">Be first through the door</span>
+      <h2>Get notified the moment we launch</h2>
+      <p class="lede" style="max-width:520px;margin:16px auto 0;">We're in the final stretch of App Store review. Leave your email and we'll tell you the second Rise Mission goes live on iPhone.</p>
+
+      <!-- App Store buttons show here automatically once LAUNCHED = true -->
+      <div style="margin-top:22px;">
+        <a class="appstore" href="#" data-appstore>
+          <span class="appstore-badge">
+            <svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.42 2.2-1.12 3-.77.9-2.02 1.6-3.06 1.52-.13-1.1.42-2.28 1.1-3.02.76-.86 2.1-1.5 3.08-1.5zM20.5 17.2c-.55 1.27-.82 1.84-1.53 2.96-.99 1.56-2.38 3.5-4.1 3.51-1.53.02-1.92-.99-4-.98-2.08.01-2.5 1-4.03.97-1.72-.02-3.04-1.77-4.03-3.33C-.02 16.9-.3 11.6 1.4 8.9c1.02-1.66 2.63-2.7 4.14-2.7 1.53 0 2.5 1 4.02 1 1.48 0 2.38-1 4.15-1 1.34 0 2.75.73 3.76 2-3.3 1.8-2.76 6.5.03 8z"/></svg>
+            <span class="t"><small>Download on the</small><b>App Store</b></span>
+          </span>
+        </a>
+      </div>
+
+      <div class="waitlist" data-waitlist>
+        <!--
+          ============================================================
+          TO ACTIVATE THE WAITLIST (2 minutes, no backend):
+          1. Create a free form at https://formspree.io (or https://tally.so).
+          2. Copy your endpoint, e.g. https://formspree.io/f/abcdwxyz
+          3. Paste it into WAITLIST_ENDPOINT in the <script> at the bottom.
+          Until then the form shows a friendly confirmation locally so the
+          page is fully presentable, and logs a reminder to the console.
+          ============================================================
+        -->
+        <form id="waitlist-form" novalidate>
+          <input type="email" name="email" placeholder="you@email.com" autocomplete="email" required aria-label="Email address">
+          <button type="submit" class="btn btn-primary">Notify me</button>
+        </form>
+        <div class="msg" id="waitlist-msg" role="status" aria-live="polite"></div>
+        <p class="note">No spam — one email when we launch, then nothing unless you want it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="#top">
+          <svg class="logo" viewBox="0 0 100 100" aria-hidden="true">
+            <circle cx="37" cy="30" r="4.5"/><circle cx="50" cy="24.5" r="5"/><circle cx="63" cy="30" r="4.5"/>
+            <path d="M25 66 A25 25 0 0 1 75 66 Z"/>
+            <rect x="17" y="70" width="66" height="7" rx="3.5"/>
+          </svg>
+          <span>Rise Mission</span>
+        </a>
+        <p>The alarm that makes sure you're actually awake. On-device, private, and fair by design.</p>
+      </div>
+      <div class="foot-links">
+        <div class="foot-col">
+          <h4>Product</h4>
+          <a href="#challenges">Challenges</a>
+          <a href="#fair">Fair by design</a>
+          <a href="#privacy">Privacy</a>
+          <a href="#waitlist">Get notified</a>
+        </div>
+        <div class="foot-col">
+          <h4>Support</h4>
+          <a href="support.html">Help &amp; FAQ</a>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="mailto:radadiyasunny970@gmail.com">Email us</a>
+        </div>
+        <div class="foot-col">
+          <h4>Follow</h4>
+          <!-- TODO(social): swap # for your real handles once secured -->
+          <a href="#" data-social>Instagram</a>
+          <a href="#" data-social>TikTok</a>
+          <a href="#" data-social>X / Twitter</a>
+          <a href="#" data-social>YouTube</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Sunny Radadiya. All rights reserved.</span>
+      <span>Made for people who negotiate with the snooze button.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* ============================================================
+     CONFIG — flip these two when you're ready.
+     ============================================================ */
+
+  // Set to true the day Apple approves the app, then paste your App Store
+  // URL below. This reveals the App Store badges and hides the waitlist form.
+  const LAUNCHED = false;
+  const APP_STORE_URL = "https://apps.apple.com/app/idXXXXXXXXXX"; // TODO: real id on approval
+
+  // Paste your Formspree/Tally endpoint to collect real emails. Leave "" for
+  // a local-only confirmation (page stays presentable before you wire it up).
+  const WAITLIST_ENDPOINT = "";
+
+  /* ============================================================ */
+
+  // --- Launch toggle: show App Store badges / update waitlist copy ---
+  (function () {
+    var badges = document.querySelectorAll('[data-appstore]');
+    if (LAUNCHED) {
+      badges.forEach(function (b) { b.classList.add('on'); b.setAttribute('href', APP_STORE_URL); });
+      // Soften the waitlist once we're live.
+      var wl = document.querySelector('[data-waitlist]');
+      if (wl) wl.style.display = 'none';
+    }
+  })();
+
+  // --- Sticky nav shadow on scroll ---
+  var nav = document.getElementById('nav');
+  var onScroll = function () { nav.classList.toggle('scrolled', window.scrollY > 8); };
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  // --- Scroll reveal ---
+  (function () {
+    var els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) { els.forEach(function (e) { e.classList.add('in'); }); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(function (e) { io.observe(e); });
+  })();
+
+  // --- Waitlist submit ---
+  (function () {
+    var form = document.getElementById('waitlist-form');
+    if (!form) return;
+    var msg = document.getElementById('waitlist-msg');
+    var input = form.querySelector('input[type=email]');
+    var btn = form.querySelector('button');
+
+    function say(text, ok) { msg.textContent = text; msg.className = 'msg ' + (ok ? 'ok' : 'err'); }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var email = (input.value || '').trim();
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { say('Please enter a valid email.', false); input.focus(); return; }
+
+      btn.disabled = true; var label = btn.textContent; btn.textContent = 'Adding…';
+      var done = function (ok) {
+        btn.disabled = false; btn.textContent = label;
+        if (ok) { form.reset(); say("You're on the list. We'll email you at launch. 🌅", true); }
+        else { say('Something went wrong — try again, or email us directly.', false); }
+      };
+
+      if (!WAITLIST_ENDPOINT) {
+        console.warn('[Rise Mission] WAITLIST_ENDPOINT is empty — showing a local confirmation only. ' +
+                     'Add a Formspree/Tally endpoint in index.html to collect real emails.');
+        setTimeout(function () { done(true); }, 500);
+        return;
+      }
+
+      fetch(WAITLIST_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email })
+      }).then(function (r) { done(r.ok); }).catch(function () { done(false); });
+    });
+  })();
+</script>
 </body>
 </html>

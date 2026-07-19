@@ -1,0 +1,5 @@
+# gstack browse-daemon session data (local only)
+.gstack/
+
+# macOS
+.DS_Store
