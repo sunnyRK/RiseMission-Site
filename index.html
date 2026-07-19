@@ -6,7 +6,13 @@
 
 <title>Rise Mission — The alarm you can't snooze away</title>
 <meta name="description" content="Rise Mission is the iPhone alarm that makes sure you're actually awake. Do push-ups, solve math, type a phrase, or scan a QR code to dismiss it. On-device, private, and fair by design.">
+<meta name="robots" content="index, follow">
 <meta name="theme-color" content="#0B0D10">
+
+<!-- Google Search Console: after you add the property, paste the verification
+     meta tag Google gives you right here, e.g.
+     <meta name="google-site-verification" content="YOUR_CODE"> -->
+
 
 <!-- Mark that JS is available BEFORE first paint. Scroll-reveal only hides
      content when this class is present, so no-JS visitors and crawlers
@@ -21,6 +27,8 @@
 
 <!-- Open Graph / Twitter cards. Absolute URLs required by social scrapers. -->
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="Rise Mission">
+<meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://risemission.app/">
 <meta property="og:title" content="Rise Mission — The alarm you can't snooze away">
 <meta property="og:description" content="The iPhone alarm that checks you're really up: push-ups, math, typing, or a QR scan across the room. On-device, private, and fair.">
@@ -31,6 +39,31 @@
 <meta name="twitter:title" content="Rise Mission — The alarm you can't snooze away">
 <meta name="twitter:description" content="The iPhone alarm that checks you're really up: push-ups, math, typing, or a QR scan across the room.">
 <meta name="twitter:image" content="https://risemission.app/assets/og-image.png">
+
+<!-- Structured data: helps Google understand this is a free iOS app.
+     No aggregateRating on purpose — the app isn't launched, and fake ratings
+     get structured data penalised. Add it after launch with real numbers. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Rise Mission",
+  "applicationCategory": "ProductivityApplication",
+  "operatingSystem": "iOS 26",
+  "description": "Rise Mission is the iPhone alarm that makes sure you're actually awake. Dismiss it with push-ups counted by your camera, math, typing, or a QR scan across the room. On-device, private, and fair by design.",
+  "url": "https://risemission.app/",
+  "image": "https://risemission.app/assets/og-image.png",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Sunny Radadiya"
+  }
+}
+</script>
 
 <style>
   /* ---------- Design tokens (mirrors the app) ---------- */
