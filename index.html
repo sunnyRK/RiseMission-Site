@@ -61,7 +61,24 @@
   "author": {
     "@type": "Person",
     "name": "Sunny Radadiya"
-  }
+  },
+  "sameAs": [
+    "https://www.instagram.com/risemissionapp/"
+  ]
+}
+</script>
+
+<!-- Video structured data for the demo reel (helps it surface in search). -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "name": "Rise Mission — alarm to awake in 49 seconds",
+  "description": "A short demo of Rise Mission: the alarm rings, you complete a wake-up challenge (push-ups, math, typing, or a QR code scan), and you're up — with your streak tracked.",
+  "thumbnailUrl": "https://risemission.app/assets/demo-poster.jpg",
+  "contentUrl": "https://risemission.app/assets/demo.mp4",
+  "uploadDate": "2026-07-20",
+  "duration": "PT27S"
 }
 </script>
 
@@ -247,31 +264,12 @@
 
   /* ---------- Demo video ---------- */
   .demo-frame {
-    position: relative; max-width: 300px; margin: 0 auto;
-    border-radius: 46px; padding: 11px;
-    background: linear-gradient(160deg, #23262d, #0e1013 60%);
-    box-shadow: 0 40px 90px -34px rgba(0,0,0,.8), 0 0 0 1px rgba(255,255,255,.06);
+    position: relative; width: 340px; max-width: 82vw; margin: 0 auto;
+    aspect-ratio: 9 / 16; border-radius: 30px; overflow: hidden;
+    background: var(--surface-1);
+    box-shadow: 0 40px 90px -34px rgba(0,0,0,.8), 0 0 0 1px rgba(255,255,255,.08);
   }
-  .demo-screen {
-    position: relative; aspect-ratio: 9 / 19.5; border-radius: 36px; overflow: hidden;
-    background:
-      radial-gradient(60% 50% at 50% 30%, rgba(255,138,42,.14), transparent 70%),
-      var(--surface-1);
-    display: grid; place-items: center; text-align: center;
-  }
-  .demo-screen .play {
-    width: 66px; height: 66px; border-radius: 50%; background: var(--accent); color: #14100A;
-    display: grid; place-items: center; margin: 0 auto 16px; box-shadow: 0 12px 30px -8px rgba(255,138,42,.6);
-  }
-  .demo-screen .play svg { width: 26px; height: 26px; margin-left: 3px; }
-  .demo-label { font-weight: 700; }
-  .demo-sub { color: var(--faint); font-size: 13px; margin-top: 4px; }
-  /*
-    TO ADD YOUR DEMO: replace the .demo-screen block's contents with
-    <video src="assets/demo.mp4" poster="assets/screenshots/02-ringing.png"
-           controls playsinline style="width:100%;height:100%;object-fit:cover"></video>
-    (or a YouTube/Vimeo <iframe>). Keep it vertical 9:16 for reels-style clips.
-  */
+  .demo-video { width: 100%; height: 100%; object-fit: cover; display: block; background: var(--bg); }
 
   /* ---------- Gallery ---------- */
   .gallery {
@@ -507,16 +505,13 @@
     <div class="section-head reveal">
       <span class="eyebrow">See it in action</span>
       <h2>Alarm → challenge → awake</h2>
-      <p class="lede">A 20-second look at a real morning with Rise Mission.</p>
+      <p class="lede">The full ring-to-awake flow, in under 30 seconds.</p>
     </div>
     <div class="demo-frame reveal">
-      <div class="demo-screen">
-        <div>
-          <div class="play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></div>
-          <div class="demo-label">Demo video coming soon</div>
-          <div class="demo-sub">The full ring-to-awake flow, dropping here shortly.</div>
-        </div>
-      </div>
+      <video class="demo-video" poster="assets/demo-poster.jpg" autoplay muted loop playsinline preload="metadata"
+             aria-label="Rise Mission demo — the alarm rings, you complete a wake-up challenge, and you're awake in 49 seconds">
+        <source src="assets/demo.mp4" type="video/mp4">
+      </video>
     </div>
   </div>
 </section>
@@ -627,11 +622,12 @@
         </div>
         <div class="foot-col">
           <h4>Follow</h4>
-          <!-- TODO(social): swap # for your real handles once secured -->
-          <a href="#" data-social>Instagram</a>
-          <a href="#" data-social>TikTok</a>
-          <a href="#" data-social>X / Twitter</a>
-          <a href="#" data-social>YouTube</a>
+          <a href="https://www.instagram.com/risemissionapp/" target="_blank" rel="noopener">Instagram</a>
+          <!-- Uncomment each as the handle goes live:
+          <a href="#" target="_blank" rel="noopener">TikTok</a>
+          <a href="#" target="_blank" rel="noopener">X / Twitter</a>
+          <a href="#" target="_blank" rel="noopener">YouTube</a>
+          -->
         </div>
       </div>
     </div>
