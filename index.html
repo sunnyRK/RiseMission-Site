@@ -222,6 +222,8 @@
   }
   .phone img { width: 100%; border-radius: 36px; display: block; background: var(--bg); }
   .phone.tilt { transform: rotate(-1.5deg); }
+  .phone.tilt-r { transform: rotate(1.5deg); }
+  @media (max-width: 860px) { .phone.tilt, .phone.tilt-r { transform: none; } }
 
   /* ---------- Trust strip ---------- */
   .strip { border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); background: var(--surface-1); }
@@ -472,7 +474,7 @@
         </ul>
       </div>
       <div class="fig">
-        <div class="phone">
+        <div class="phone tilt">
           <img src="assets/screenshots/03-math.png" alt="Math alarm clock challenge — solve to dismiss, with the backup keeping your streak safe" loading="lazy" decoding="async" width="660" height="1430">
         </div>
       </div>
@@ -485,7 +487,7 @@
   <div class="wrap">
     <div class="feature rev reveal">
       <div class="fig">
-        <div class="phone">
+        <div class="phone tilt-r">
           <img src="assets/screenshots/04-success.png" alt="Success screen: You're awake, 7-day streak, completed via backup with streak protected" loading="lazy" width="660" height="1430">
         </div>
       </div>
