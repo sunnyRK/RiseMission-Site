@@ -274,19 +274,26 @@
   .demo-video { width: 100%; height: 100%; object-fit: cover; display: block; background: var(--bg); }
   .phone-stage .demo-frame { width: 300px; }
 
-  /* ---------- Gallery ---------- */
-  .gallery {
-    display: flex; gap: 18px; overflow-x: auto; padding: 6px 22px 24px;
-    scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
+  /* ---------- Marquee gallery (auto-scrolling, seamless loop) ---------- */
+  .marquee {
+    position: relative; overflow: hidden; padding: 6px 0 24px;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
+            mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
   }
-  .gallery::-webkit-scrollbar { display: none; }
-  .gallery .shot {
-    flex: 0 0 auto; width: 210px; scroll-snap-align: center;
+  .marquee-track { display: flex; width: max-content; will-change: transform; animation: marquee 50s linear infinite; }
+  .marquee:hover .marquee-track { animation-play-state: paused; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .marquee .shot {
+    flex: 0 0 auto; width: 210px; margin-right: 18px;
     border-radius: 30px; padding: 7px; background: linear-gradient(160deg,#23262d,#0e1013 60%);
     box-shadow: 0 24px 50px -28px rgba(0,0,0,.8), 0 0 0 1px rgba(255,255,255,.05);
   }
-  .gallery .shot img { border-radius: 24px; }
+  .marquee .shot img { border-radius: 24px; }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee { overflow-x: auto; -webkit-mask-image: none; mask-image: none; scrollbar-width: none; }
+    .marquee::-webkit-scrollbar { display: none; }
+    .marquee-track { animation: none; }
+  }
 
   /* ---------- Stats row ---------- */
   .stat-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 40px; }
@@ -516,13 +523,25 @@
       <p class="lede">Big, high-contrast, half-asleep-friendly screens — dark by default.</p>
     </div>
   </div>
-  <div class="gallery reveal" role="list" aria-label="App screenshots">
-    <div class="shot" role="listitem"><img src="assets/screenshots/01-home.png" alt="Home screen with your next alarm and streak" loading="lazy"></div>
-    <div class="shot" role="listitem"><img src="assets/screenshots/08-challenges.png" alt="Choosing a wake-up challenge: push-up alarm, math, typing, or QR code alarm" loading="lazy"></div>
-    <div class="shot" role="listitem"><img src="assets/screenshots/07-editor.png" alt="Alarm editor with challenge and backup" loading="lazy"></div>
-    <div class="shot" role="listitem"><img src="assets/screenshots/02-ringing.png" alt="Alarm ringing screen" loading="lazy"></div>
-    <div class="shot" role="listitem"><img src="assets/screenshots/05-history.png" alt="Wake-up history calendar" loading="lazy"></div>
-    <div class="shot" role="listitem"><img src="assets/screenshots/06-stats.png" alt="Statistics: streaks, completion rate and trends" loading="lazy"></div>
+  <div class="marquee reveal" aria-label="Rise Mission app screenshots">
+    <div class="marquee-track">
+      <!-- Set 1 — indexed for SEO / read by screen readers -->
+      <div class="shot"><img src="assets/screenshots/01-home.png" alt="Home screen with your next alarm and streak" loading="lazy" width="1320" height="2868"></div>
+      <div class="shot"><img src="assets/screenshots/08-challenges.png" alt="Choosing a wake-up challenge: push-up alarm, math, typing, or QR code alarm" loading="lazy" width="1320" height="2868"></div>
+      <div class="shot"><img src="assets/screenshots/09-pushup-setup.png" alt="Push-up setup — how to position your phone so the camera counts your reps" loading="lazy" width="1170" height="2532"></div>
+      <div class="shot"><img src="assets/screenshots/07-editor.png" alt="Alarm editor with a challenge and a backup challenge" loading="lazy" width="1320" height="2868"></div>
+      <div class="shot"><img src="assets/screenshots/02-ringing.png" alt="Alarm ringing at 6:30 AM with a Start Challenge button" loading="lazy" width="1320" height="2868"></div>
+      <div class="shot"><img src="assets/screenshots/05-history.png" alt="Wake-up history on a calendar" loading="lazy" width="1320" height="2868"></div>
+      <div class="shot"><img src="assets/screenshots/06-stats.png" alt="Statistics: streaks, completion rate, and trends" loading="lazy" width="1320" height="2868"></div>
+      <!-- Set 2 — visual duplicate for the seamless loop (hidden from AT + search) -->
+      <div class="shot" aria-hidden="true"><img src="assets/screenshots/01-home.png" alt="" loading="lazy" width="1320" height="2868"></div>
+      <div class="shot" aria-hidden="true"><img src="assets/screenshots/08-challenges.png" alt="" loading="lazy" width="1320" height="2868"></div>
+      <div class="shot" aria-hidden="true"><img src="assets/screenshots/09-pushup-setup.png" alt="" loading="lazy" width="1170" height="2532"></div>
+      <div class="shot" aria-hidden="true"><img src="assets/screenshots/07-editor.png" alt="" loading="lazy" width="1320" height="2868"></div>
+      <div class="shot" aria-hidden="true"><img src="assets/screenshots/02-ringing.png" alt="" loading="lazy" width="1320" height="2868"></div>
+      <div class="shot" aria-hidden="true"><img src="assets/screenshots/05-history.png" alt="" loading="lazy" width="1320" height="2868"></div>
+      <div class="shot" aria-hidden="true"><img src="assets/screenshots/06-stats.png" alt="" loading="lazy" width="1320" height="2868"></div>
+    </div>
   </div>
 </section>
 
