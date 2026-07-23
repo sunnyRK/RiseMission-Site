@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>Rise Mission — Alarm Clock for Heavy Sleepers</title>
-<meta name="description" content="Rise Mission is an alarm clock for heavy sleepers — a wake-up challenge app that makes you prove you're awake with push-ups, math, typing, or a QR code scan. On-device, private, and fair by design.">
+<meta name="description" content="Rise Mission is an alarm clock for heavy sleepers — a wake-up challenge app that makes you prove you're awake with push-ups, math, typing, or a QR code scan. On-device, private, and free on the App Store.">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#0B0D10">
 
@@ -41,8 +41,8 @@
 <meta name="twitter:image" content="https://risemission.app/assets/og-image.png">
 
 <!-- Structured data: helps Google understand this is a free iOS app.
-     No aggregateRating on purpose — the app isn't launched, and fake ratings
-     get structured data penalised. Add it after launch with real numbers. -->
+     No aggregateRating yet — the app just launched with no ratings; add it
+     later with REAL numbers (fake ratings get structured data penalised). -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -52,6 +52,8 @@
   "operatingSystem": "iOS 26",
   "description": "Rise Mission is an alarm clock for heavy sleepers — a wake-up challenge app that makes you prove you're awake with a push-up alarm, math, typing, or a QR code scan. On-device, private, and fair.",
   "url": "https://risemission.app/",
+  "downloadUrl": "https://apps.apple.com/us/app/rise-mission/id6791305078",
+  "installUrl": "https://apps.apple.com/us/app/rise-mission/id6791305078",
   "image": "https://risemission.app/assets/og-image.png",
   "offers": {
     "@type": "Offer",
@@ -63,7 +65,8 @@
     "name": "Sunny Radadiya"
   },
   "sameAs": [
-    "https://www.instagram.com/risemissionapp/"
+    "https://www.instagram.com/risemissionapp/",
+    "https://apps.apple.com/us/app/rise-mission/id6791305078"
   ]
 }
 </script>
@@ -302,39 +305,28 @@
   .stat .big { font-size: 40px; font-weight: 800; letter-spacing: -0.03em; color: var(--accent); font-variant-numeric: tabular-nums; }
   .stat p { margin: 6px 0 0; color: var(--muted); font-size: 14.5px; }
 
-  /* ---------- Waitlist ---------- */
+  /* ---------- Download CTA band ---------- */
   .cta-band {
     background:
       radial-gradient(80% 120% at 50% -10%, rgba(255,138,42,.16), transparent 60%),
       var(--surface-1);
     border: 1px solid var(--line-soft); border-radius: 30px; padding: 56px 28px; text-align: center;
   }
-  .waitlist { max-width: 460px; margin: 26px auto 0; }
-  .waitlist form { display: flex; gap: 10px; }
-  @media (max-width: 520px){ .waitlist form { flex-direction: column; } }
-  .waitlist input[type=email] {
-    flex: 1; min-width: 0; background: var(--bg); border: 1px solid var(--line); color: var(--text);
-    padding: 15px 18px; border-radius: 999px; font-size: 16px; font-family: inherit; outline: none;
-    transition: border-color .18s;
-  }
-  .waitlist input[type=email]:focus { border-color: var(--accent); }
-  .waitlist .note { color: var(--faint); font-size: 13px; margin-top: 14px; }
-  .waitlist .msg { min-height: 22px; margin-top: 16px; font-weight: 600; font-size: 15px; }
-  .waitlist .msg.ok { color: var(--success); }
-  .waitlist .msg.err { color: #FF6259; }
 
-  /* App Store badge (pre-built, hidden until launch — see LAUNCHED flag in script) */
-  .appstore { display: none; }
-  .appstore.on { display: inline-flex; }
+  /* Official-style "Download on the App Store" badge */
+  .appstore-link { display: inline-flex; }
   .appstore-badge {
-    display: inline-flex; align-items: center; gap: 12px; background: #000; border: 1px solid var(--line);
-    padding: 12px 22px; border-radius: 14px; transition: border-color .18s;
+    display: inline-flex; align-items: center; gap: 11px; background: #000; color: #fff;
+    border: 1px solid rgba(255,255,255,0.28);
+    padding: 10px 18px; border-radius: 11px;
+    transition: background .18s, border-color .18s, transform .18s var(--ease);
   }
-  .appstore-badge:hover { border-color: var(--line); background: #0a0a0a; }
-  .appstore-badge svg { width: 26px; height: 26px; }
-  .appstore-badge .t { text-align: left; line-height: 1.1; }
-  .appstore-badge .t small { display: block; font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
-  .appstore-badge .t b { font-size: 19px; font-weight: 700; letter-spacing: -0.01em; }
+  .appstore-link:hover .appstore-badge { background: #141414; border-color: rgba(255,255,255,0.5); }
+  .appstore-link:active .appstore-badge { transform: translateY(1px) scale(.99); }
+  .appstore-badge svg { width: 26px; height: 26px; flex: none; }
+  .appstore-badge .t { text-align: left; line-height: 1.12; }
+  .appstore-badge .t small { display: block; font-size: 11px; font-weight: 400; letter-spacing: .01em; }
+  .appstore-badge .t b { display: block; font-size: 20px; font-weight: 600; letter-spacing: -0.01em; margin-top: -1px; }
 
   /* ---------- Footer ---------- */
   footer { border-top: 1px solid var(--line-soft); padding: 54px 0 46px; }
@@ -372,7 +364,7 @@
       <a class="link" href="#challenges">Challenges</a>
       <a class="link" href="#fair">Fair by design</a>
       <a class="link" href="#privacy">Privacy</a>
-      <a class="btn btn-primary nav-cta" href="#waitlist">Get notified</a>
+      <a class="btn btn-primary nav-cta" href="https://apps.apple.com/us/app/rise-mission/id6791305078" target="_blank" rel="noopener">Download</a>
     </nav>
   </div>
 </header>
@@ -383,15 +375,13 @@
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
-      <span class="status-pill"><span class="dot"></span> Coming soon to iPhone · in App Store review</span>
+      <span class="status-pill"><span class="dot"></span> Now on the App Store · Free</span>
       <h1>The alarm you <span class="hl">can't snooze</span> away.</h1>
       <p class="lede">Rise Mission rings with Apple's system alarms — then makes you prove you're awake.
         Do push-ups counted by your camera, solve math, type a phrase, or walk to a QR code and scan it.
         Stop negotiating with the snooze button.</p>
       <div class="hero-cta">
-        <a href="#waitlist" class="btn btn-primary">Get notified at launch →</a>
-        <!-- App Store badge appears here automatically once LAUNCHED = true -->
-        <a class="appstore" href="#" data-appstore>
+        <a class="appstore-link" href="https://apps.apple.com/us/app/rise-mission/id6791305078" target="_blank" rel="noopener" aria-label="Download Rise Mission on the App Store">
           <span class="appstore-badge">
             <svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.42 2.2-1.12 3-.77.9-2.02 1.6-3.06 1.52-.13-1.1.42-2.28 1.1-3.02.76-.86 2.1-1.5 3.08-1.5zM20.5 17.2c-.55 1.27-.82 1.84-1.53 2.96-.99 1.56-2.38 3.5-4.1 3.51-1.53.02-1.92-.99-4-.98-2.08.01-2.5 1-4.03.97-1.72-.02-3.04-1.77-4.03-3.33C-.02 16.9-.3 11.6 1.4 8.9c1.02-1.66 2.63-2.7 4.14-2.7 1.53 0 2.5 1 4.02 1 1.48 0 2.38-1 4.15-1 1.34 0 2.75.73 3.76 2-3.3 1.8-2.76 6.5.03 8z"/></svg>
             <span class="t"><small>Download on the</small><b>App Store</b></span>
@@ -561,42 +551,22 @@
   </div>
 </section>
 
-<!-- ============ WAITLIST ============ -->
-<section id="waitlist">
+<!-- ============ DOWNLOAD ============ -->
+<section id="download">
   <div class="wrap">
     <div class="cta-band reveal">
-      <span class="eyebrow">Be first through the door</span>
-      <h2>Get notified the moment we launch</h2>
-      <p class="lede" style="max-width:520px;margin:16px auto 0;">We're in the final stretch of App Store review. Leave your email and we'll tell you the second Rise Mission goes live on iPhone.</p>
-
-      <!-- App Store buttons show here automatically once LAUNCHED = true -->
-      <div style="margin-top:22px;">
-        <a class="appstore" href="#" data-appstore>
+      <span class="eyebrow">Available now</span>
+      <h2>Wake up without negotiating with yourself.</h2>
+      <p class="lede" style="max-width:520px;margin:16px auto 0;">Rise Mission is live on the App Store — free, on-device, and ready for tomorrow morning.</p>
+      <div style="margin-top:28px; display:flex; justify-content:center;">
+        <a class="appstore-link" href="https://apps.apple.com/us/app/rise-mission/id6791305078" target="_blank" rel="noopener" aria-label="Download Rise Mission on the App Store">
           <span class="appstore-badge">
             <svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.42 2.2-1.12 3-.77.9-2.02 1.6-3.06 1.52-.13-1.1.42-2.28 1.1-3.02.76-.86 2.1-1.5 3.08-1.5zM20.5 17.2c-.55 1.27-.82 1.84-1.53 2.96-.99 1.56-2.38 3.5-4.1 3.51-1.53.02-1.92-.99-4-.98-2.08.01-2.5 1-4.03.97-1.72-.02-3.04-1.77-4.03-3.33C-.02 16.9-.3 11.6 1.4 8.9c1.02-1.66 2.63-2.7 4.14-2.7 1.53 0 2.5 1 4.02 1 1.48 0 2.38-1 4.15-1 1.34 0 2.75.73 3.76 2-3.3 1.8-2.76 6.5.03 8z"/></svg>
             <span class="t"><small>Download on the</small><b>App Store</b></span>
           </span>
         </a>
       </div>
-
-      <div class="waitlist" data-waitlist>
-        <!--
-          ============================================================
-          TO ACTIVATE THE WAITLIST (2 minutes, no backend):
-          1. Create a free form at https://formspree.io (or https://tally.so).
-          2. Copy your endpoint, e.g. https://formspree.io/f/abcdwxyz
-          3. Paste it into WAITLIST_ENDPOINT in the <script> at the bottom.
-          Until then the form shows a friendly confirmation locally so the
-          page is fully presentable, and logs a reminder to the console.
-          ============================================================
-        -->
-        <form id="waitlist-form" novalidate>
-          <input type="email" name="email" placeholder="you@email.com" autocomplete="email" required aria-label="Email address">
-          <button type="submit" class="btn btn-primary">Notify me</button>
-        </form>
-        <div class="msg" id="waitlist-msg" role="status" aria-live="polite"></div>
-        <p class="note">No spam — one email when we launch, then nothing unless you want it.</p>
-      </div>
+      <p class="note" style="color:var(--faint);font-size:13px;margin-top:18px;">Free · iPhone · iOS 26 · No ads, no account, no tracking</p>
     </div>
   </div>
 </section>
@@ -622,7 +592,7 @@
           <a href="#challenges">Challenges</a>
           <a href="#fair">Fair by design</a>
           <a href="#privacy">Privacy</a>
-          <a href="#waitlist">Get notified</a>
+          <a href="https://apps.apple.com/us/app/rise-mission/id6791305078" target="_blank" rel="noopener">Download</a>
         </div>
         <div class="foot-col">
           <h4>Support</h4>
@@ -649,31 +619,6 @@
 </footer>
 
 <script>
-  /* ============================================================
-     CONFIG — flip these two when you're ready.
-     ============================================================ */
-
-  // Set to true the day Apple approves the app, then paste your App Store
-  // URL below. This reveals the App Store badges and hides the waitlist form.
-  const LAUNCHED = false;
-  const APP_STORE_URL = "https://apps.apple.com/app/idXXXXXXXXXX"; // TODO: real id on approval
-
-  // Formspree endpoint — emails land in the Formspree dashboard + owner inbox.
-  const WAITLIST_ENDPOINT = "https://formspree.io/f/mrenkznd";
-
-  /* ============================================================ */
-
-  // --- Launch toggle: show App Store badges / update waitlist copy ---
-  (function () {
-    var badges = document.querySelectorAll('[data-appstore]');
-    if (LAUNCHED) {
-      badges.forEach(function (b) { b.classList.add('on'); b.setAttribute('href', APP_STORE_URL); });
-      // Soften the waitlist once we're live.
-      var wl = document.querySelector('[data-waitlist]');
-      if (wl) wl.style.display = 'none';
-    }
-  })();
-
   // --- Sticky nav shadow on scroll ---
   var nav = document.getElementById('nav');
   var onScroll = function () { nav.classList.toggle('scrolled', window.scrollY > 8); };
@@ -688,43 +633,6 @@
       entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
     }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
     els.forEach(function (e) { io.observe(e); });
-  })();
-
-  // --- Waitlist submit ---
-  (function () {
-    var form = document.getElementById('waitlist-form');
-    if (!form) return;
-    var msg = document.getElementById('waitlist-msg');
-    var input = form.querySelector('input[type=email]');
-    var btn = form.querySelector('button');
-
-    function say(text, ok) { msg.textContent = text; msg.className = 'msg ' + (ok ? 'ok' : 'err'); }
-
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var email = (input.value || '').trim();
-      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { say('Please enter a valid email.', false); input.focus(); return; }
-
-      btn.disabled = true; var label = btn.textContent; btn.textContent = 'Adding…';
-      var done = function (ok) {
-        btn.disabled = false; btn.textContent = label;
-        if (ok) { form.reset(); say("You're on the list. We'll email you at launch. 🌅", true); }
-        else { say('Something went wrong — try again, or email us directly.', false); }
-      };
-
-      if (!WAITLIST_ENDPOINT) {
-        console.warn('[Rise Mission] WAITLIST_ENDPOINT is empty — showing a local confirmation only. ' +
-                     'Add a Formspree/Tally endpoint in index.html to collect real emails.');
-        setTimeout(function () { done(true); }, 500);
-        return;
-      }
-
-      fetch(WAITLIST_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email })
-      }).then(function (r) { done(r.ok); }).catch(function () { done(false); });
-    });
   })();
 </script>
 </body>
