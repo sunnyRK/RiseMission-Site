@@ -14,7 +14,13 @@
   </url>
   <url>
     <loc>https://risemission.app/privacy.html</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://risemission.app/terms.html</loc>
+    <lastmod>2026-08-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
