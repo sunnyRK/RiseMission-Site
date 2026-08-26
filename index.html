@@ -64,6 +64,72 @@
 }
 </script>
 
+<!-- FAQ structured data: FAQ rich results in Google + clean Q&A for AI search. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How does Rise Mission stop me from snoozing?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "When your alarm rings, you complete a quick wake-up challenge — push-ups counted by your camera, a spoken morning affirmation, a shake, math, or scanning a QR code across the room. The alarm keeps ringing until you finish, so you can't tap snooze and fall back asleep."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does the alarm ring on Silent, in Focus, or when the app is closed?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Rise Mission uses Apple's system alarms (AlarmKit), so it rings on the Lock Screen, in Silent mode, and during a Focus — even with the app closed. A powered-off iPhone can't ring, and no alarm app can change that."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What wake-up challenges can I choose from?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ten. Push-ups and squats counted by your camera, a walk that counts your steps, Object Find, and a QR scan, plus Voice (say an affirmation out loud), Shake, Math, Typing, and Memory. Every physical challenge pairs with a mental backup."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my camera and voice data private?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Completely. Camera frames and your voice are processed on your iPhone with Apple's Vision and Speech frameworks and discarded immediately — never recorded, saved, or uploaded. There's no account and no cloud sync; your alarms and history stay on your device."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if the camera can't see me or the room is too dark?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Every physical challenge has a mental backup that runs automatically when the camera or a sensor isn't available, so your streak stays safe. An emergency dismiss (hold five seconds) is always there too, so a ringing alarm can never trap you."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is Rise Mission free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Rise Mission is free to download. Rise Mission Pro — available weekly, yearly, or as a one-time lifetime purchase — unlocks every challenge, unlimited alarms, all sounds, the Focus timer and Pomodoro, and full stats."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Who is Rise Mission for?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Heavy sleepers and chronic snoozers — anyone who can turn off a normal alarm in their sleep. If you have early workouts, classes, shifts, or flights to catch, the wake-up challenge makes sure you're genuinely awake before the alarm stops."
+      }
+    }
+  ]
+}
+</script>
+
 <style>
   /* ---------- Design tokens (mirror the v1.4 app) ---------- */
   :root {
@@ -225,6 +291,25 @@
   .foot-links a:hover { color: var(--text); }
   .foot-copy { color: var(--faint); font-size: 13px; }
 
+  /* ---------- FAQ ---------- */
+  .faq { padding: 46px 0 8px; }
+  .faq .wrap { max-width: 720px; }
+  .faq .fh { text-align: center; margin-bottom: 26px; }
+  .faq-list { border-top: 1px solid var(--line-soft); }
+  .faq details { border-bottom: 1px solid var(--line-soft); }
+  .faq summary {
+    cursor: pointer; list-style: none; display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; padding: 18px 2px; font-size: 16.5px; font-weight: 700; color: var(--text);
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary:hover { color: var(--accent); }
+  .faq summary .plus { position: relative; width: 15px; height: 15px; flex: none; }
+  .faq summary .plus::before, .faq summary .plus::after { content: ""; position: absolute; background: var(--faint); border-radius: 2px; }
+  .faq summary .plus::before { top: 6.5px; left: 0; width: 15px; height: 2px; }
+  .faq summary .plus::after { left: 6.5px; top: 0; width: 2px; height: 15px; transition: transform .2s var(--ease), opacity .2s; }
+  .faq details[open] summary .plus::after { transform: rotate(90deg); opacity: 0; }
+  .faq details p { margin: 0 0 18px; color: var(--muted); font-size: 15px; max-width: 630px; }
+
   /* ---------- Scroll reveal ---------- */
   .reveal { transition: opacity .7s var(--ease), transform .7s var(--ease); }
   .js .reveal { opacity: 0; transform: translateY(16px); }
@@ -310,6 +395,46 @@
       <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21a2 2 0 0 0 4 0"/></svg></div>
       <h3>Rings no matter what</h3>
       <p>Built on Apple AlarmKit, so it rings on Silent, in Focus, and on the Lock Screen — even with the app closed.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="faq" id="faq">
+  <div class="wrap">
+    <div class="fh reveal">
+      <span class="eyebrow">FAQ</span>
+      <h2>Questions, answered</h2>
+    </div>
+    <div class="faq-list reveal">
+      <details open>
+        <summary>How does Rise Mission stop me from snoozing?<span class="plus"></span></summary>
+        <p>When your alarm rings, you complete a quick wake-up challenge — push-ups counted by your camera, a spoken morning affirmation, a shake, math, or scanning a QR code across the room. The alarm keeps ringing until you finish, so you can't tap snooze and fall back asleep.</p>
+      </details>
+      <details>
+        <summary>Does the alarm ring on Silent, in Focus, or when the app is closed?<span class="plus"></span></summary>
+        <p>Yes. Rise Mission uses Apple's system alarms (AlarmKit), so it rings on the Lock Screen, in Silent mode, and during a Focus — even with the app closed. A powered-off iPhone can't ring, and no alarm app can change that.</p>
+      </details>
+      <details>
+        <summary>What wake-up challenges can I choose from?<span class="plus"></span></summary>
+        <p>Ten. Push-ups and squats counted by your camera, a walk that counts your steps, Object Find, and a QR scan, plus Voice (say an affirmation out loud), Shake, Math, Typing, and Memory. Every physical challenge pairs with a mental backup.</p>
+      </details>
+      <details>
+        <summary>Is my camera and voice data private?<span class="plus"></span></summary>
+        <p>Completely. Camera frames and your voice are processed on your iPhone with Apple's Vision and Speech frameworks and discarded immediately — never recorded, saved, or uploaded. There's no account and no cloud sync; your alarms and history stay on your device.</p>
+      </details>
+      <details>
+        <summary>What if the camera can't see me or the room is too dark?<span class="plus"></span></summary>
+        <p>Every physical challenge has a mental backup that runs automatically when the camera or a sensor isn't available, so your streak stays safe. An emergency dismiss (hold five seconds) is always there too, so a ringing alarm can never trap you.</p>
+      </details>
+      <details>
+        <summary>Is Rise Mission free?<span class="plus"></span></summary>
+        <p>Rise Mission is free to download. Rise Mission Pro — available weekly, yearly, or as a one-time lifetime purchase — unlocks every challenge, unlimited alarms, all sounds, the Focus timer and Pomodoro, and full stats.</p>
+      </details>
+      <details>
+        <summary>Who is Rise Mission for?<span class="plus"></span></summary>
+        <p>Heavy sleepers and chronic snoozers — anyone who can turn off a normal alarm in their sleep. If you have early workouts, classes, shifts, or flights to catch, the wake-up challenge makes sure you're genuinely awake before the alarm stops.</p>
+      </details>
     </div>
   </div>
 </section>
