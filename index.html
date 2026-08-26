@@ -157,7 +157,7 @@
     --accent:    #2F5BFF;
     --accent-2:  #1E44E0;
     --success:   #00B865;
-    --maxw:      960px;
+    --maxw:      1040px;
     --ease:      cubic-bezier(.2,.7,.2,1);
     --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
             "Segoe UI", system-ui, Roboto, Helvetica, Arial, sans-serif;
@@ -228,22 +228,27 @@
   .nav-dl:hover { background: var(--accent-2); }
   .nav-dl:active { transform: translateY(1px); }
 
-  /* ---------- Hero (centered, minimal) ---------- */
-  .hero { text-align: center; padding: 74px 0 34px; }
-  .hero .wrap { max-width: 720px; }
+  /* ---------- Hero (two-column: text + video) ---------- */
+  .hero { padding: 58px 0 30px; }
+  .hero-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 46px; align-items: center; }
+  @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; gap: 32px; text-align: center; } }
+  @media (max-width: 900px) { .hero-copy { display: flex; flex-direction: column; align-items: center; } }
   .status-pill {
     display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600;
     color: var(--muted); background: rgba(47,91,255,.08); border: 1px solid rgba(47,91,255,.20);
-    padding: 7px 15px; border-radius: 999px; margin-bottom: 26px;
+    padding: 7px 15px; border-radius: 999px; margin-bottom: 22px;
   }
   .status-pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
   .hero h1 .hl { color: var(--accent); }
-  .hero .lede { margin: 22px auto 0; max-width: 560px; }
-  .hero-cta { margin-top: 32px; display: flex; justify-content: center; }
+  .hero .lede { margin: 20px 0 0; max-width: 520px; }
+  @media (max-width: 900px) { .hero .lede { margin-left: auto; margin-right: auto; } }
+  .hero-cta { margin-top: 28px; display: flex; }
+  @media (max-width: 900px) { .hero-cta { justify-content: center; } }
   .trust-row {
-    display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 20px;
-    margin-top: 26px; color: var(--faint); font-size: 13px; font-weight: 600;
+    display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 8px 18px;
+    margin-top: 24px; color: var(--faint); font-size: 13px; font-weight: 600;
   }
+  @media (max-width: 900px) { .trust-row { justify-content: center; } }
   .trust-row span { display: inline-flex; align-items: center; gap: 7px; }
   .trust-row span::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--success); }
 
@@ -268,13 +273,11 @@
     .marquee-track { animation: none; }
   }
 
-  /* ---------- Demo video ---------- */
-  .demo { padding: 34px 0 6px; }
-  .demo .wrap { max-width: 880px; }
+  /* ---------- Hero demo video ---------- */
   .demo-card {
-    position: relative; border-radius: 24px; overflow: hidden; aspect-ratio: 16 / 9;
+    position: relative; border-radius: 22px; overflow: hidden; aspect-ratio: 16 / 9;
     background: #0B0D10;
-    box-shadow: 0 34px 80px -36px rgba(20,23,28,.40); border: 1px solid var(--line-soft);
+    box-shadow: 0 30px 70px -34px rgba(20,23,28,.38); border: 1px solid var(--line-soft);
   }
   .demo-card video { width: 100%; height: 100%; object-fit: cover; display: block; }
 
@@ -358,33 +361,31 @@
 
 <!-- ============ HERO ============ -->
 <section class="hero">
-  <div class="wrap">
-    <span class="status-pill"><span class="dot"></span> Now on the App Store</span>
-    <h1>The alarm you <span class="hl">can't snooze</span> away.</h1>
-    <p class="lede">When it rings, you prove you're awake — push-ups counted by your camera,
-      your voice, a shake, math, or a QR scan across the room. No snooze. No bargaining.</p>
-    <div class="hero-cta">
-      <a class="appstore-link" href="https://apps.apple.com/us/app/rise-mission/id6791305078" target="_blank" rel="noopener" aria-label="Download Rise Mission on the App Store">
-        <span class="appstore-badge">
-          <svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.42 2.2-1.12 3-.77.9-2.02 1.6-3.06 1.52-.13-1.1.42-2.28 1.1-3.02.76-.86 2.1-1.5 3.08-1.5zM20.5 17.2c-.55 1.27-.82 1.84-1.53 2.96-.99 1.56-2.38 3.5-4.1 3.51-1.53.02-1.92-.99-4-.98-2.08.01-2.5 1-4.03.97-1.72-.02-3.04-1.77-4.03-3.33C-.02 16.9-.3 11.6 1.4 8.9c1.02-1.66 2.63-2.7 4.14-2.7 1.53 0 2.5 1 4.02 1 1.48 0 2.38-1 4.15-1 1.34 0 2.75.73 3.76 2-3.3 1.8-2.76 6.5.03 8z"/></svg>
-          <span class="t"><small>Download on the</small><b>App Store</b></span>
-        </span>
-      </a>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <span class="status-pill"><span class="dot"></span> Now on the App Store</span>
+      <h1>The alarm you <span class="hl">can't snooze</span> away.</h1>
+      <p class="lede">When it rings, you prove you're awake — push-ups counted by your camera,
+        your voice, a shake, math, or a QR scan across the room. No snooze. No bargaining.</p>
+      <div class="hero-cta">
+        <a class="appstore-link" href="https://apps.apple.com/us/app/rise-mission/id6791305078" target="_blank" rel="noopener" aria-label="Download Rise Mission on the App Store">
+          <span class="appstore-badge">
+            <svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.42 2.2-1.12 3-.77.9-2.02 1.6-3.06 1.52-.13-1.1.42-2.28 1.1-3.02.76-.86 2.1-1.5 3.08-1.5zM20.5 17.2c-.55 1.27-.82 1.84-1.53 2.96-.99 1.56-2.38 3.5-4.1 3.51-1.53.02-1.92-.99-4-.98-2.08.01-2.5 1-4.03.97-1.72-.02-3.04-1.77-4.03-3.33C-.02 16.9-.3 11.6 1.4 8.9c1.02-1.66 2.63-2.7 4.14-2.7 1.53 0 2.5 1 4.02 1 1.48 0 2.38-1 4.15-1 1.34 0 2.75.73 3.76 2-3.3 1.8-2.76 6.5.03 8z"/></svg>
+            <span class="t"><small>Download on the</small><b>App Store</b></span>
+          </span>
+        </a>
+      </div>
+      <div class="trust-row">
+        <span>On-device</span><span>No account</span><span>No ads</span><span>No tracking</span>
+      </div>
     </div>
-    <div class="trust-row">
-      <span>On-device</span><span>No account</span><span>No ads</span><span>No tracking</span>
-    </div>
-  </div>
-</section>
-
-<!-- ============ DEMO VIDEO ============ -->
-<section class="demo">
-  <div class="wrap">
-    <div class="demo-card reveal">
-      <video class="demo-video" poster="assets/demo-poster.jpg" autoplay muted loop playsinline preload="metadata"
-             aria-label="Rise Mission demo — the alarm rings, you complete a wake-up challenge, and you're awake">
-        <source src="assets/demo.mp4" type="video/mp4">
-      </video>
+    <div class="hero-media reveal">
+      <div class="demo-card">
+        <video class="demo-video" poster="assets/demo-poster.jpg" autoplay muted loop playsinline preload="metadata"
+               aria-label="Rise Mission demo — the alarm rings, you complete a wake-up challenge, and you're awake">
+          <source src="assets/demo.mp4" type="video/mp4">
+        </video>
+      </div>
     </div>
   </div>
 </section>
