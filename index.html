@@ -185,7 +185,7 @@
 
   /* ---------- Type ---------- */
   h1, h2 { letter-spacing: -0.03em; line-height: 1.04; margin: 0; font-weight: 800; }
-  h1 { font-size: clamp(40px, 7vw, 66px); }
+  h1 { font-size: clamp(35px, 5.6vw, 54px); }
   h2 { font-size: clamp(26px, 4vw, 38px); }
   .eyebrow {
     display: inline-block; font-size: 12px; font-weight: 800; letter-spacing: 0.16em;
@@ -228,32 +228,37 @@
   .nav-dl:hover { background: var(--accent-2); }
   .nav-dl:active { transform: translateY(1px); }
 
-  /* ---------- Hero (two-column: text + video) ---------- */
-  .hero { padding: 58px 0 30px; }
-  .hero-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 46px; align-items: center; }
-  @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; gap: 32px; text-align: center; } }
-  @media (max-width: 900px) { .hero-copy { display: flex; flex-direction: column; align-items: center; } }
+  /* ---------- Hero (compact stack: tagline above video) ---------- */
+  .hero { text-align: center; padding: 28px 0 20px; }
+  .hero-stack { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; }
   .status-pill {
     display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600;
     color: var(--muted); background: rgba(47,91,255,.08); border: 1px solid rgba(47,91,255,.20);
-    padding: 7px 15px; border-radius: 999px; margin-bottom: 22px;
+    padding: 7px 15px; border-radius: 999px; margin-bottom: 13px;
   }
   .status-pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
   .hero h1 .hl { color: var(--accent); }
-  .hero .lede { margin: 20px 0 0; max-width: 520px; }
-  @media (max-width: 900px) { .hero .lede { margin-left: auto; margin-right: auto; } }
-  .hero-cta { margin-top: 28px; display: flex; }
-  @media (max-width: 900px) { .hero-cta { justify-content: center; } }
-  .trust-row {
-    display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 8px 18px;
-    margin-top: 24px; color: var(--faint); font-size: 13px; font-weight: 600;
+  .hero .lede { margin: 12px auto 0; max-width: 560px; }
+  .hero-media { position: relative; width: 100%; max-width: 800px; margin: 22px auto 2px; }
+  /* Soft brand glow so the video reads as a designed centerpiece, not a floating box. */
+  .hero-media::before {
+    content: ""; position: absolute; inset: -14% -10% -6%; z-index: 0; pointer-events: none;
+    background: radial-gradient(50% 56% at 50% 42%, rgba(47,91,255,.22), transparent 72%);
+    filter: blur(22px);
   }
-  @media (max-width: 900px) { .trust-row { justify-content: center; } }
+  .hero-media .demo-card { position: relative; z-index: 1; }
+  .hero-cta { margin-top: 18px; display: flex; justify-content: center; }
+  .trust-row {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 18px;
+    margin-top: 18px; color: var(--faint); font-size: 13px; font-weight: 600;
+  }
   .trust-row span { display: inline-flex; align-items: center; gap: 7px; }
   .trust-row span::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--success); }
 
   /* ---------- Screenshot showcase (calm auto-marquee, clean frames) ---------- */
-  .showcase { padding: 26px 0 20px; overflow: hidden; }
+  .showcase { padding: 64px 0 20px; overflow: hidden; }
+  .section-head { text-align: center; max-width: 620px; margin: 0 auto 30px; }
+  .section-head .eyebrow { margin-bottom: 10px; }
   .marquee {
     position: relative; overflow: hidden; padding: 20px 0;
     -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
@@ -280,6 +285,21 @@
     box-shadow: 0 30px 70px -34px rgba(20,23,28,.38); border: 1px solid var(--line-soft);
   }
   .demo-card video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  /* Decorative progress bar (fills as the video plays, resets each loop; no controls). */
+  .demo-card .vprogress {
+    position: absolute; left: 0; right: 0; bottom: 0; height: 5px; z-index: 2;
+    background: rgba(255,255,255,0.15);
+  }
+  .demo-card .vbar {
+    position: relative; display: block; height: 100%; width: 0;
+    background: linear-gradient(90deg, #2F5BFF, #6C90FF);
+    box-shadow: 0 0 12px 1px rgba(47,91,255,0.75);
+  }
+  .demo-card .vbar::after {
+    content: ""; position: absolute; right: -2px; top: 50%; transform: translateY(-50%);
+    width: 7px; height: 7px; border-radius: 50%; background: #EAF0FF;
+    box-shadow: 0 0 10px 2px rgba(47,91,255,0.9);
+  }
 
   /* ---------- Value points (3, minimal) ---------- */
   .values { padding: 56px 0 20px; }
@@ -361,23 +381,18 @@
 
 <!-- ============ HERO ============ -->
 <section class="hero">
-  <div class="wrap hero-grid">
-    <div class="hero-copy">
-      <span class="status-pill"><span class="dot"></span> Now on the App Store</span>
-      <h1>The alarm you <span class="hl">can't snooze</span> away.</h1>
-      <p class="lede">When it rings, you prove you're awake — push-ups counted by your camera,
-        your voice, a shake, math, or a QR scan across the room. No snooze. No bargaining.</p>
-      <div class="hero-cta">
-        <a class="appstore-link" href="https://apps.apple.com/us/app/rise-mission/id6791305078" target="_blank" rel="noopener" aria-label="Download Rise Mission on the App Store">
-          <span class="appstore-badge">
-            <svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.42 2.2-1.12 3-.77.9-2.02 1.6-3.06 1.52-.13-1.1.42-2.28 1.1-3.02.76-.86 2.1-1.5 3.08-1.5zM20.5 17.2c-.55 1.27-.82 1.84-1.53 2.96-.99 1.56-2.38 3.5-4.1 3.51-1.53.02-1.92-.99-4-.98-2.08.01-2.5 1-4.03.97-1.72-.02-3.04-1.77-4.03-3.33C-.02 16.9-.3 11.6 1.4 8.9c1.02-1.66 2.63-2.7 4.14-2.7 1.53 0 2.5 1 4.02 1 1.48 0 2.38-1 4.15-1 1.34 0 2.75.73 3.76 2-3.3 1.8-2.76 6.5.03 8z"/></svg>
-            <span class="t"><small>Download on the</small><b>App Store</b></span>
-          </span>
-        </a>
-      </div>
-      <div class="trust-row">
-        <span>On-device</span><span>No account</span><span>No ads</span><span>No tracking</span>
-      </div>
+  <div class="wrap hero-stack">
+    <span class="status-pill"><span class="dot"></span> Now on the App Store</span>
+    <h1>The alarm you <span class="hl">can't snooze</span> away.</h1>
+    <p class="lede">Prove you're awake with a wake-up challenge — push-ups, voice, a shake,
+      math, or a QR scan. No snooze, no bargaining.</p>
+    <div class="hero-cta">
+      <a class="appstore-link" href="https://apps.apple.com/us/app/rise-mission/id6791305078" target="_blank" rel="noopener" aria-label="Download Rise Mission on the App Store">
+        <span class="appstore-badge">
+          <svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.42 2.2-1.12 3-.77.9-2.02 1.6-3.06 1.52-.13-1.1.42-2.28 1.1-3.02.76-.86 2.1-1.5 3.08-1.5zM20.5 17.2c-.55 1.27-.82 1.84-1.53 2.96-.99 1.56-2.38 3.5-4.1 3.51-1.53.02-1.92-.99-4-.98-2.08.01-2.5 1-4.03.97-1.72-.02-3.04-1.77-4.03-3.33C-.02 16.9-.3 11.6 1.4 8.9c1.02-1.66 2.63-2.7 4.14-2.7 1.53 0 2.5 1 4.02 1 1.48 0 2.38-1 4.15-1 1.34 0 2.75.73 3.76 2-3.3 1.8-2.76 6.5.03 8z"/></svg>
+          <span class="t"><small>Download on the</small><b>App Store</b></span>
+        </span>
+      </a>
     </div>
     <div class="hero-media reveal">
       <div class="demo-card">
@@ -385,13 +400,23 @@
                aria-label="Rise Mission demo — the alarm rings, you complete a wake-up challenge, and you're awake">
           <source src="assets/demo.mp4" type="video/mp4">
         </video>
+        <div class="vprogress" aria-hidden="true"><span class="vbar"></span></div>
       </div>
+    </div>
+    <div class="trust-row">
+      <span>On-device</span><span>No account</span><span>No ads</span><span>No tracking</span>
     </div>
   </div>
 </section>
 
 <!-- ============ SCREENSHOT SHOWCASE ============ -->
 <section class="showcase" aria-label="Rise Mission app screenshots">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Inside the app</span>
+      <h2>Every way to wake up</h2>
+    </div>
+  </div>
   <div class="marquee reveal">
     <div class="marquee-track">
       <!-- Set 1 — indexed for SEO / read by screen readers -->
@@ -528,6 +553,18 @@
       entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
     }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
     els.forEach(function (e) { io.observe(e); });
+  })();
+
+  // Decorative video progress bar — follows playback and resets each loop (no controls).
+  (function () {
+    var v = document.querySelector('.demo-video');
+    var bar = document.querySelector('.vbar');
+    if (!v || !bar) return;
+    function tick() {
+      if (v.duration) bar.style.width = ((v.currentTime / v.duration) * 100) + '%';
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
   })();
 </script>
 </body>
