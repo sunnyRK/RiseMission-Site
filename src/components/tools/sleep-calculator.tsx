@@ -50,13 +50,13 @@ export function SleepCalculator() {
       <div className="mt-7 text-center">
         {mode === "wake" ? (
           <label className="block">
-            <span className="text-[0.9rem] font-medium text-muted">Wake-up time</span>
+            <span className="text-[0.875rem] font-semibold text-ink-2">Wake-up time</span>
             <input
               type="time"
               value={time}
               onChange={(e) => setTime(e.target.value || "06:30")}
               onBlur={() => track("sleep_calc_used", { mode: "wake", time })}
-              className="mx-auto mt-2 block w-full max-w-xs rounded-2xl border border-line bg-paper px-4 py-3 text-center text-[2.2rem] font-semibold tracking-tight tabular-nums text-ink"
+              className="rm-field mx-auto mt-2 block min-h-16 w-full max-w-xs rounded-2xl px-4 py-3 text-center text-[2.2rem] font-semibold tracking-tight tabular-nums"
             />
           </label>
         ) : (
@@ -66,7 +66,7 @@ export function SleepCalculator() {
         )}
       </div>
 
-      <p className="mt-7 text-[0.9rem] font-semibold text-ink" aria-live="polite">
+      <p className="mt-8 text-[0.875rem] font-semibold text-ink" aria-live="polite">
         {mode === "wake" ? "Go to bed by" : "Set your alarm for"}
       </p>
       <ul className="mt-3 grid gap-3 sm:grid-cols-3">
@@ -81,7 +81,7 @@ export function SleepCalculator() {
           </li>
         ))}
       </ul>
-      <p className="mt-5 text-center text-[0.8rem] text-muted">
+      <p className="mx-auto mt-6 max-w-lg text-center text-[0.8125rem] leading-relaxed text-muted">
         Assumes {FALL_ASLEEP_MIN} minutes to fall asleep and {CYCLE_MIN}-minute cycles. Real cycles vary between people and through the night.
       </p>
     </div>

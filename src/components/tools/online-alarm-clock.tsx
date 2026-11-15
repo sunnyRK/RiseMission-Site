@@ -59,7 +59,7 @@ function Switch({ checked, onChange, label, id }: { checked: boolean; onChange: 
       aria-checked={checked}
       aria-label={label}
       onClick={() => onChange(!checked)}
-      className={`relative inline-flex h-7 w-12 shrink-0 items-center rounded-full transition ${checked ? "bg-accent" : "bg-line"}`}
+      className={`relative inline-flex h-7 w-12 shrink-0 items-center rounded-full transition before:absolute before:-inset-2.5 before:content-[''] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent motion-reduce:transition-none ${checked ? "bg-accent" : "bg-line"}`}
     >
       <span className={`inline-block h-5 w-5 rounded-full bg-card shadow-soft transition ${checked ? "translate-x-6" : "translate-x-1"}`} />
     </button>
@@ -365,7 +365,7 @@ export function OnlineAlarmClock() {
           </span>
         </span>
         {notify === "default" && (
-          <button type="button" onClick={askNotify} className="shrink-0 rounded-xl border border-line bg-card px-3 py-2 text-[0.85rem] font-semibold text-ink hover:border-accent">
+          <button type="button" onClick={askNotify} className="rm-btn shrink-0 rounded-xl border border-line bg-card px-3 py-2 text-[0.85rem] font-semibold text-ink hover:border-accent">
             Turn on
           </button>
         )}
@@ -508,7 +508,7 @@ export function OnlineAlarmClock() {
         )}
 
         <div className="mt-6 flex flex-wrap justify-center gap-3">
-          <button type="button" onClick={() => finish("cancel")} className="inline-flex items-center gap-2 rounded-2xl border border-line bg-card px-5 py-3 font-semibold text-ink hover:border-coral">
+          <button type="button" onClick={() => finish("cancel")} className="rm-btn inline-flex items-center gap-2 rounded-2xl border border-line bg-card px-5 py-3 font-semibold text-ink hover:border-coral">
             <X aria-hidden className="h-4 w-4" /> Cancel alarm
           </button>
         </div>
@@ -526,7 +526,7 @@ export function OnlineAlarmClock() {
         </p>
       )}
       <label className="block text-center">
-        <span className="text-[0.9rem] font-medium text-muted">Alarm time</span>
+        <span className="text-[0.875rem] font-semibold text-ink-2">Alarm time</span>
         <input
           type="time"
           required
@@ -535,7 +535,7 @@ export function OnlineAlarmClock() {
             setTime(e.target.value || "07:00");
             setPreset(null);
           }}
-          className="mx-auto mt-2 block w-full max-w-xs rounded-2xl border border-line bg-paper px-4 py-3 text-center text-[2.2rem] font-semibold tracking-tight tabular-nums text-ink"
+          className="rm-field mx-auto mt-2 block min-h-16 w-full max-w-xs rounded-2xl px-4 py-3 text-center text-[2.2rem] font-semibold tracking-tight tabular-nums"
         />
       </label>
 
@@ -546,7 +546,7 @@ export function OnlineAlarmClock() {
             type="button"
             aria-pressed={preset?.key === p.key}
             onClick={() => choosePreset(p)}
-            className={`rounded-xl border px-2 py-2 text-[0.88rem] font-semibold transition ${preset?.key === p.key ? "border-accent bg-accent-soft text-accent" : "border-line bg-paper text-ink-2 hover:text-ink"}`}
+            className={`rm-btn rounded-xl border px-2 py-2 text-[0.88rem] font-semibold ${preset?.key === p.key ? "border-accent bg-accent-soft text-accent" : "border-line bg-paper text-ink-2 hover:text-ink"}`}
           >
             {p.label}
           </button>
@@ -554,25 +554,25 @@ export function OnlineAlarmClock() {
       </div>
 
       <label className="mt-6 block">
-        <span className="text-[0.9rem] font-medium text-muted">Label (optional)</span>
+        <span className="text-[0.875rem] font-semibold text-ink-2">Label <span className="font-normal text-muted">(optional)</span></span>
         <input
           value={label}
           onChange={(e) => setLabel(e.target.value)}
           maxLength={60}
           placeholder="e.g. Leave for the train"
-          className="mt-2 block w-full rounded-2xl border border-line bg-paper px-4 py-3 text-ink placeholder:text-muted"
+          className="rm-field mt-2 block min-h-12 w-full rounded-2xl px-4 py-3 placeholder:text-muted"
         />
       </label>
 
       <div className="mt-6">
-        <p className="text-[0.9rem] font-medium text-muted" id="rm-sound-label">
+        <p className="text-[0.875rem] font-semibold text-ink-2" id="rm-sound-label">
           Sound
         </p>
         <div className="mt-2 flex flex-col gap-2 sm:flex-row">
           <div className="min-w-0 flex-1">
             <Segmented label="Alarm sound" value={sound} options={SOUND_OPTIONS} onChange={setSound} />
           </div>
-          <button type="button" onClick={testSound} className="inline-flex items-center justify-center gap-2 rounded-2xl border border-line bg-paper px-4 py-2.5 text-[0.9rem] font-semibold text-ink hover:border-accent">
+          <button type="button" onClick={testSound} className="rm-btn inline-flex items-center justify-center gap-2 rounded-2xl border border-line bg-paper px-4 py-2.5 text-[0.9rem] font-semibold text-ink hover:border-accent">
             <Play aria-hidden className="h-4 w-4" /> Test sound
           </button>
         </div>
@@ -599,10 +599,10 @@ export function OnlineAlarmClock() {
 
       {extras}
 
-      <button type="submit" className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-accent px-6 py-4 text-[1.05rem] font-semibold text-accent-ink shadow-soft">
+      <button type="submit" className="rm-btn mt-6 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-accent px-6 py-4 text-[1.05rem] font-semibold text-accent-ink shadow-soft hover:brightness-110">
         <AlarmClock aria-hidden className="h-5 w-5" /> Set alarm
       </button>
-      <p className="mt-4 text-center text-[0.8rem] text-muted">
+      <p className="mx-auto mt-5 max-w-lg text-center text-[0.8125rem] leading-relaxed text-muted">
         Keep this tab open and your computer awake. A browser alarm can&apos;t ring if the laptop sleeps or the browser is closed. For a phone alarm that rings on Silent, use an app.
       </p>
     </form>

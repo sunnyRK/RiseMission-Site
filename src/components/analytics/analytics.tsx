@@ -3,7 +3,6 @@
 import Script from "next/script";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
-import posthog from "posthog-js";
 
 /**
  * Site analytics. Everything is OFF unless its env var is set, so local dev
@@ -30,6 +29,8 @@ const AI_SOURCES: [RegExp, string][] = [
   [/copilot\.microsoft\.com|bing\.com\/chat/, "copilot"],
 ];
 
+let ph: typeof import("posthog-js").default | undefined;
+
 declare global {
   interface Window {
     gtag?: (...args: unknown[]) => void;
@@ -38,20 +39,24 @@ declare global {
 
 export function track(event: string, props: Record<string, string | number> = {}) {
   window.gtag?.("event", event, props);
-  if (PH_KEY) posthog.capture(event, props);
+  if (PH_KEY) ph?.capture(event, props);
 }
 
 export function Analytics() {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (!PH_KEY || posthog.__loaded) return;
-    posthog.init(PH_KEY, {
+    if (!PH_KEY) return;
+    // Loaded only when configured, so pages don't ship ~98 KB of unused JS.
+    import("posthog-js").then(({ default: p }) => {
+      if (!p.__loaded) p.init(PH_KEY, {
       api_host: PH_HOST,
       // Cookieless: no consent banner needed for PostHog itself.
       persistence: "memory",
       capture_pageview: "history_change",
       autocapture: false,
+    });
+      ph = p;
     });
   }, []);
 

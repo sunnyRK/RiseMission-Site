@@ -28,7 +28,7 @@ export function AppStoreButton({
       href={appStoreHref(placement)}
       data-cta={placement}
       aria-label="Download Rise Mission on the App Store"
-      className={`inline-flex items-center gap-2.5 rounded-[14px] bg-ink text-paper transition hover:-translate-y-0.5 hover:opacity-95 active:translate-y-0 ${lg ? "h-[60px] px-6" : "h-[52px] px-5"} ${className}`}
+      className={`inline-flex items-center gap-2.5 rounded-[14px] bg-ink text-paper shadow-[0_1px_2px_rgb(22_20_31/0.08),0_8px_20px_-10px_rgb(22_20_31/0.45)] transition-[translate,box-shadow,opacity] duration-200 ease-[var(--ease-out)] hover:-translate-y-0.5 hover:shadow-[0_1px_2px_rgb(22_20_31/0.08),0_14px_28px_-12px_rgb(22_20_31/0.5)] active:translate-y-0 motion-reduce:hover:translate-y-0 ${lg ? "h-[60px] px-6" : "h-[52px] px-5"} ${className}`}
     >
       <AppleLogo className={lg ? "h-7 w-7" : "h-6 w-6"} />
       <span className="flex flex-col items-start leading-none">

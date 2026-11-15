@@ -1,0 +1,567 @@
+/* ==========================================================================
+ * Content surfaces: articles, docs, tools, comparison tables.
+ * Imported by blog-layout.tsx, tool-shell.tsx and doc-page.tsx (after
+ * globals.css), so these rules refine the base `.prose-rm` without editing it.
+ * Unlayered on purpose: it must win over globals' unlayered `.prose-rm` rules.
+ * Rules here only target bare elements or `rm-*` classes, so Tailwind
+ * utilities on component markup still apply where components set them.
+ * ======================================================================== */
+
+/* ---------- Reading rhythm ---------- */
+.prose-rm {
+  font-size: 1.0625rem; /* 17px on phones */
+  line-height: 1.72;
+  overflow-wrap: break-word;
+  hanging-punctuation: first;
+}
+@media (min-width: 768px) {
+  .prose-rm {
+    font-size: 1.125rem; /* 18px on laptops: ~68–72ch in the 42.5rem column */
+    line-height: 1.75;
+  }
+}
+.prose-rm > * + * {
+  margin-top: 1.2em;
+}
+.prose-rm p,
+.prose-rm li {
+  text-wrap: pretty;
+}
+
+.prose-rm h2 {
+  font-size: clamp(1.5rem, 1.3rem + 0.7vw, 1.75rem);
+  line-height: 1.22;
+  letter-spacing: -0.025em;
+  font-weight: 600;
+  margin-top: 2.4em;
+  text-wrap: balance;
+  scroll-margin-top: 5.5rem;
+}
+.prose-rm h2 + * {
+  margin-top: 0.7em;
+}
+.prose-rm h3 {
+  font-size: 1.1875rem;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+  font-weight: 600;
+  margin-top: 2em;
+  text-wrap: balance;
+}
+.prose-rm h3 + * {
+  margin-top: 0.5em;
+}
+
+.prose-rm a {
+  text-decoration-color: color-mix(in oklab, var(--accent) 40%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color 0.15s ease;
+}
+.prose-rm a:hover {
+  text-decoration-color: currentColor;
+}
+.prose-rm a:focus-visible,
+.rm-focus:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Lists: quiet markers, comfortable rhythm, nested lists tighter. */
+.prose-rm ul,
+.prose-rm ol {
+  padding-left: 1.4em;
+}
+.prose-rm li {
+  padding-left: 0.2em;
+}
+.prose-rm li + li {
+  margin-top: 0.5em;
+}
+.prose-rm li > ul,
+.prose-rm li > ol {
+  margin-top: 0.5em;
+}
+.prose-rm ol > li::marker {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  font-size: 0.92em;
+}
+.prose-rm ul > li::marker {
+  color: color-mix(in oklab, var(--accent) 55%, var(--muted));
+}
+
+.prose-rm blockquote {
+  border-left: 2px solid var(--line);
+  padding-left: 1.1em;
+  color: var(--ink);
+  font-style: normal;
+}
+.prose-rm hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin-block: 2.5em;
+}
+.prose-rm code {
+  font-size: 0.88em;
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.1em 0.35em;
+}
+.prose-rm img {
+  border-radius: 14px;
+}
+
+/* ---------- Tables ----------
+ * Three shapes all look the same:
+ *   1. <TableScroll> wrapper (blog layout wraps top-level tables automatically)
+ *   2. a page's own <div className="overflow-x-auto"><table> (tool pages)
+ *   3. a bare <table> directly in .prose-rm (short tables that fit on phones)
+ * `.not-prose` containers keep their own styling.
+ */
+.rm-table,
+.prose-rm > div:not(.not-prose):has(> table) {
+  position: relative;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+.rm-table,
+.rm-scroll-shadow,
+.prose-rm > div:not(.not-prose):has(> table) {
+  /* Scroll shadows: cover gradients scroll with content, shadows stay put,
+     so an edge only shows a shadow when there is more to scroll that way. */
+  background:
+    linear-gradient(to right, var(--card) 35%, transparent) left / 2.5rem 100% no-repeat local,
+    linear-gradient(to left, var(--card) 35%, transparent) right / 2.5rem 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, color-mix(in oklab, var(--ink) 14%, transparent), transparent) left / 0.9rem 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, color-mix(in oklab, var(--ink) 14%, transparent), transparent) right / 0.9rem 100% no-repeat scroll,
+    var(--card);
+}
+.rm-table:focus-visible,
+.prose-rm > div:has(> table):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.prose-rm > table,
+.rm-table > table,
+.prose-rm > div:not(.not-prose):has(> table) > table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+}
+.prose-rm > table {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--card);
+  overflow: hidden;
+}
+/* Wide tables keep readable columns and scroll inside their frame. */
+.rm-table > table:has(tr > :nth-child(4)),
+.prose-rm > div:not(.not-prose):has(> table) > table:has(tr > :nth-child(4)) {
+  min-width: 38rem;
+}
+.rm-table > table:has(tr > :nth-child(5)),
+.prose-rm > div:not(.not-prose):has(> table) > table:has(tr > :nth-child(5)) {
+  min-width: 46rem;
+}
+
+:is(.prose-rm > table, .rm-table > table, .prose-rm > div:not(.not-prose):has(> table) > table) :is(th, td) {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+  text-align: left;
+}
+:is(.prose-rm > table, .rm-table > table, .prose-rm > div:not(.not-prose):has(> table) > table) thead th {
+  background: var(--paper-2);
+  color: var(--ink);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.005em;
+  white-space: nowrap;
+  padding-block: 0.65rem;
+}
+:is(.prose-rm > table, .rm-table > table, .prose-rm > div:not(.not-prose):has(> table) > table) tbody tr:last-child > * {
+  border-bottom: 0;
+}
+:is(.prose-rm > table, .rm-table > table, .prose-rm > div:not(.not-prose):has(> table) > table) tbody tr {
+  transition: background-color 0.15s ease;
+}
+:is(.prose-rm > table, .rm-table > table, .prose-rm > div:not(.not-prose):has(> table) > table) tbody tr:hover {
+  background: color-mix(in oklab, var(--paper-2) 55%, transparent);
+}
+:is(.prose-rm > table, .rm-table > table, .prose-rm > div:not(.not-prose):has(> table) > table) tbody > tr > :first-child {
+  color: var(--ink);
+  font-weight: 550;
+}
+:is(.prose-rm > table, .rm-table > table, .prose-rm > div:not(.not-prose):has(> table) > table) caption {
+  caption-side: bottom;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+/* Component tables (compare/app-table) style themselves with utilities:
+   hand them back from the base .prose-rm table rules in globals.css. */
+.prose-rm table.rm-ctable {
+  width: revert-layer;
+  border-collapse: revert-layer;
+  font-size: revert-layer;
+}
+.prose-rm table.rm-ctable :is(th, td) {
+  padding: revert-layer;
+  border-bottom: revert-layer;
+  vertical-align: revert-layer;
+  text-align: revert-layer;
+  color: revert-layer;
+  font-weight: revert-layer;
+}
+
+/* Phones: tighter cells; on scrolling tables pin the row label column. */
+@media (max-width: 639px) {
+  .prose-rm > table,
+  .rm-table > table,
+  .prose-rm > div:not(.not-prose):has(> table) > table {
+    font-size: 0.875rem;
+  }
+  :is(.prose-rm > table, .rm-table > table, .prose-rm > div:not(.not-prose):has(> table) > table) :is(th, td) {
+    padding: 0.65rem 0.75rem;
+  }
+  /* Bare tables can't scroll: let headers wrap so they fit the column. */
+  .prose-rm > table thead th {
+    white-space: normal !important; /* beats the shared :is() header rule */
+  }
+  :is(.rm-table > table, .prose-rm > div:not(.not-prose):has(> table) > table):has(tr > :nth-child(4)) tr > :first-child {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    max-width: 8.5rem;
+    background: var(--card);
+    box-shadow: inset -1px 0 0 var(--line);
+  }
+  :is(.rm-table > table, .prose-rm > div:not(.not-prose):has(> table) > table):has(tr > :nth-child(4)) thead tr > :first-child {
+    background: var(--paper-2);
+  }
+}
+
+/* ---------- Callouts (Answer, KeyTakeaways, Callout, Limits) ---------- */
+.rm-callout {
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  padding: 1.1rem 1.15rem;
+  font-size: 1rem;
+  line-height: 1.65;
+}
+@media (min-width: 640px) {
+  .rm-callout {
+    padding: 1.35rem 1.5rem;
+  }
+}
+.rm-callout > * + * {
+  margin-top: 0.6em;
+}
+.rm-callout-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.005em;
+  color: var(--ink);
+}
+.rm-callout-label svg {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+.prose-rm .rm-callout ul {
+  padding-left: 0;
+  list-style: none;
+}
+.rm-callout ul > li {
+  position: relative;
+  padding-left: 1.4em;
+}
+.rm-callout ul > li::before {
+  content: "";
+  position: absolute;
+  left: 0.2em;
+  top: 0.68em;
+  width: 0.4em;
+  height: 0.4em;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.5;
+}
+.rm-callout ul > li + li {
+  margin-top: 0.5em;
+}
+
+/* Answer: the 40–60 word direct answer. Ink text, sunrise hairline on top. */
+.rm-answer {
+  position: relative;
+  overflow: hidden;
+  background: var(--card);
+  color: var(--ink);
+  box-shadow: var(--shadow);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  padding-top: 1.35rem;
+}
+@media (min-width: 768px) {
+  .rm-answer {
+    font-size: 1.125rem;
+  }
+}
+.rm-answer::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--sun), var(--coral) 50%, var(--accent));
+}
+
+.rm-takeaways {
+  background: color-mix(in oklab, var(--accent-soft) 70%, var(--card));
+  border-color: color-mix(in oklab, var(--accent) 16%, var(--line));
+  color: var(--ink);
+}
+.rm-takeaways .rm-callout-label,
+.rm-takeaways ul > li::before {
+  color: var(--accent);
+}
+.rm-takeaways ul > li::before {
+  opacity: 0.8;
+}
+
+.rm-note-sun {
+  background: color-mix(in oklab, var(--sun-soft) 85%, var(--card));
+  border-color: color-mix(in oklab, var(--sun) 30%, var(--line));
+}
+.rm-note-sun .rm-callout-label svg {
+  color: color-mix(in oklab, var(--sun) 70%, var(--ink));
+}
+.rm-note-accent {
+  background: color-mix(in oklab, var(--accent-soft) 60%, var(--card));
+  border-color: color-mix(in oklab, var(--accent) 16%, var(--line));
+}
+.rm-note-accent .rm-callout-label svg {
+  color: var(--accent);
+}
+
+.rm-limits {
+  background: var(--paper-2);
+}
+.rm-limits .rm-callout-label svg {
+  color: var(--muted);
+}
+
+/* Sources: compact numbered list, URLs never overflow. */
+.rm-sources ol {
+  list-style: none;
+  padding-left: 0;
+  counter-reset: src;
+}
+.rm-sources li {
+  counter-increment: src;
+  position: relative;
+  padding-left: 2rem;
+  overflow-wrap: anywhere;
+}
+.rm-sources li::before {
+  content: counter(src);
+  position: absolute;
+  left: 0;
+  top: 0.1em;
+  min-width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 6px;
+  background: var(--paper-2);
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.4rem;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.prose-rm .rm-sources a {
+  color: var(--ink-2);
+  text-decoration-color: var(--line);
+}
+.prose-rm .rm-sources a:hover {
+  color: var(--ink);
+  text-decoration-color: currentColor;
+}
+
+/* ---------- Article chrome ---------- */
+.rm-progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 60;
+  height: 3px;
+  pointer-events: none;
+  transform-origin: 0 50%;
+  transform: scaleX(var(--rm-progress, 0));
+  background: linear-gradient(90deg, var(--sun), var(--coral) 45%, var(--accent));
+}
+
+.rm-toc a {
+  position: relative;
+  display: block;
+  padding: 0.3rem 0 0.3rem 1rem;
+  margin-left: -1px;
+  border-left: 2px solid transparent;
+  line-height: 1.4;
+  color: var(--muted);
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+.rm-toc a:hover {
+  color: var(--ink);
+}
+.rm-toc a[aria-current="true"] {
+  color: var(--ink);
+  font-weight: 550;
+  border-left-color: var(--accent);
+}
+.rm-toc a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.rm-toc-mobile > summary {
+  list-style: none;
+}
+.rm-toc-mobile > summary::-webkit-details-marker {
+  display: none;
+}
+.rm-toc-mobile[open] .rm-chevron {
+  transform: rotate(180deg);
+}
+
+/* ---------- Tool controls ---------- */
+.rm-field {
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease;
+}
+.rm-field:hover {
+  border-color: color-mix(in oklab, var(--accent) 35%, var(--line));
+}
+.rm-field:focus,
+.rm-field:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  background: var(--card);
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent) 18%, transparent);
+}
+.rm-field::-webkit-calendar-picker-indicator {
+  opacity: 0.55;
+  cursor: pointer;
+}
+
+.rm-btn {
+  min-height: 2.75rem; /* 44px tap target */
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease,
+    color 0.15s ease,
+    transform 0.1s ease;
+}
+.rm-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .rm-btn:active:not(:disabled) {
+    transform: scale(0.97);
+  }
+}
+
+/* Range slider: thick track filled to the value (set --rm-fill inline). */
+.rm-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 2.75rem; /* tap area */
+  background: transparent;
+  cursor: pointer;
+}
+.rm-range::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--accent) var(--rm-fill, 50%), var(--paper-2) var(--rm-fill, 50%));
+}
+.rm-range::-moz-range-track {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--paper-2);
+}
+.rm-range::-moz-range-progress {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--accent);
+}
+.rm-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-top: calc(3px - 0.75rem);
+  border-radius: 999px;
+  background: var(--card);
+  border: 2px solid var(--accent);
+  box-shadow: 0 1px 3px rgb(22 20 31 / 0.2);
+  transition: transform 0.12s ease;
+}
+.rm-range::-moz-range-thumb {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 999px;
+  background: var(--card);
+  border: 2px solid var(--accent);
+  box-shadow: 0 1px 3px rgb(22 20 31 / 0.2);
+}
+.rm-range:focus {
+  outline: none;
+}
+.rm-range:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 5px color-mix(in oklab, var(--accent) 25%, transparent);
+}
+.rm-range:focus-visible::-moz-range-thumb {
+  box-shadow: 0 0 0 5px color-mix(in oklab, var(--accent) 25%, transparent);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .rm-range:active::-webkit-slider-thumb {
+    transform: scale(1.12);
+  }
+}
+
+/* Result values: a soft settle when the number changes (keyed remount). */
+@media (prefers-reduced-motion: no-preference) {
+  .rm-result-value {
+    animation: rm-settle 0.32s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  @keyframes rm-settle {
+    from {
+      opacity: 0.25;
+      transform: translateY(4px);
+    }
+  }
+}

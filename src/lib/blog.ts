@@ -70,8 +70,8 @@ export const BLOG_POSTS: BlogPost[] = [
   },
   {
     slug: "best-alarm-apps-for-heavy-sleepers",
-    title: "10 Best Alarm Apps for Heavy Sleepers in 2026 (Compared)",
-    metaTitle: "Best Alarm Apps for Heavy Sleepers (2026)",
+    title: "10 Best Alarm Apps for iPhone for Heavy Sleepers (2026)",
+    metaTitle: "Best Alarm Apps for iPhone (Heavy Sleepers)",
     description:
       "Alarmy, Erly, Rise Mission, Wayk, Sleep Cycle and more, compared on missions, size, ratings and paid tiers using each app's own App Store listing.",
     metaDescription:

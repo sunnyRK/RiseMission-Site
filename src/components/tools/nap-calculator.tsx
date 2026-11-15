@@ -56,22 +56,22 @@ export function NapCalculator() {
 
       <div className="mt-6 grid gap-5 sm:grid-cols-2 sm:items-end">
         <label className="block text-center sm:text-left">
-          <span className="text-[0.9rem] font-medium text-muted">I&apos;m lying down at</span>
+          <span className="text-[0.875rem] font-semibold text-ink-2">I&apos;m lying down at</span>
           <span className="mt-2 flex gap-2">
             <input
               type="time"
               value={start}
               onChange={(e) => setStart(e.target.value || start)}
               onBlur={() => track("nap_calc_used", { type, buffer: buf })}
-              className="block w-full min-w-0 rounded-2xl border border-line bg-paper px-4 py-3 text-center text-[2rem] font-semibold tracking-tight tabular-nums text-ink"
+              className="rm-field block min-h-16 w-full min-w-0 rounded-2xl px-4 py-3 text-center text-[2rem] font-semibold tracking-tight tabular-nums"
             />
-            <button type="button" onClick={setNow} className="shrink-0 rounded-2xl border border-line bg-paper px-4 text-[0.9rem] font-semibold text-ink hover:border-accent">
+            <button type="button" onClick={setNow} className="rm-btn shrink-0 rounded-2xl border border-line bg-paper px-4 text-[0.9rem] font-semibold text-ink hover:border-accent">
               Now
             </button>
           </span>
         </label>
         <div>
-          <p className="text-center text-[0.9rem] font-medium text-muted sm:text-left">Time to fall asleep</p>
+          <p className="text-center text-[0.875rem] font-semibold text-ink-2 sm:text-left">Time to fall asleep</p>
           <div className="mt-2">
             <Segmented label="Time to fall asleep" value={buffer} options={BUFFER_SEG} onChange={setBuffer} />
           </div>
@@ -79,7 +79,7 @@ export function NapCalculator() {
       </div>
 
       <div aria-live="polite">
-        <p className="mt-7 text-[0.9rem] font-semibold text-ink">Set your alarm for</p>
+        <p className="mt-8 text-[0.875rem] font-semibold text-ink">Set your alarm for</p>
         <ul className="mt-3 grid gap-3 sm:grid-cols-3">
           {plans.map((p) => (
             <li key={p.type}>
@@ -131,7 +131,7 @@ export function NapCalculator() {
         </figcaption>
       </figure>
 
-      <p className="mt-5 text-center text-[0.8rem] text-muted">
+      <p className="mx-auto mt-6 max-w-lg text-center text-[0.8125rem] leading-relaxed text-muted">
         Assumes {buf} minutes to fall asleep. The deep-sleep window is an estimate; it shifts with how tired you are and the time of day.
       </p>
     </div>

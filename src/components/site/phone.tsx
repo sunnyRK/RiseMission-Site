@@ -4,12 +4,12 @@ import Image from "next/image";
 export function Phone({
   src,
   alt,
-  priority = false,
+  preload = false,
   className = "",
 }: {
   src: string;
   alt: string;
-  priority?: boolean;
+  preload?: boolean;
   className?: string;
 }) {
   return (
@@ -19,7 +19,7 @@ export function Phone({
         alt={alt}
         width={1320}
         height={2868}
-        priority={priority}
+        preload={preload}
         sizes="(max-width: 640px) 70vw, 300px"
         className="h-auto w-full rounded-[2.05rem]"
       />

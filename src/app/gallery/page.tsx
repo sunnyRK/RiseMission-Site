@@ -4,6 +4,7 @@ import { ArrowRight, Download } from "lucide-react";
 import { AppStoreButton } from "@/components/site/app-store-button";
 import { JsonLd } from "@/components/seo/json-ld";
 import { GALLERY_SHOTS, GALLERY_VIDEOS, abs } from "@/lib/media";
+import { optimisedVideo } from "@/lib/perf/video-sources";
 import { breadcrumbLd, pageMetadata, publisherRef } from "@/lib/seo";
 import { APP_NAME_FULL, CHALLENGES, LIVE_VERSION } from "@/lib/site";
 
@@ -83,7 +84,7 @@ export default function GalleryPage() {
           <div className="rounded-[24px] border border-line bg-card p-1.5 shadow-soft sm:p-2">
             <video
               className="aspect-video w-full rounded-[18px] bg-paper-2"
-              poster={hero.poster}
+              poster={optimisedVideo(hero.src)?.poster ?? hero.poster}
               controls
               muted
               playsInline
@@ -92,7 +93,9 @@ export default function GalleryPage() {
               height={hero.height}
               aria-label={hero.title}
             >
-              <source src={hero.src} type="video/mp4" />
+              {(optimisedVideo(hero.src)?.sources ?? [{ src: hero.src, type: "video/mp4" }]).map((v) => (
+                <source key={v.src} src={v.src} type={v.type} />
+              ))}
             </video>
           </div>
           <figcaption className="mt-4">
@@ -107,7 +110,7 @@ export default function GalleryPage() {
             <div className="rounded-[24px] border border-line bg-card p-1.5 shadow-soft sm:p-2">
               <video
                 className="aspect-video w-full rounded-[18px] bg-ink"
-                poster={demo.poster}
+                poster={optimisedVideo(demo.src)?.poster ?? demo.poster}
                 controls
                 muted
                 playsInline
@@ -116,7 +119,9 @@ export default function GalleryPage() {
                 height={demo.height}
                 aria-label={demo.title}
               >
-                <source src={demo.src} type="video/mp4" />
+                {(optimisedVideo(demo.src)?.sources ?? [{ src: demo.src, type: "video/mp4" }]).map((v) => (
+                <source key={v.src} src={v.src} type={v.type} />
+              ))}
               </video>
             </div>
             <figcaption className="mt-4">
@@ -130,7 +135,7 @@ export default function GalleryPage() {
             <div className="rounded-[28px] border border-line bg-card p-1.5 shadow-soft">
               <video
                 className="aspect-[9/16] w-full rounded-[22px] bg-paper-2"
-                poster={vertical.poster}
+                poster={optimisedVideo(vertical.src)?.poster ?? vertical.poster}
                 controls
                 muted
                 playsInline
@@ -139,7 +144,9 @@ export default function GalleryPage() {
                 height={vertical.height}
                 aria-label={vertical.title}
               >
-                <source src={vertical.src} type="video/mp4" />
+                {(optimisedVideo(vertical.src)?.sources ?? [{ src: vertical.src, type: "video/mp4" }]).map((v) => (
+                <source key={v.src} src={v.src} type={v.type} />
+              ))}
               </video>
             </div>
             <figcaption className="mt-4">
@@ -174,7 +181,7 @@ export default function GalleryPage() {
                     width={1320}
                     height={2868}
                     sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 280px"
-                    priority={i < 2}
+                    preload={i < 2}
                     className="h-auto w-full rounded-[22px] border border-line shadow-[0_24px_50px_-28px_rgb(22_20_31/0.4)]"
                   />
                 </a>

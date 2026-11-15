@@ -11,7 +11,7 @@
   --card: #ffffff;
   --ink: #16141f;
   --ink-2: #46444f;
-  --muted: #76747f;
+  --muted: #6b6975; /* 4.8:1 on paper-2, 5.2:1 on paper (was #76747f: 4.1–4.4, failed AA) */
   --line: #e9e6e0;
   --accent: #2f5bff;
   --accent-ink: #ffffff;
@@ -21,6 +21,14 @@
   --sun-soft: #fff5e3;
   --good: #16a34a;
   --shadow: 0 1px 2px rgb(22 20 31 / 0.04), 0 12px 32px -12px rgb(22 20 31 / 0.14);
+  --shadow-lift: 0 1px 2px rgb(22 20 31 / 0.05), 0 18px 40px -16px rgb(22 20 31 / 0.2);
+
+  /* Motion tokens: calm, short, decelerating. One easing family everywhere. */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1); /* "out-quint": settles softly */
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-1: 150ms; /* hovers, colour */
+  --dur-2: 240ms; /* menus, sheets */
+  --dur-3: 700ms; /* scroll reveals */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -40,6 +48,7 @@
     --sun-soft: #2a2010;
     --good: #4ade80;
     --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 32px -12px rgb(0 0 0 / 0.7);
+    --shadow-lift: 0 1px 2px rgb(0 0 0 / 0.4), 0 18px 40px -16px rgb(0 0 0 / 0.8);
   }
 }
 :root[data-theme="dark"] {
@@ -57,6 +66,8 @@
   --coral: #ff8f73;
   --sun-soft: #2a2010;
   --good: #4ade80;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 32px -12px rgb(0 0 0 / 0.7);
+  --shadow-lift: 0 1px 2px rgb(0 0 0 / 0.4), 0 18px 40px -16px rgb(0 0 0 / 0.8);
 }
 
 @theme inline {
@@ -77,6 +88,7 @@
   --font-sans: var(--font-sans-face), ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-display: var(--font-sans-face), ui-sans-serif, system-ui, sans-serif;
   --shadow-soft: var(--shadow);
+  --shadow-lift: var(--shadow-lift);
 }
 
 html {
@@ -92,6 +104,29 @@ body {
 
 ::selection {
   background: var(--accent-soft);
+}
+
+/* Headings never leave an orphan; paragraphs avoid ragged single-word lines. */
+h1,
+h2,
+h3,
+.t-display,
+.t-h1,
+.t-h2,
+.t-h3 {
+  text-wrap: balance;
+}
+p,
+li,
+dd {
+  text-wrap: pretty;
+}
+
+/* One focus ring for every interactive element (keyboard only). */
+:where(a, button, summary, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 10px;
 }
 
 /* ---------- Type scale (one size per role, everywhere) ----------
@@ -252,15 +287,85 @@ body {
   font-weight: 600;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .fade-up {
-    animation: fade-up 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+/* ---------- Motion ----------
+ * Everything is opt-in under no-preference. With reduced motion, or without
+ * JS, content is simply there. Reveals animate `transform` + `opacity` only
+ * (no CLS) via keyframes, so they never fight Tailwind's hover `translate`.
+ */
+@keyframes rm-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
   }
-  @keyframes fade-up {
-    from {
-      opacity: 0;
-      transform: translateY(12px);
-    }
+}
+@keyframes rm-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Hero entrance (pure CSS, runs without JS). Children of .fade-up-group
+     cascade 70ms apart. */
+  .fade-up {
+    animation: rm-rise var(--dur-3) var(--ease-out) backwards;
+  }
+  .fade-up-group > .fade-up:nth-child(2) { animation-delay: 70ms; }
+  .fade-up-group > .fade-up:nth-child(3) { animation-delay: 140ms; }
+  .fade-up-group > .fade-up:nth-child(4) { animation-delay: 210ms; }
+  .fade-up-group > .fade-up:nth-child(5) { animation-delay: 280ms; }
+  .fade-up-group > .fade-up:nth-child(6) { animation-delay: 350ms; }
+  .fade-in-late {
+    animation: rm-fade 1s var(--ease-out) 300ms backwards;
+  }
+
+  /* Scroll reveal (<Reveal>): armed = hidden below the fold, in = play once. */
+  [data-reveal="armed"]:not([data-reveal-stagger]),
+  [data-reveal="armed"][data-reveal-stagger] > * {
+    opacity: 0;
+  }
+  [data-reveal="in"]:not([data-reveal-stagger]),
+  [data-reveal="in"][data-reveal-stagger] > * {
+    animation: rm-rise var(--dur-3) var(--ease-out) backwards;
+    animation-delay: calc(var(--i, 0) * 60ms);
+  }
+
+  /* Cross-document / router view transitions: a quiet 200ms crossfade. */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 200ms;
+    animation-timing-function: var(--ease-in-out);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+/* Card hover lift: 2px rise + softer, larger shadow. Pointer devices only. */
+.lift {
+  transition:
+    translate var(--dur-2) var(--ease-out),
+    box-shadow var(--dur-2) var(--ease-out),
+    border-color var(--dur-1) ease;
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .lift:hover {
+    translate: 0 -2px;
+    box-shadow: var(--shadow-lift);
+    border-color: color-mix(in oklab, var(--ink) 14%, var(--line));
+  }
+}
+@media (hover: hover) and (prefers-reduced-motion: reduce) {
+  .lift:hover {
+    border-color: color-mix(in oklab, var(--ink) 14%, var(--line));
   }
 }
 

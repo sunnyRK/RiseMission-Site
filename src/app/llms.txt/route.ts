@@ -30,6 +30,10 @@ ${liveTools().map((t) => `- [${t.name}](${SITE_URL}${toolPath(t.slug)}): ${t.des
 ## Data
 - [Alarm app size comparison](${SITE_URL}/alarm-app-size-comparison): App Store size, ratings and minimum iOS for 12 iPhone alarm apps, dated, CC BY 4.0. JSON: ${SITE_URL}/data/alarm-apps.json
 
+## Comparisons & requirements
+- [Rise Mission vs the iPhone Clock app](${SITE_URL}/rise-mission-vs-apple-clock): what the built-in Clock alarm does well, what Rise Mission adds, who should stay with Clock, and how to switch safely.
+- [Compatibility](${SITE_URL}/compatibility): which iPhones run Rise Mission (iOS 26 or later, per Apple's model list), what each challenge needs, and why there's no Android, iPad or Apple Watch version.
+
 ## Media
 - [Screenshots & videos](${SITE_URL}/gallery): current App Store screenshots, a 30-second explainer reel (16:9 and 9:16) and a screen-recorded demo, each with a text description.
 

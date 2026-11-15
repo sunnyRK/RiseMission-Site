@@ -45,7 +45,7 @@ export function ChronotypeQuiz() {
           <button
             type="button"
             onClick={() => setAnswers(emptyAnswers())}
-            className="inline-flex items-center gap-1.5 text-[0.85rem] font-semibold text-muted hover:text-ink"
+            className="rm-btn inline-flex items-center gap-1.5 rounded-lg px-1 text-[0.85rem] font-semibold text-muted hover:text-ink"
           >
             <RotateCcw aria-hidden className="h-3.5 w-3.5" /> Start over
           </button>
@@ -72,7 +72,7 @@ export function ChronotypeQuiz() {
                   return (
                     <label
                       key={opt}
-                      className={`flex cursor-pointer items-center gap-3 rounded-2xl border px-4 py-3 text-[0.92rem] transition has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-accent ${
+                      className={`flex min-h-12 cursor-pointer items-center gap-3 rounded-2xl border px-4 py-3 text-[0.92rem] transition has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-accent ${
                         checked ? "border-accent bg-accent-soft text-ink" : "border-line bg-paper text-ink-2 hover:border-accent/60"
                       }`}
                     >
@@ -137,7 +137,7 @@ export function ChronotypeQuiz() {
             <button
               type="button"
               onClick={copy}
-              className="mt-3 inline-flex items-center gap-2 rounded-xl border border-line bg-card px-4 py-2 text-[0.9rem] font-semibold text-ink hover:border-accent"
+              className="rm-btn mt-3 inline-flex items-center gap-2 rounded-xl border border-line bg-card px-4 py-2 text-[0.9rem] font-semibold text-ink hover:border-accent"
             >
               {copied === "ok" ? <Check aria-hidden className="h-4 w-4 text-good" /> : <Copy aria-hidden className="h-4 w-4" />}
               {copied === "ok" ? "Copied" : copied === "fail" ? "Copy failed, select the text instead" : "Copy text"}
@@ -149,7 +149,7 @@ export function ChronotypeQuiz() {
         </>
       )}
 
-      <p className="mt-5 text-center text-[0.8rem] text-muted">
+      <p className="mx-auto mt-6 max-w-lg text-center text-[0.8125rem] leading-relaxed text-muted">
         An informal, original quiz for curiosity and planning. It is not the Horne–Östberg MEQ or the Munich ChronoType
         Questionnaire, and it isn&apos;t a validated or clinical instrument.
       </p>

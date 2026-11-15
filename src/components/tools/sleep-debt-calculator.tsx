@@ -28,7 +28,7 @@ function NightInput({ index, value, onChange }: { index: number; value: number; 
   const label = NIGHT_LABELS[index];
   const step = (d: number) => onChange(clampHours(value + d, SLEPT_MIN, SLEPT_MAX));
   const btn =
-    "flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-line bg-card text-ink transition hover:border-accent disabled:opacity-40 disabled:hover:border-line";
+    "rm-btn flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-line bg-card text-ink hover:border-accent disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-line";
   return (
     <div className="flex items-center justify-between gap-3 rounded-2xl border border-line bg-paper px-3 py-2">
       <label htmlFor={id} className="min-w-0 text-[0.9rem] font-medium text-ink-2">
@@ -53,7 +53,7 @@ function NightInput({ index, value, onChange }: { index: number; value: number; 
             }}
             onBlur={() => onChange(clampHours(value, SLEPT_MIN, SLEPT_MAX))}
             aria-describedby="sd-hours-hint"
-            className="block h-11 w-[4.75rem] rounded-xl border border-line bg-card pr-6 text-center text-[1.1rem] font-semibold tabular-nums text-ink"
+            className="rm-field block h-11 w-[4.75rem] rounded-xl !bg-card pr-6 text-center text-[1.1rem] font-semibold tabular-nums"
           />
           <span aria-hidden className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-[0.8rem] text-muted">
             h
@@ -96,7 +96,7 @@ export function SleepDebtCalculator() {
     <div>
       <div>
         <div className="flex items-baseline justify-between gap-3">
-          <label htmlFor="sd-need" className="text-[0.9rem] font-medium text-muted">
+          <label htmlFor="sd-need" className="text-[0.875rem] font-semibold text-ink-2">
             Sleep I need a night
           </label>
           <output htmlFor="sd-need" className="text-[1.4rem] font-semibold tabular-nums text-ink">
@@ -115,9 +115,10 @@ export function SleepDebtCalculator() {
             used();
             setNeed(Number(e.target.value));
           }}
-          className="mt-2 w-full accent-[var(--accent)]"
+          className="rm-range mt-1"
+          style={{ "--rm-fill": `${((need - NEED_MIN) / (NEED_MAX - NEED_MIN)) * 100}%` } as React.CSSProperties}
         />
-        <div className="flex justify-between text-[0.75rem] text-muted tabular-nums">
+        <div className="-mt-1 flex justify-between text-[0.75rem] text-muted tabular-nums">
           <span>{NEED_MIN} h</span>
           <span>{NEED_MAX} h</span>
         </div>
@@ -134,13 +135,13 @@ export function SleepDebtCalculator() {
             <NightInput key={NIGHT_LABELS[i]} index={i} value={n} onChange={(v) => setNight(i, v)} />
           ))}
         </div>
-        <button type="button" onClick={reset} className="mt-3 inline-flex items-center gap-1.5 text-[0.85rem] font-semibold text-muted hover:text-ink">
+        <button type="button" onClick={reset} className="rm-btn mt-2 inline-flex items-center gap-1.5 rounded-lg px-1 text-[0.85rem] font-semibold text-muted hover:text-ink">
           <RotateCcw aria-hidden className="h-3.5 w-3.5" /> Reset to example week
         </button>
       </fieldset>
 
       <div aria-live="polite">
-        <p className="mt-8 text-[0.9rem] font-semibold text-ink">Your last 7 nights</p>
+        <p className="mt-8 text-[0.875rem] font-semibold text-ink">Your last 7 nights</p>
         <ul className="mt-3 grid gap-3 sm:grid-cols-3">
           <li>
             <ResultTile
@@ -218,7 +219,7 @@ export function SleepDebtCalculator() {
         </figcaption>
       </figure>
 
-      <p className="mt-5 text-center text-[0.8rem] text-muted">
+      <p className="mx-auto mt-6 max-w-lg text-center text-[0.8125rem] leading-relaxed text-muted">
         Debt counts only the hours under your need; extra sleep on other nights isn&apos;t subtracted, because research
         suggests lie-ins don&apos;t fully undo short nights. The catch-up plan is a rule of thumb, not a prescription.
       </p>

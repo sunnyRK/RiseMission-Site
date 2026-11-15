@@ -12,7 +12,7 @@ function Slider({ id, label, value, min, max, onChange, suffix }: { id: string; 
   return (
     <div>
       <div className="flex items-baseline justify-between gap-3">
-        <label htmlFor={id} className="text-[0.9rem] font-medium text-muted">
+        <label htmlFor={id} className="text-[0.875rem] font-semibold text-ink-2">
           {label}
         </label>
         <output htmlFor={id} className="text-[1.4rem] font-semibold tabular-nums text-ink">
@@ -28,9 +28,10 @@ function Slider({ id, label, value, min, max, onChange, suffix }: { id: string; 
         step={1}
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="mt-2 w-full accent-[var(--accent)]"
+        className="rm-range mt-1"
+        style={{ "--rm-fill": `${((value - min) / (max - min)) * 100}%` } as React.CSSProperties}
       />
-      <div className="flex justify-between text-[0.75rem] text-muted tabular-nums">
+      <div className="-mt-1 flex justify-between text-[0.75rem] text-muted tabular-nums">
         <span>{min}</span>
         <span>{max}</span>
       </div>
@@ -72,7 +73,7 @@ export function SnoozeCalculator() {
       <div className="grid gap-6" onPointerUp={used} onKeyUp={(e) => e.key.startsWith("Arrow") && used()}>
         <Slider id="snz-count" label="Snoozes per morning" value={snoozes} min={0} max={10} onChange={setSnoozes} suffix={snoozes === 1 ? "snooze" : "snoozes"} />
         <div>
-          <p className="text-[0.9rem] font-medium text-muted">Minutes per snooze</p>
+          <p className="text-[0.875rem] font-semibold text-ink-2">Minutes per snooze</p>
           <div className="mt-2">
             <Segmented label="Minutes per snooze" value={minutes} options={LENGTH_OPTIONS} onChange={setMinutes} />
           </div>
@@ -81,7 +82,7 @@ export function SnoozeCalculator() {
       </div>
 
       <div aria-live="polite">
-        <p className="mt-8 text-[0.9rem] font-semibold text-ink">Your snooze habit costs</p>
+        <p className="mt-8 text-[0.875rem] font-semibold text-ink">Your snooze habit costs</p>
         <ul className="mt-3 grid gap-3 sm:grid-cols-3">
           <li>
             <ResultTile value={`${cost.perMorningMin} min`} label="Every snooze morning" note={`${fmtNumber(cost.perWeekMin / 60)} h a week`} />
@@ -98,7 +99,7 @@ export function SnoozeCalculator() {
       <div className="mt-6 rounded-2xl border border-line bg-paper p-4">
         <p className="text-[0.8rem] font-medium text-muted">Share it</p>
         <p className="mt-1 text-ink">{line}</p>
-        <button type="button" onClick={copy} className="mt-3 inline-flex items-center gap-2 rounded-xl border border-line bg-card px-4 py-2 text-[0.9rem] font-semibold text-ink hover:border-accent">
+        <button type="button" onClick={copy} className="rm-btn mt-3 inline-flex items-center gap-2 rounded-xl border border-line bg-card px-4 py-2 text-[0.9rem] font-semibold text-ink hover:border-accent">
           {copied === "ok" ? <Check aria-hidden className="h-4 w-4 text-good" /> : <Copy aria-hidden className="h-4 w-4" />}
           {copied === "ok" ? "Copied" : copied === "fail" ? "Copy failed, select the text instead" : "Copy text"}
         </button>
@@ -107,7 +108,7 @@ export function SnoozeCalculator() {
         </span>
       </div>
 
-      <p className="mt-5 text-center text-[0.8rem] text-muted">
+      <p className="mx-auto mt-6 max-w-lg text-center text-[0.8125rem] leading-relaxed text-muted">
         This is time between your first alarm and getting up, not all lost sleep: in one lab study people still slept through most of a 30-minute snooze. A year here is {WEEKS_PER_YEAR} weeks.
       </p>
     </div>

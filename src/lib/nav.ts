@@ -81,6 +81,8 @@ export function navMenus(): NavMenu[] {
           title: "Data & comparisons",
           links: [
             { href: "/alarm-app-size-comparison", label: "Alarm app size comparison", icon: "alarm" },
+            { href: "/rise-mission-vs-apple-clock", label: "Rise Mission vs iPhone Clock", icon: "compare" },
+            { href: "/compatibility", label: "iPhone & iOS 26 requirements", icon: "alarm" },
             { href: "/sleep-calculator#bed-now", label: "Wake-up time calculator", icon: "sunrise" },
           ],
         },

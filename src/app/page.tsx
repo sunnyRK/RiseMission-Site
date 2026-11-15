@@ -4,9 +4,11 @@ import { AppStoreButton } from "@/components/site/app-store-button";
 import { DemoVideo } from "@/components/site/demo-video";
 import { Faq } from "@/components/site/faq";
 import { IconTile } from "@/components/site/icons";
+import { REEL_16X9_VIDEO } from "@/lib/perf/video-sources";
 import { Section, SectionHeader } from "@/components/site/section";
 import { ShotCard } from "@/components/site/shot-card";
 import { JsonLd } from "@/components/seo/json-ld";
+import { Reveal } from "@/components/motion/reveal";
 import { BLOG_TOPICS, postPath, sortedPosts } from "@/lib/blog";
 import type { NavIcon } from "@/lib/nav";
 import { demoVideoLd, reelVideoLd, faqPageLd, mobileApplicationLd, organizationLd, pageMetadata, webSiteLd, type QA } from "@/lib/seo";
@@ -16,9 +18,9 @@ const DESCRIPTION =
   "Rise Mission is the iPhone alarm clock for heavy sleepers. When it rings, you prove you're awake with a challenge: push-ups, a walk, a QR scan, math or your voice.";
 
 export const metadata = pageMetadata({
-  title: "Rise Mission: Alarm Clock for Heavy Sleepers",
+  title: "Rise Mission: Alarm Clock App for Heavy Sleepers",
   absoluteTitle: true,
-  description: "The iPhone alarm that makes you prove you're awake: push-ups, a walk, a QR scan, math or voice. Rings on Silent. Requires iOS 26 or later.",
+  description: "The iPhone alarm clock app for heavy sleepers: stop it with a wake-up challenge like push-ups, a walk, a QR scan or math. Rings on Silent. iOS 26+.",
   path: "/",
 });
 
@@ -60,10 +62,10 @@ export default function HomePage() {
 
       {/* HERO — compact centered pitch, then the demo video as the visual hero */}
       <section className="sunrise-glow dawn relative overflow-hidden">
-        <div className="container-rm pt-8 text-center sm:pt-10 md:pt-12">
+        <div className="fade-up-group container-rm pt-8 text-center sm:pt-10 md:pt-12">
           <Link
             href="#whats-new"
-            className="fade-up inline-flex items-center gap-2 rounded-full border border-line bg-card/80 py-1 pl-1 pr-3 text-[0.82rem] text-ink-2 shadow-[0_1px_2px_rgb(22_20_31/0.05)] backdrop-blur transition hover:border-ink/20"
+            className="fade-up inline-flex items-center gap-2 rounded-full border border-line bg-card/80 py-1 pl-1 pr-3 text-[0.82rem] text-ink-2 shadow-[0_1px_2px_rgb(22_20_31/0.05)] backdrop-blur transition-colors duration-150 hover:border-ink/20"
           >
             <span className="whitespace-nowrap rounded-full bg-accent px-2 py-0.5 text-[0.72rem] font-semibold text-accent-ink">New in {LIVE_VERSION}</span>
             <span className="whitespace-nowrap">
@@ -73,21 +75,22 @@ export default function HomePage() {
           </Link>
 
           <h1 className="fade-up mx-auto mt-5 max-w-5xl text-[clamp(2.4rem,1.3rem+3.3vw,3.9rem)] font-medium leading-[1.04] tracking-[-0.045em] text-ink">
-            The alarm that makes you <span className="hl">prove</span> you&apos;re awake.
+            The alarm clock app that makes you <span className="hl">prove</span> you&apos;re awake.
           </h1>
 
           <p className="fade-up t-lead mx-auto mt-4 max-w-[38rem]">
-            When it rings, you finish a wake-up challenge: push-ups counted by your camera, a walk, a QR code across the room,
-            math or your voice. By the time you&apos;re done, you&apos;re up.
+            Rise Mission is an iPhone alarm app for heavy sleepers. When it rings, you finish a wake-up challenge: push-ups
+            counted by your camera, a walk, a QR code across the room, math or your voice. By the time you&apos;re done,
+            you&apos;re up.
           </p>
 
           <div className="fade-up mx-auto mt-7 flex max-w-sm flex-col items-stretch gap-3 sm:max-w-none sm:flex-row sm:items-center sm:justify-center">
             <AppStoreButton placement="home-hero" size="lg" className="justify-center" />
             <Link
               href="#how-it-works"
-              className="inline-flex h-[60px] items-center justify-center gap-2 rounded-[14px] border border-line bg-card px-6 font-semibold text-ink transition hover:border-ink/20"
+              className="group inline-flex h-[60px] items-center justify-center gap-2 rounded-[14px] border border-line bg-card px-6 font-semibold text-ink transition-colors duration-150 hover:border-ink/20"
             >
-              How it works <ArrowRight aria-hidden className="h-4 w-4" />
+              How it works <ArrowRight aria-hidden className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
             </Link>
           </div>
 
@@ -102,7 +105,7 @@ export default function HomePage() {
         </div>
 
         {/* Stage: the demo video, big and above the fold, with app screens overlapping its edges */}
-        <div className="container-rm relative mt-8 pb-16 md:mt-10 md:pb-24">
+        <div className="fade-in-late container-rm relative mt-8 pb-16 md:mt-10 md:pb-24">
           <div aria-hidden className="pointer-events-none absolute inset-x-0 top-[12%] mx-auto h-[70%] max-w-5xl rounded-full bg-gradient-to-r from-sun/25 via-coral/20 to-accent/25 blur-3xl" />
           <div className="relative mx-auto max-w-[1040px]">
             <div className="rounded-[22px] border border-line bg-card/90 p-1.5 shadow-[0_40px_80px_-30px_rgb(22_20_31/0.45)] backdrop-blur sm:rounded-[28px] sm:p-2.5">
@@ -127,20 +130,20 @@ export default function HomePage() {
       {/* HOW IT WORKS */}
       <Section id="how-it-works">
         <SectionHeader eyebrow="How it works" title="Three steps to a morning you don't negotiate with." />
-        <ol className="mt-12 grid gap-4 md:grid-cols-3">
+        <Reveal as="ol" stagger className="mt-12 grid gap-4 md:grid-cols-3">
           {STEPS.map((s) => (
-            <li key={s.n} className="rounded-2xl border border-line bg-card p-7">
-              <span className="font-mono text-sm text-muted">{s.n}</span>
+            <li key={s.n} className="relative rounded-2xl border border-line bg-card p-7 shadow-[0_1px_2px_rgb(22_20_31/0.04)]">
+              <span className="inline-flex h-8 min-w-8 items-center justify-center rounded-full bg-accent-soft px-2 font-mono text-[0.8rem] font-medium text-accent">{s.n}</span>
               <h3 className="t-h3 mt-6">{s.t}</h3>
               <p className="mt-2 text-ink-2">{s.d}</p>
             </li>
           ))}
-        </ol>
+        </Reveal>
       </Section>
 
       {/* 30-SECOND REEL */}
-      <section className="container-rm pb-4">
-        <div className="mx-auto max-w-5xl">
+      <section className="container-rm pb-20 md:pb-28">
+        <Reveal className="mx-auto max-w-5xl">
           <div className="text-center">
             <p className="t-eyebrow justify-center">Watch</p>
             <h2 className="t-h2 mt-3">Rise Mission in 30 seconds</h2>
@@ -148,7 +151,7 @@ export default function HomePage() {
           <div className="mt-8 rounded-[24px] border border-line bg-card p-1.5 shadow-soft sm:p-2">
             <video
               className="aspect-video w-full rounded-[18px] bg-paper-2"
-              poster="/assets/reel/rise-mission-reel-16x9-poster.jpg"
+              poster={REEL_16X9_VIDEO.poster}
               controls
               muted
               playsInline
@@ -157,7 +160,9 @@ export default function HomePage() {
               height={1080}
               aria-label="Animated explainer: the alarm rings on Silent, you pick a wake-up challenge, prove you're awake, and build a streak"
             >
-              <source src="/assets/reel/rise-mission-reel-16x9.mp4" type="video/mp4" />
+              {REEL_16X9_VIDEO.sources.map((v) => (
+                <source key={v.src} src={v.src} type={v.type} />
+              ))}
             </video>
           </div>
           <p className="mt-5 text-center">
@@ -165,7 +170,7 @@ export default function HomePage() {
               More screenshots &amp; videos <ArrowRight aria-hidden className="h-4 w-4" />
             </Link>
           </p>
-        </div>
+        </Reveal>
       </section>
 
       {/* CHALLENGES */}
@@ -180,59 +185,75 @@ export default function HomePage() {
             Which challenge suits you? <ArrowRight aria-hidden className="h-4 w-4" />
           </Link>
         </p>
-        <ul className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+        <Reveal as="ul" stagger className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
           {CHALLENGES.map((c) => (
-            <li key={c.slug} id={`challenge-${c.slug}`} className="scroll-mt-24 rounded-2xl border border-line bg-card p-5">
+            <li key={c.slug} id={`challenge-${c.slug}`} className="lift flex scroll-mt-24 flex-col rounded-2xl border border-line bg-card p-5">
               <div className="flex items-center justify-between">
                 <IconTile name={ICON[c.slug]} size="md" tone="accent" />
-                <span className="text-[0.75rem] font-medium text-muted">{c.kind === "physical" ? "Body" : "Brain"}</span>
+                <span className={`rounded-full px-2 py-0.5 text-[0.72rem] font-medium ${c.kind === "physical" ? "bg-sun-soft text-ink-2" : "bg-paper-2 text-ink-2"}`}>{c.kind === "physical" ? "Body" : "Brain"}</span>
               </div>
               <h3 className="t-h3 mt-4">{c.name}</h3>
               <p className="mt-1.5 text-[0.92rem] leading-relaxed text-ink-2">{c.how}</p>
               {CHALLENGE_GUIDES[c.slug] && (
-                <Link href={CHALLENGE_GUIDES[c.slug]} className="mt-3 inline-flex items-center gap-1 text-[0.85rem] font-semibold text-accent hover:underline">
+                <Link href={CHALLENGE_GUIDES[c.slug]} className="mt-auto inline-flex items-center gap-1 pt-4 text-[0.85rem] font-semibold text-accent hover:underline">
                   Read the guide <ArrowRight aria-hidden className="h-3.5 w-3.5" />
                 </Link>
               )}
             </li>
           ))}
-        </ul>
+        </Reveal>
       </Section>
 
       {/* FAIR BY DESIGN */}
       <Section>
         <div className="grid items-center gap-14 lg:grid-cols-2">
-          <div className="order-2 mx-auto flex w-full max-w-md gap-5 lg:order-1">
+          <Reveal className="order-2 mx-auto flex w-full max-w-md gap-5 lg:order-1">
             <ShotCard src="/assets/screens/rise-mission-object-find-and-voice-challenge.jpg" alt="Object Find and Voice affirmation challenges" className="w-1/2" />
             <ShotCard src="/assets/screens/rise-mission-wake-up-streak-statistics.jpg" alt="Wake-up history calendar and statistics with streaks" className="mt-14 w-1/2" />
-          </div>
+          </Reveal>
           <div className="order-1 lg:order-2">
             <SectionHeader eyebrow="Fair by design" title="Tough, never a trap." />
-            <dl className="mt-10 grid gap-x-8 gap-y-8 sm:grid-cols-2">
+            <Reveal as="dl" stagger className="mt-10 grid gap-x-8 gap-y-8 sm:grid-cols-2">
               <Feature title="A backup for every body challenge">{FACTS.backupChallenge}</Feature>
               <Feature title="Emergency dismiss, always">{FACTS.emergencyDismiss}</Feature>
               <Feature title="Private by design">{FACTS.onDevice}</Feature>
               <Feature title="Practice before tomorrow">{FACTS.testAlarm}</Feature>
-            </dl>
+            </Reveal>
+            <ul className="mt-8 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-x-6">
+              <li>
+                <Link href="/rise-mission-vs-apple-clock" className="inline-flex min-h-6 items-center gap-1.5 font-semibold text-accent hover:underline">
+                  Rise Mission vs the iPhone Clock app <ArrowRight aria-hidden className="h-4 w-4" />
+                </Link>
+              </li>
+              <li>
+                <Link href="/compatibility" className="inline-flex min-h-6 items-center gap-1.5 font-semibold text-accent hover:underline">
+                  Which iPhones it runs on <ArrowRight aria-hidden className="h-4 w-4" />
+                </Link>
+              </li>
+            </ul>
           </div>
         </div>
       </Section>
 
       {/* NEW IN 1.5 */}
       <section id="whats-new" className="container-rm scroll-mt-24">
-        <div className="rounded-[28px] bg-ink px-6 py-12 text-paper sm:px-12">
+        <Reveal className="relative isolate overflow-hidden rounded-[28px] bg-ink px-6 py-12 text-paper sm:px-12 sm:py-16">
+          <div aria-hidden className="pointer-events-none absolute -right-24 -top-32 -z-10 h-80 w-[36rem] rounded-full bg-gradient-to-l from-accent/35 via-coral/20 to-transparent blur-3xl" />
+          <div aria-hidden className="pointer-events-none absolute -bottom-40 -left-24 -z-10 h-72 w-96 rounded-full bg-sun/15 blur-3xl" />
           <p className="t-eyebrow !text-paper/60">What&apos;s new
           </p>
           <h2 className="t-h2 mt-3 !text-paper">Version {LIVE_VERSION}</h2>
-          <ul className="mt-8 grid gap-x-10 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="mt-10 grid gap-x-10 gap-y-5 border-t border-paper/10 pt-8 sm:grid-cols-2 lg:grid-cols-3">
             {FACTS.v15Features.map((f) => (
-              <li key={f} className="flex gap-3 text-paper/80">
-                <Check aria-hidden className="mt-1 h-4 w-4 shrink-0 text-sun" />
+              <li key={f} className="flex gap-3 leading-relaxed text-paper/85">
+                <span aria-hidden className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-paper/10">
+                  <Check className="h-3 w-3 text-sun" />
+                </span>
                 {f}
               </li>
             ))}
           </ul>
-        </div>
+        </Reveal>
       </section>
 
       {/* TOOLS + GUIDES (internal linking hub) */}
@@ -243,21 +264,22 @@ export default function HomePage() {
             All articles <ArrowRight aria-hidden className="h-4 w-4" />
           </Link>
         </div>
-        <div className="mt-12 grid gap-4 lg:grid-cols-3">
-          <Link href="/sleep-calculator" className="group flex flex-col justify-between rounded-2xl bg-accent p-7 text-accent-ink transition hover:-translate-y-0.5 lg:row-span-2">
+        <Reveal stagger className="mt-12 grid gap-4 lg:grid-cols-3">
+          <Link href="/sleep-calculator" className="lift group relative isolate flex flex-col justify-between overflow-hidden rounded-2xl bg-accent p-7 text-accent-ink lg:row-span-2">
+            <span aria-hidden className="pointer-events-none absolute -right-16 -top-16 -z-10 h-56 w-56 rounded-full bg-white/15 blur-2xl" />
             <div>
               <IconTile name="moon" size="lg" tone="inverse" />
               <h3 className="mt-6 text-2xl font-semibold tracking-tight">Sleep cycle calculator</h3>
               <p className="mt-2 opacity-85">Find the bedtime that lines your alarm up with the end of a sleep cycle. Free, no sign-up.</p>
             </div>
             <span className="mt-8 inline-flex items-center gap-1.5 font-semibold">
-              Open the calculator <ArrowRight aria-hidden className="h-4 w-4 transition group-hover:translate-x-0.5" />
+              Open the calculator <ArrowRight aria-hidden className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
             </span>
           </Link>
           {posts.map((p) => (
-            <Link key={p.slug} href={postPath(p.slug)} className="group rounded-2xl border border-line bg-card p-6 transition hover:-translate-y-0.5 hover:shadow-soft">
+            <Link key={p.slug} href={postPath(p.slug)} className="lift group rounded-2xl border border-line bg-card p-6">
               <p className="text-[0.8rem] font-medium text-accent">{p.eyebrow}</p>
-              <h3 className="t-h3 mt-2 group-hover:underline">{p.title}</h3>
+              <h3 className="t-h3 mt-2 decoration-1 underline-offset-[3px] group-hover:underline">{p.title}</h3>
               <p className="mt-2 line-clamp-2 text-[0.92rem] text-ink-2">{p.description}</p>
             </Link>
           ))}
@@ -266,21 +288,21 @@ export default function HomePage() {
             <ul className="mt-3 flex flex-wrap gap-2">
               {BLOG_TOPICS.map((t) => (
                 <li key={t.slug}>
-                  <Link href={`/blog/topic/${t.slug}`} className="inline-block rounded-full border border-line bg-card px-3 py-1.5 text-[0.88rem] text-ink-2 hover:text-ink">
+                  <Link href={`/blog/topic/${t.slug}`} className="inline-flex min-h-9 items-center rounded-full border border-line bg-card px-3.5 text-[0.88rem] text-ink-2 transition-colors duration-150 hover:border-ink/20 hover:text-ink">
                     {t.name}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
-        </div>
+        </Reveal>
       </Section>
 
       <Faq items={FAQ} />
 
       {/* FINAL CTA */}
-      <section className="container-rm mt-24">
-        <div className="sunrise-glow rounded-[28px] border border-line bg-card px-6 py-16 text-center">
+      <section className="container-rm">
+        <Reveal className="sunrise-glow dawn relative overflow-hidden rounded-[28px] border border-line bg-card px-6 py-16 text-center sm:py-24">
           <h2 className="t-h2 mx-auto max-w-2xl">
             Wake up without <span className="hl">negotiating</span> with yourself.
           </h2>
@@ -288,7 +310,7 @@ export default function HomePage() {
           <div className="mt-8 flex justify-center">
             <AppStoreButton placement="home-final" size="lg" />
           </div>
-        </div>
+        </Reveal>
       </section>
     </>
   );

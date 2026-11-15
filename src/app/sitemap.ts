@@ -13,6 +13,8 @@ const PAGES: { path: string; lastModified: string; priority: number }[] = [
   { path: "/", lastModified: "2026-11-15", priority: 1 },
   { path: "/tools", lastModified: "2026-11-15", priority: 0.8 },
   { path: "/alarm-app-size-comparison", lastModified: "2026-11-15", priority: 0.8 },
+  { path: "/rise-mission-vs-apple-clock", lastModified: "2026-11-15", priority: 0.8 },
+  { path: "/compatibility", lastModified: "2026-11-15", priority: 0.6 },
   { path: "/blog", lastModified: "2026-11-15", priority: 0.7 },
   { path: "/about", lastModified: "2026-11-15", priority: 0.4 },
   { path: "/support", lastModified: "2026-11-15", priority: 0.3 },
