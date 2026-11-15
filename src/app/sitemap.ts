@@ -27,7 +27,28 @@ export default function sitemap(): MetadataRoute.Sitemap {
       .at(-1)!;
 
   return [
-    ...PAGES.map((p) => ({ url: `${SITE_URL}${p.path === "/" ? "" : p.path}`, lastModified: p.lastModified, priority: p.priority })),
+    ...PAGES.map((p) => ({
+      url: `${SITE_URL}${p.path === "/" ? "" : p.path}`,
+      lastModified: p.lastModified,
+      priority: p.priority,
+      // Homepage hero demo video (also described by VideoObject JSON-LD on the page).
+      ...(p.path === "/"
+        ? {
+            videos: [
+              {
+                title: "Rise Mission demo: an alarm you can't snooze",
+                description:
+                  "30-second demo of Rise Mission for iPhone: the alarm rings, you complete a wake-up challenge, and the alarm stops once you're awake.",
+                thumbnail_loc: `${SITE_URL}/assets/demo-poster.jpg`,
+                content_loc: `${SITE_URL}/assets/demo.mp4`,
+                duration: 30,
+                publication_date: "2026-08-26",
+                family_friendly: "yes" as const,
+              },
+            ],
+          }
+        : {}),
+    })),
     ...liveTools().map((t) => ({ url: `${SITE_URL}${toolPath(t.slug)}`, lastModified: t.lastModified, priority: 0.9 })),
     ...BLOG_TOPICS.map((t) => ({ url: `${SITE_URL}/blog/topic/${t.slug}`, lastModified: latestIn(t.posts), priority: 0.6 })),
     ...BLOG_POSTS.map((p) => ({ url: `${SITE_URL}${postPath(p.slug)}`, lastModified: p.updated ?? p.date, priority: 0.8 })),
