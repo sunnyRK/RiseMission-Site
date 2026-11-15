@@ -3,6 +3,7 @@ import { BLOG_POSTS, BLOG_TOPICS, postPath } from "@/lib/blog";
 import { SITE_URL } from "@/lib/site";
 import { liveTools, toolPath } from "@/lib/tools";
 import { GALLERY_SHOTS, GALLERY_VIDEOS } from "@/lib/media";
+import { postCover } from "@/lib/blog";
 
 /**
  * Real, hand-set lastModified dates only — never `new Date()` (a build
@@ -32,6 +33,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${SITE_URL}${p.path === "/" ? "" : p.path}`,
       lastModified: p.lastModified,
       priority: p.priority,
+      ...(p.path === "/" ? { images: [`${SITE_URL}/assets/rise-mission-app-icon.png`, ...GALLERY_SHOTS.slice(0, 2).map((s) => `${SITE_URL}${s.src}`)] } : {}),
       // Homepage hero demo video (also described by VideoObject JSON-LD on the page).
       ...(p.path === "/"
         ? {
@@ -77,6 +79,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     ...liveTools().map((t) => ({ url: `${SITE_URL}${toolPath(t.slug)}`, lastModified: t.lastModified, priority: 0.9 })),
     ...BLOG_TOPICS.map((t) => ({ url: `${SITE_URL}/blog/topic/${t.slug}`, lastModified: latestIn(t.posts), priority: 0.6 })),
-    ...BLOG_POSTS.map((p) => ({ url: `${SITE_URL}${postPath(p.slug)}`, lastModified: p.updated ?? p.date, priority: 0.8 })),
+    ...BLOG_POSTS.map((p) => ({
+      url: `${SITE_URL}${postPath(p.slug)}`,
+      lastModified: p.updated ?? p.date,
+      priority: 0.8,
+      images: [`${SITE_URL}${postCover(p)}`],
+    })),
   ];
 }

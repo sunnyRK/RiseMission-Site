@@ -373,7 +373,7 @@ export function postPath(slug: string) {
 }
 
 export function postCover(post: BlogPost) {
-  return post.coverImage ?? `/og?${new URLSearchParams({ title: post.title, eyebrow: post.eyebrow }).toString()}`;
+  return post.coverImage ?? `/covers/${post.slug}.png`;
 }
 
 /** FNV-1a — stable, order-independent tie-break so older posts keep getting links. */

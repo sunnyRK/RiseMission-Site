@@ -142,7 +142,7 @@ export function BlogLayout({ post, faq, children }: { post: BlogPost; faq?: QA[]
           width={1200}
           height={630}
           priority
-          unoptimized={cover.startsWith("/og")}
+          unoptimized={cover.startsWith("/og") || cover.startsWith("/covers/")}
           className="h-auto w-full rounded-2xl border border-line"
         />
         <div className="prose-rm mt-10">{body}</div>

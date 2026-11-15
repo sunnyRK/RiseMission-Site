@@ -74,43 +74,43 @@ export const GALLERY_VIDEOS: GalleryVideo[] = [
 
 export const GALLERY_SHOTS: GalleryShot[] = [
   {
-    src: "/assets/shots/01-hook.jpg",
+    src: "/assets/screens/rise-mission-alarm-ringing-screen.jpg",
     title: "The alarm clock that makes you wake up",
     caption: "The ringing screen at 6:30 AM. The alarm keeps going until you tap Start Challenge and finish it.",
     alt: "Rise Mission ringing screen showing 6:30 AM, a push-ups goal and a Start Challenge button",
   },
   {
-    src: "/assets/shots/02-pushups.jpg",
+    src: "/assets/screens/rise-mission-push-up-alarm-camera-counts-reps.jpg",
     title: "Prove you're awake, camera counts reps",
     caption: "Push-ups counted by the front camera with Apple's Vision framework, processed on your iPhone.",
     alt: "Person doing push-ups in front of an iPhone while the app counts repetitions on screen",
   },
   {
-    src: "/assets/shots/03-object-voice.jpg",
+    src: "/assets/screens/rise-mission-object-find-and-voice-challenge.jpg",
     title: "Find an object or say it out loud",
     caption: "Object Find asks you to point the camera at an everyday item; Voice asks you to say an affirmation.",
     alt: "Object Find challenge recognising a backpack, and the Voice challenge showing a spoken affirmation",
   },
   {
-    src: "/assets/shots/04-challenges-alarm.jpg",
+    src: "/assets/screens/rise-mission-choose-wake-up-challenge.jpg",
     title: "Pick your challenge, set your alarm",
     caption: "Choose a primary challenge and a backup, set the time and days, then run a test alarm.",
     alt: "Challenge picker with push-ups selected next to the new alarm editor with a time wheel",
   },
   {
-    src: "/assets/shots/05-focus.jpg",
+    src: "/assets/screens/rise-mission-focus-pomodoro-timer.jpg",
     title: "Pomodoro and focus timer",
     caption: "A built-in focus timer and Pomodoro mode for the work you got up early to do.",
     alt: "Focus timer counting down and Pomodoro settings with focus and break lengths",
   },
   {
-    src: "/assets/shots/06-track.jpg",
+    src: "/assets/screens/rise-mission-wake-up-streak-statistics.jpg",
     title: "Track every morning",
     caption: "Wake-up history, streaks, completion rate and snoozes per wake-up.",
     alt: "Wake-up history calendar and statistics screen with current streak and completion rate",
   },
   {
-    src: "/assets/shots/07-ready.jpg",
+    src: "/assets/screens/rise-mission-alarms-and-challenges-home.jpg",
     title: "Ready for tomorrow morning",
     caption: "Your alarms and the full challenge list on the home screen.",
     alt: "Alarms list with a 6:30 AM alarm ready and the challenges grid",

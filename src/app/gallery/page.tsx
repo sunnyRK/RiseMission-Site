@@ -38,6 +38,10 @@ export default function GalleryPage() {
               name: s.title,
               caption: s.caption,
               creator: { "@id": organizationId },
+              creditText: "Rise Mission",
+              copyrightNotice: "© 2026 Sunny Radadiya",
+              license: abs("/gallery#image-use"),
+              acquireLicensePage: abs("/gallery#image-use"),
             })),
           },
           ...GALLERY_VIDEOS.map((v) => ({
@@ -182,6 +186,18 @@ export default function GalleryPage() {
             </li>
           ))}
         </ul>
+      </section>
+
+      {/* IMAGE USE */}
+      <section id="image-use" aria-labelledby="image-use-h" className="container-rm mt-16 scroll-mt-24">
+        <div className="mx-auto max-w-3xl rounded-2xl border border-line bg-card p-6">
+          <h2 id="image-use-h" className="t-h3">Using these images and videos</h2>
+          <p className="mt-2 text-ink-2">
+            Writers, reviewers and bloggers may use these screenshots, videos and the app icon to write about Rise Mission, with
+            credit to &quot;Rise Mission&quot; and a link to risemission.app. Please don&apos;t edit them in a way that changes what
+            the app does. For other uses, email us from the <Link href="/about" className="font-semibold text-accent underline underline-offset-4">about page</Link>.
+          </p>
+        </div>
       </section>
 
       {/* LEARN MORE */}

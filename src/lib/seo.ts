@@ -43,7 +43,9 @@ export function ogImageUrl(title: string, eyebrow?: string): string {
 }
 
 export function pageMetadata(input: PageMetaInput): Metadata {
-  const image = input.ogImage ?? ogImageUrl(input.title);
+  // Blog posts get their static, descriptively named cover (/covers/<slug>.png).
+  const blogSlug = input.type === "article" && input.path.startsWith("/blog/") ? input.path.slice(6) : null;
+  const image = input.ogImage ?? (blogSlug ? `/covers/${blogSlug}.png` : ogImageUrl(input.title));
   return {
     title: input.absoluteTitle ? { absolute: input.title } : input.title,
     description: input.description,
@@ -91,7 +93,7 @@ export function organizationLd() {
     "@id": organizationId,
     name: SITE_NAME,
     url: SITE_URL,
-    logo: abs("/assets/icon.png"),
+    logo: abs("/assets/rise-mission-app-icon.png"),
     founder: { "@id": authorId },
     sameAs: [INSTAGRAM_URL, APP_STORE_URL],
   };
@@ -126,8 +128,8 @@ export function mobileApplicationLd(description: string) {
     description,
     url: SITE_URL,
     installUrl: APP_STORE_URL,
-    image: abs("/assets/icon.png"),
-    screenshot: [abs("/assets/shots/01-hook.jpg"), abs("/assets/shots/02-pushups.jpg")],
+    image: abs("/assets/rise-mission-app-icon.png"),
+    screenshot: [abs("/assets/screens/rise-mission-alarm-ringing-screen.jpg"), abs("/assets/screens/rise-mission-push-up-alarm-camera-counts-reps.jpg")],
     offers: {
       "@type": "Offer",
       price: "0",

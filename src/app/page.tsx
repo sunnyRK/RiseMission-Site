@@ -107,13 +107,13 @@ export default function HomePage() {
               <DemoVideo className="!rounded-[16px] sm:!rounded-[20px]" />
             </div>
             <ShotCard
-              src="/assets/shots/01-hook.jpg"
+              src="/assets/screens/rise-mission-alarm-ringing-screen.jpg"
               alt="Rise Mission ringing screen at 6:30 AM with a Start Challenge button"
               className="absolute -left-14 bottom-[-12%] hidden w-[19%] -rotate-[7deg] xl:block"
               sizes="200px"
             />
             <ShotCard
-              src="/assets/shots/02-pushups.jpg"
+              src="/assets/screens/rise-mission-push-up-alarm-camera-counts-reps.jpg"
               alt="Camera counting push-ups on the floor to dismiss the alarm"
               className="absolute -right-14 bottom-[-12%] hidden w-[19%] rotate-[7deg] xl:block"
               sizes="200px"
@@ -201,8 +201,8 @@ export default function HomePage() {
       <Section>
         <div className="grid items-center gap-14 lg:grid-cols-2">
           <div className="order-2 mx-auto flex w-full max-w-md gap-5 lg:order-1">
-            <ShotCard src="/assets/shots/03-object-voice.jpg" alt="Object Find and Voice affirmation challenges" className="w-1/2" />
-            <ShotCard src="/assets/shots/06-track.jpg" alt="Wake-up history calendar and statistics with streaks" className="mt-14 w-1/2" />
+            <ShotCard src="/assets/screens/rise-mission-object-find-and-voice-challenge.jpg" alt="Object Find and Voice affirmation challenges" className="w-1/2" />
+            <ShotCard src="/assets/screens/rise-mission-wake-up-streak-statistics.jpg" alt="Wake-up history calendar and statistics with streaks" className="mt-14 w-1/2" />
           </div>
           <div className="order-1 lg:order-2">
             <SectionHeader eyebrow="Fair by design" title="Tough, never a trap." />

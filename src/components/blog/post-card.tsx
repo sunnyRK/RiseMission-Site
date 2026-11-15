@@ -11,7 +11,7 @@ export function PostCard({ post }: { post: BlogPost }) {
         alt=""
         width={1200}
         height={630}
-        unoptimized={cover.startsWith("/og")}
+        unoptimized={cover.startsWith("/og") || cover.startsWith("/covers/")}
         className="h-auto w-full border-b border-line"
       />
       <div className="p-5">
