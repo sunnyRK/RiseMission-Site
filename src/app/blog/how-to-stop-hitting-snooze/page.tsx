@@ -98,8 +98,8 @@ export default function Page() {
         </li>
         <li>
           <strong>Make stopping it require a task.</strong> A puzzle, a walk to another room, or a code you have to scan
-          in the bathroom. This is the core of <Link href="/">Rise Mission</Link>: no snooze button, and the alarm only
-          stops once you finish a wake-up challenge.
+          in the bathroom. This is the core of <Link href="/">Rise Mission</Link>: you turn the alarm off by finishing a
+          wake-up challenge, and any snooze you allow makes the next challenge harder.
         </li>
       </ul>
 

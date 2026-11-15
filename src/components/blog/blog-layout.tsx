@@ -171,13 +171,36 @@ export function BlogLayout({ post, faq, children }: { post: BlogPost; faq?: QA[]
         <div className="rounded-3xl border border-line bg-card p-8 text-center shadow-soft">
           <p className="t-h2 !text-2xl">Make tomorrow the morning you don&apos;t snooze</p>
           <p className="mx-auto mt-2 max-w-md text-ink-2">
-            Rise Mission keeps ringing until you prove you&apos;re awake. {PRICING_COPY.short}.
+            Rise Mission makes you prove you&apos;re awake before your morning starts. iPhone · iOS 26+ · {PRICING_COPY.short}.
           </p>
           <div className="mt-6 flex justify-center">
             <AppStoreButton placement={`blog-end-${post.slug}`} />
           </div>
         </div>
       </div>
+
+      {!topics.some((t) => t.slug === "alarm-apps") && (
+        <aside aria-label="Choosing an alarm app" className="mx-auto mt-10 max-w-3xl px-4 sm:px-6">
+          <div className="rounded-2xl border border-dashed border-line p-5">
+            <p className="font-semibold text-ink">Choosing an alarm app?</p>
+            <p className="mt-1 text-[0.95rem] text-ink-2">
+              Compare the{" "}
+              <Link href="/blog/best-alarm-apps-for-heavy-sleepers" className="font-semibold text-accent underline underline-offset-4">
+                best alarm apps for heavy sleepers
+              </Link>
+              , see{" "}
+              <Link href="/blog/rise-mission-vs-alarmy" className="font-semibold text-accent underline underline-offset-4">
+                Rise Mission vs Alarmy
+              </Link>
+              , or browse{" "}
+              <Link href="/blog/alarmy-alternatives" className="font-semibold text-accent underline underline-offset-4">
+                Alarmy alternatives
+              </Link>
+              .
+            </p>
+          </div>
+        </aside>
+      )}
 
       {related.length > 0 && (
         <aside aria-label="Keep reading" className="mx-auto mt-16 max-w-3xl px-4 sm:px-6">

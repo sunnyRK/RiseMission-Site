@@ -33,7 +33,7 @@ export const GALLERY_VIDEOS: GalleryVideo[] = [
     width: 1920,
     height: 1080,
     durationSec: 31,
-    uploadDate: "2026-11-15",
+    uploadDate: "2026-11-15T10:00:00+00:00",
     transcript: [
       "The alarm you can't snooze away.",
       "It rings for real: built on Apple's AlarmKit, so it rings on Silent, breaks through Focus and works with the app closed.",
@@ -51,7 +51,7 @@ export const GALLERY_VIDEOS: GalleryVideo[] = [
     width: 1280,
     height: 720,
     durationSec: 30,
-    uploadDate: "2026-08-26",
+    uploadDate: "2026-08-26T09:00:00+00:00",
     transcript: [
       "A recording of Rise Mission on iPhone.",
       "The alarm screen shows the time and the wake-up challenge you chose.",
@@ -67,7 +67,7 @@ export const GALLERY_VIDEOS: GalleryVideo[] = [
     width: 1080,
     height: 1920,
     durationSec: 31,
-    uploadDate: "2026-11-15",
+    uploadDate: "2026-11-15T10:00:00+00:00",
     transcript: ["Vertical version of the 30-second explainer above."],
   },
 ];

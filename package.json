@@ -17,7 +17,8 @@
     "posthog-js": "1.435.3",
     "react": "19.3.0",
     "react-dom": "19.3.0",
-    "turndown": "7.2.0"
+    "turndown": "7.2.0",
+    "turndown-plugin-gfm": "1.0.2"
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "^4",

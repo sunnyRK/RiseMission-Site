@@ -126,7 +126,7 @@ export default function Page() {
         time you&apos;re done, sleep inertia has started to lift.
       </p>
       <p>
-        This is the idea behind <Link href="/">Rise Mission</Link>, the app I build: the alarm keeps ringing until you
+        This is the idea behind <Link href="/">Rise Mission</Link>, the app I build: when the alarm rings, you
         finish a wake-up challenge such as push-ups counted by the camera, a walk, a QR scan or math. You can do a
         lighter version with any phone by placing it in the bathroom and committing to wash your face before you touch
         it.

@@ -63,7 +63,7 @@ export default function ToolsHub() {
           or browse <Link href="/blog" className="font-semibold text-accent underline underline-offset-4">all guides</Link>.
         </p>
       </div>
-      <ToolCta placement="tools-hub" title="The alarm that checks you're actually up" body="Rise Mission keeps ringing until you finish a wake-up challenge: push-ups, a walk, a QR scan or math." />
+      <ToolCta placement="tools-hub" title="The alarm that checks you're actually up" body="Rise Mission makes you prove you're awake with push-ups, a walk, a QR scan or math. iPhone, iOS 26 or later." />
     </>
   );
 }

@@ -4,11 +4,11 @@ import { ArrowRight, Download } from "lucide-react";
 import { AppStoreButton } from "@/components/site/app-store-button";
 import { JsonLd } from "@/components/seo/json-ld";
 import { GALLERY_SHOTS, GALLERY_VIDEOS, abs } from "@/lib/media";
-import { breadcrumbLd, organizationId, pageMetadata } from "@/lib/seo";
+import { breadcrumbLd, pageMetadata, publisherRef } from "@/lib/seo";
 import { APP_NAME_FULL, CHALLENGES, LIVE_VERSION } from "@/lib/site";
 
 const DESCRIPTION =
-  "Screenshots and videos of Rise Mission, the iPhone alarm you can't snooze: the ringing screen, camera-counted push-ups, challenges, streaks and a 30-second demo.";
+  "Screenshots and videos of Rise Mission, the iPhone alarm that makes you prove you're awake: the ringing screen, camera-counted push-ups, challenges, streaks and a 30-second demo.";
 
 export const metadata = pageMetadata({
   title: "Rise Mission Screenshots & Videos",
@@ -37,7 +37,7 @@ export default function GalleryPage() {
               contentUrl: abs(s.src),
               name: s.title,
               caption: s.caption,
-              creator: { "@id": organizationId },
+              creator: publisherRef(),
               creditText: "Rise Mission",
               copyrightNotice: "© 2026 Sunny Radadiya",
               license: abs("/gallery#image-use"),
@@ -55,7 +55,7 @@ export default function GalleryPage() {
             duration: iso(v.durationSec),
             width: v.width,
             height: v.height,
-            publisher: { "@id": organizationId },
+            publisher: publisherRef(),
           })),
           breadcrumbLd([
             { name: "Home", path: "/" },

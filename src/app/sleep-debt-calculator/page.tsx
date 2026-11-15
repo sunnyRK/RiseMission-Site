@@ -274,7 +274,7 @@ export default function SleepDebtCalculatorPage() {
       <ToolCta
         placement="sleep-debt-calculator"
         title="Fixed wake time, no excuses."
-        body="Rise Mission keeps ringing until you prove you're awake with push-ups, a walk, a QR scan or math."
+        body="Rise Mission makes you prove you're awake with push-ups, a walk, a QR scan or math. iPhone, iOS 26 or later."
       />
       <MoreTools current="sleep-debt-calculator" />
     </>

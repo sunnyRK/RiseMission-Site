@@ -16,8 +16,8 @@ export default function About() {
       <JsonLd data={[personLd(), organizationLd()]} />
       <p>
         Rise Mission is an independent iPhone app, now on version {LIVE_VERSION}. It exists for one reason: a normal alarm
-        is far too easy to switch off while you&apos;re still asleep. Rise Mission keeps ringing until you prove you&apos;re
-        awake.
+        is far too easy to switch off while you&apos;re still asleep. Rise Mission puts a wake-up challenge between you and
+        the off switch, so you have to be awake to finish it.
       </p>
 
       <h2 id="who-builds-this">Who builds it</h2>

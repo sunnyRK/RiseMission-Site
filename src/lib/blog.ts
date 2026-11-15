@@ -82,10 +82,10 @@ export const BLOG_POSTS: BlogPost[] = [
   },
   {
     slug: "alarmy-alternatives",
-    title: "7 Alarmy Alternatives for iPhone (Smaller, Different Missions)",
+    title: "8 Alarmy Alternatives for iPhone (Smaller, Different Missions)",
     metaTitle: "Alarmy Alternatives for iPhone (2026)",
     description:
-      "Leaving Alarmy? Seven iPhone mission alarms compared by what they do differently: size, missions, accountability and payment model.",
+      "Leaving Alarmy? Eight iPhone mission alarms compared by what they do differently: size, missions, accountability and payment model.",
     metaDescription:
       "The best Alarmy alternatives for iPhone: Rise Mission, Erly, Wayk, SuperAlarm, 1% Alarm and more, compared on size, missions and paid tiers.",
     eyebrow: "App comparisons",
@@ -106,7 +106,7 @@ export const BLOG_POSTS: BlogPost[] = [
   },
   {
     slug: "rise-mission-vs-erly",
-    title: "Rise Mission vs Erly: Streaks or Challenge Variety?",
+    title: "Rise Mission vs Erly: Accountability or a Lighter App?",
     metaTitle: "Rise Mission vs Erly",
     description:
       "Erly locks your wake-up goal and tracks streaks; Rise Mission offers ten on-device challenges in a much smaller app. Which fits your mornings?",

@@ -249,7 +249,7 @@ export default function NapCalculatorPage() {
       <ToolCta
         placement="nap-calculator"
         title="Naps are easy. Getting up is the hard part."
-        body="Rise Mission keeps ringing until you prove you're awake with push-ups, a walk, a QR scan or math."
+        body="Rise Mission makes you prove you're awake with push-ups, a walk, a QR scan or math. iPhone, iOS 26 or later."
       />
       <MoreTools current="nap-calculator" />
     </>

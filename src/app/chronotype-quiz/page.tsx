@@ -263,7 +263,7 @@ export default function ChronotypeQuizPage() {
       <ToolCta
         placement="chronotype-quiz"
         title="Early bird or owl, the alarm still has to work."
-        body="Rise Mission keeps ringing until you prove you're awake with push-ups, a walk, a QR scan or math."
+        body="Rise Mission makes you prove you're awake with push-ups, a walk, a QR scan or math. iPhone, iOS 26 or later."
       />
       <MoreTools current="chronotype-quiz" />
     </>

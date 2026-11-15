@@ -4,6 +4,7 @@ import {
   APP_STORE_URL,
   AUTHOR,
   INSTAGRAM_URL,
+  LIVE_VERSION,
   MIN_IOS,
   SITE_NAME,
   SITE_URL,
@@ -86,6 +87,11 @@ export const organizationId = `${SITE_URL}/#organization`;
 export const appId = `${SITE_URL}/#app`;
 export const authorId = `${SITE_URL}/about#sunny`;
 
+/** Inline publisher node so pages that don't emit organizationLd() still resolve name + logo. */
+export function publisherRef() {
+  return { "@type": "Organization", "@id": organizationId, name: SITE_NAME, url: SITE_URL, logo: abs("/assets/rise-mission-app-icon.png") };
+}
+
 export function organizationLd() {
   return {
     "@context": "https://schema.org",
@@ -122,7 +128,8 @@ export function mobileApplicationLd(description: string) {
     "@id": appId,
     name: APP_NAME_FULL,
     alternateName: SITE_NAME,
-    applicationCategory: "LifestyleApplication",
+    applicationCategory: "HealthApplication",
+    softwareVersion: LIVE_VERSION,
     applicationSubCategory: "Alarm clock",
     operatingSystem: MIN_IOS,
     description,
@@ -136,7 +143,7 @@ export function mobileApplicationLd(description: string) {
       priceCurrency: "USD",
       description: "Free download. Rise Mission Pro (subscription or lifetime) unlocks the full app.",
     },
-    publisher: { "@id": organizationId },
+    publisher: publisherRef(),
   };
 }
 
@@ -145,14 +152,14 @@ export function demoVideoLd() {
   return {
     "@context": "https://schema.org",
     "@type": "VideoObject",
-    name: "Rise Mission demo: an alarm you can't snooze",
+    name: "Rise Mission app demo",
     description:
       "30-second demo of Rise Mission for iPhone: the alarm rings, you complete a wake-up challenge such as push-ups counted by the camera, and the alarm stops once you're awake.",
     thumbnailUrl: abs("/assets/demo-poster.jpg"),
     contentUrl: abs("/assets/demo.mp4"),
-    uploadDate: "2026-08-26",
+    uploadDate: "2026-08-26T09:00:00+00:00",
     duration: "PT30S",
-    publisher: { "@id": organizationId },
+    publisher: publisherRef(),
   };
 }
 
@@ -166,9 +173,9 @@ export function reelVideoLd() {
       "Animated explainer: Rise Mission rings on Silent and in Focus, you pick one of 10 wake-up challenges, prove you're awake with camera-counted push-ups, and build a wake-up streak.",
     thumbnailUrl: abs("/assets/reel/rise-mission-reel-16x9-poster.jpg"),
     contentUrl: abs("/assets/reel/rise-mission-reel-16x9.mp4"),
-    uploadDate: "2026-11-15",
+    uploadDate: "2026-11-15T10:00:00+00:00",
     duration: "PT31S",
-    publisher: { "@id": organizationId },
+    publisher: publisherRef(),
   };
 }
 
@@ -179,7 +186,7 @@ export function webSiteLd() {
     "@id": `${SITE_URL}/#website`,
     name: SITE_NAME,
     url: SITE_URL,
-    publisher: { "@id": organizationId },
+    publisher: publisherRef(),
   };
 }
 
@@ -232,7 +239,7 @@ export function articleLd(input: {
     datePublished: input.datePublished,
     dateModified: input.dateModified ?? input.datePublished,
     author: { "@id": authorId, "@type": "Person", name: AUTHOR.name, url: AUTHOR.url },
-    publisher: { "@id": organizationId },
+    publisher: publisherRef(),
     inLanguage: "en",
   };
 }

@@ -20,7 +20,7 @@ export const metadata = pageMetadata({
   modifiedTime: post.updated,
 });
 
-const PICKS = ["alarmy", "erly", "rise-mission", "wayk", "superalarm", "one-percent-alarm", "sleep-cycle", "loud-alarm-clock", "alarm-clock-for-me", "mathe-alarm-clock"];
+const PICKS = ["alarmy", "erly", "rise-mission", "wayk", "superalarm", "one-percent-alarm", "sleep-cycle", "risly", "alarm-clock-for-me", "mathe-alarm-clock"];
 const c = (s: string) => getCompetitor(s)!;
 const n = (x: number) => x.toLocaleString("en-US");
 const asOf = new Date(`${SNAPSHOT_DATE}T12:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
@@ -56,7 +56,7 @@ export default function Page() {
 
       <Answer>
         <strong>The best alarm app for a heavy sleeper is one you can&apos;t switch off on autopilot.</strong> Mission
-        alarms like Alarmy, Erly, Rise Mission and Wayk keep ringing until you finish a task. Alarmy is the most proven,
+        alarms like Alarmy, Erly, Rise Mission and Wayk put a task between you and the off switch. Alarmy is the most proven,
         Erly is built around streaks, Rise Mission is about ten times lighter, and Sleep Cycle fits people who wake up groggy.
       </Answer>
 
@@ -72,7 +72,8 @@ export default function Page() {
       <H2>How we picked these 10 apps</H2>
       <p>
         We searched the US App Store for alarm apps aimed at heavy sleepers and kept the ones that are either widely used
-        or do something distinctive. For each, we read the full App Store description and release notes and recorded only
+        or do something distinctive, including the apps Apple itself suggests next to Rise Mission. There are more
+        camera push-up alarms than fit here (RiseReps, Pushy and others); we picked the most established. For each, we read the full App Store description and release notes and recorded only
         what the developer states. If a listing doesn&apos;t mention a feature, we say &quot;not stated&quot; rather than
         &quot;no&quot;. We did not include any app we couldn&apos;t describe from its own listing.
       </p>
@@ -141,11 +142,13 @@ export default function Page() {
         plan bedtimes.
       </AppEntry>
 
-      <H2>Best loud alarm without missions: Loud Alarm Clock</H2>
-      <AppEntry slug="loud-alarm-clock">
-        The highest average rating in this group. No missions; it relies on volume-boosted sounds, random sounds each
-        morning so you don&apos;t get used to them, and a cutoff time after which you can&apos;t snooze. Note its last
-        update was {c("loud-alarm-clock").lastUpdated}.
+      <H2>Closest alternative to Rise Mission: Risly</H2>
+      <AppEntry slug="risly">
+        Risly is the closest app to ours: also built for iOS 26, with object and QR or barcode scanning, math, memory,
+        shake and camera-counted push-ups, plus streaks and stats. Its listing says a monthly or yearly subscription is
+        required and mentions no lifetime option. It&apos;s newer, with {c("risly").ratingCount} US ratings at{" "}
+        {c("risly").rating!.toFixed(2)}, and is about {Math.round(c("risly").sizeMB / c("rise-mission").sizeMB)} times
+        the size of Rise Mission.
       </AppEntry>
 
       <H2>Best for waking up to your own music: Alarm Clock for Me</H2>
@@ -197,8 +200,8 @@ export default function Page() {
             <td>Mathe</td>
           </tr>
           <tr>
-            <td>You just don&apos;t hear quiet alarms</td>
-            <td>Loud Alarm Clock</td>
+            <td>You want camera push-ups and prefer a subscription</td>
+            <td>Risly</td>
           </tr>
         </tbody>
       </table>

@@ -10,13 +10,16 @@ import { CHALLENGES, FACTS, LIVE_VERSION, PRICING_COPY, PRIVACY_COPY, SITE_URL, 
 export function GET() {
   const body = `# Rise Mission
 
-> Rise Mission ("Alarm Clock: Rise Mission") is an iPhone alarm clock for heavy sleepers. The alarm keeps ringing until you complete a wake-up challenge, so you can't snooze half-asleep. Current version: ${LIVE_VERSION}. Requires iOS 26.
+> Rise Mission ("Alarm Clock: Rise Mission") is an iPhone alarm clock for heavy sleepers. When it rings, you complete a wake-up challenge (push-ups counted by the camera, a walk, a QR scan, math, voice and more) instead of tapping it off half-asleep. iOS always shows a system Stop button too, so it's a commitment device rather than a lock. Current version: ${LIVE_VERSION}. Requires iPhone with iOS 26 or later.
 
 ## Key facts
 - ${FACTS.challengeCount} wake-up challenges: ${CHALLENGES.map((c) => `${c.name} (${c.tagline.toLowerCase()})`).join("; ")}.
 - ${FACTS.ringsOnSilent}
 - ${FACTS.backupChallenge}
 - ${FACTS.emergencyDismiss}
+- ${FACTS.systemStop}
+- ${FACTS.snooze}
+- ${FACTS.minIOS}
 - Privacy: ${PRIVACY_COPY.long}
 - Pricing: ${PRICING_COPY.long}
 - App Store: ${APP_STORE_URL}

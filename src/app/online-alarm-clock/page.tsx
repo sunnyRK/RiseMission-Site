@@ -246,7 +246,7 @@ export default function OnlineAlarmClockPage() {
       <ToolCta
         placement="online-alarm-clock"
         title="Need an alarm that rings on Silent?"
-        body="Rise Mission is the iPhone version of this idea: it keeps ringing until you prove you're awake with push-ups, a walk, a QR scan or math."
+        body="Rise Mission is the iPhone version of this idea: it makes you prove you're awake with push-ups, a walk, a QR scan or math, and it rings on Silent. iPhone, iOS 26 or later."
       />
       <MoreTools current="online-alarm-clock" />
     </>

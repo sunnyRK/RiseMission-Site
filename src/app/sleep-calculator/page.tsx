@@ -145,7 +145,7 @@ export default function SleepCalculatorPage() {
       <ToolCta
         placement="sleep-calculator"
         title="Got your wake-up time? Now make sure you get up."
-        body="Rise Mission keeps ringing until you prove you're awake with push-ups, a walk, a QR scan or math."
+        body="Rise Mission makes you prove you're awake with push-ups, a walk, a QR scan or math. iPhone, iOS 26 or later."
       />
       <MoreTools current="sleep-calculator" />
 

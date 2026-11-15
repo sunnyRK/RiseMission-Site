@@ -171,7 +171,7 @@ export default function SizeComparisonPage() {
 
       <section className="container-rm">
         <div className="mx-auto max-w-3xl rounded-3xl border border-line bg-card p-8 text-center shadow-soft">
-          <p className="t-h2 !text-2xl">A {rm.sizeMB.toFixed(0)} MB alarm you can&apos;t snooze</p>
+          <p className="t-h2 !text-2xl">A {rm.sizeMB.toFixed(0)} MB alarm that makes you prove you&apos;re awake</p>
           <p className="mx-auto mt-2 max-w-md text-ink-2">Ten wake-up challenges, built on AlarmKit, processed on your iPhone.</p>
           <div className="mt-6 flex justify-center">
             <AppStoreButton placement="size-comparison" />

@@ -13,21 +13,23 @@ import { demoVideoLd, reelVideoLd, faqPageLd, mobileApplicationLd, organizationL
 import { CHALLENGE_GUIDES, CHALLENGES, FACTS, LIVE_VERSION, PRICING_COPY, PRIVACY_COPY } from "@/lib/site";
 
 const DESCRIPTION =
-  "Rise Mission is the iPhone alarm clock for heavy sleepers. It keeps ringing until you prove you're awake with push-ups, a walk, a QR scan, math or your voice.";
+  "Rise Mission is the iPhone alarm clock for heavy sleepers. When it rings, you prove you're awake with a challenge: push-ups, a walk, a QR scan, math or your voice.";
 
 export const metadata = pageMetadata({
   title: "Rise Mission: Alarm Clock for Heavy Sleepers",
   absoluteTitle: true,
-  description: "The iPhone alarm you can't snooze away. Prove you're awake with push-ups, a walk, a QR scan, math or voice. Built on AlarmKit, rings on Silent.",
+  description: "The iPhone alarm that makes you prove you're awake: push-ups, a walk, a QR scan, math or voice. Rings on Silent. Requires iOS 26 or later.",
   path: "/",
-  ogImage: "/assets/og-image.png",
 });
 
 const FAQ: QA[] = [
   {
     q: "How does Rise Mission stop me from snoozing?",
-    a: "When the alarm rings you complete a short wake-up challenge, such as push-ups counted by your camera, a walk, scanning a QR code in another room, math, or saying an affirmation out loud. The alarm keeps going until you finish, so you can't tap snooze half-asleep and drift back off.",
+    a: "When the alarm rings you complete a short wake-up challenge, such as push-ups counted by your camera, a walk, scanning a QR code in another room, math, or saying an affirmation out loud. Finishing it takes a working brain or your feet on the floor, so you can't switch it off half-asleep the way you would a normal alarm.",
   },
+  { q: "Can I just turn it off?", a: FACTS.systemStop },
+  { q: "Is there a snooze button?", a: FACTS.snooze },
+  { q: "Which iPhones does Rise Mission work on?", a: FACTS.minIOS },
   { q: "Does the alarm ring on Silent, in Focus, or when the app is closed?", a: `Yes. ${FACTS.ringsOnSilent} ${FACTS.poweredOff}` },
   { q: "Which wake-up challenges can I choose from?", a: `${FACTS.challengeCount}: ${CHALLENGES.map((c) => c.name).join(", ")}. ${FACTS.backupChallenge}` },
   { q: "Is my camera and voice data private?", a: PRIVACY_COPY.long },
@@ -71,12 +73,12 @@ export default function HomePage() {
           </Link>
 
           <h1 className="fade-up mx-auto mt-5 max-w-5xl text-[clamp(2.4rem,1.3rem+3.3vw,3.9rem)] font-medium leading-[1.04] tracking-[-0.045em] text-ink">
-            The alarm you can&apos;t <span className="hl">snooze</span> away.
+            The alarm that makes you <span className="hl">prove</span> you&apos;re awake.
           </h1>
 
           <p className="fade-up t-lead mx-auto mt-4 max-w-[38rem]">
-            It keeps ringing until you prove you&apos;re awake: push-ups counted by your camera, a walk, a QR code across the
-            room, math or your voice.
+            When it rings, you finish a wake-up challenge: push-ups counted by your camera, a walk, a QR code across the room,
+            math or your voice. By the time you&apos;re done, you&apos;re up.
           </p>
 
           <div className="fade-up mx-auto mt-7 flex max-w-sm flex-col items-stretch gap-3 sm:max-w-none sm:flex-row sm:items-center sm:justify-center">
@@ -90,7 +92,7 @@ export default function HomePage() {
           </div>
 
           <ul className="fade-up mx-auto mt-5 flex max-w-3xl flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[0.85rem] text-muted">
-            {[PRICING_COPY.short, ...PRIVACY_COPY.badges.slice(0, 2), "Rings on Silent & Focus"].map((b) => (
+            {["iPhone · iOS 26 or later", PRICING_COPY.short, PRIVACY_COPY.badges[0], "Rings on Silent & Focus"].map((b) => (
               <li key={b} className="inline-flex items-center gap-1.5">
                 <Check aria-hidden className="h-3.5 w-3.5 text-good" />
                 {b}

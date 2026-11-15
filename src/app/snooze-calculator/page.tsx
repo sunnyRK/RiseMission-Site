@@ -198,7 +198,7 @@ export default function SnoozeCalculatorPage() {
       <ToolCta
         placement="snooze-calculator"
         title="Make the first alarm the last one."
-        body="Rise Mission keeps ringing until you prove you're awake with push-ups, a walk, a QR scan or math."
+        body="Rise Mission makes you prove you're awake with push-ups, a walk, a QR scan or math. iPhone, iOS 26 or later."
       />
       <MoreTools current="snooze-calculator" />
     </>

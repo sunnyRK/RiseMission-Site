@@ -40,15 +40,15 @@ export const PRICING_COPY = {
 } as const;
 
 /**
- * Honest privacy language. The app ships Firebase Analytics (anonymous usage
+ * Honest privacy language. The app ships Firebase Analytics (usage data not linked to identity
  * events) and RevenueCat (purchase sync) — so we never say "no tracking" or
  * "no data collected". What is true: no ads, no account, camera/voice stay on
  * device, no cross-app tracking (no IDFA, no ATT prompt).
  */
 export const PRIVACY_COPY = {
-  badges: ["No ads", "No account", "Camera & voice stay on your iPhone"],
+  badges: ["No ads", "No account", "Camera stays on your iPhone"],
   long:
-    "Camera frames and your voice are processed on your iPhone with Apple's Vision and Speech frameworks and are never recorded, saved, or uploaded. There is no account and no cloud sync; alarms and history stay on your device. The app uses anonymous usage analytics (Firebase) and never tracks you across other apps.",
+    "Camera frames are processed on your iPhone with Apple's Vision framework and are never recorded, saved, or uploaded. Voice recognition runs on your iPhone wherever it supports on-device speech, and your audio is never saved by us. There is no account and no cloud sync; alarms and history stay on your device. The app uses usage analytics (Firebase) that aren't linked to your identity and never tracks you across other apps.",
 } as const;
 
 export type ChallengeFact = {
@@ -96,6 +96,11 @@ export const FACTS = {
     "Every physical challenge has a mental backup that takes over if the camera can't see you or a sensor isn't available.",
   onDevice:
     "Push-up, squat and object recognition run on-device with Apple's Vision framework; frames are analysed in memory and discarded.",
+  systemStop:
+    "iOS shows a system Stop button on every alarm, including Rise Mission's, so you can always stop it without the challenge. Rise Mission is a commitment device, not a lock: a wake-up stopped that way isn't counted as a completed challenge.",
+  snooze:
+    "Snoozing is optional and limited per alarm. With Snooze Tax, each snooze adds to your next wake-up challenge, so snoozing gets more expensive.",
+  minIOS: "Rise Mission runs on iPhone with iOS 26 or later, because it's built on Apple's AlarmKit. There is no Android or iPad version.",
   testAlarm:
     "A test alarm rings about ten seconds after you lock the phone, so you can try the full flow safely before tomorrow morning.",
   v15Features: [

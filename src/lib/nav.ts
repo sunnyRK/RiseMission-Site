@@ -1,4 +1,7 @@
-import { BLOG_TOPICS, sortedPosts } from "./blog";
+import { BLOG_POSTS, BLOG_TOPICS } from "./blog";
+
+/** Hand-picked entry points (not "latest": every post launched the same day). */
+const START_HERE = ["best-alarm-apps-for-heavy-sleepers", "how-to-wake-up-as-a-heavy-sleeper", "iphone-alarm-not-going-off"];
 import { CHALLENGE_GUIDES, CHALLENGES } from "./site";
 import { liveTools, toolPath } from "./tools";
 
@@ -50,12 +53,11 @@ const challengeLink = (slug: string): NavLink => {
 };
 
 export function navMenus(): NavMenu[] {
-  const latest = sortedPosts().slice(0, 3);
   return [
     {
       label: "Challenges",
       featured: {
-        title: "Most used",
+        title: "Start with",
         links: [
           { ...challengeLink("push-ups"), desc: "Your camera counts full reps on-device" },
           { ...challengeLink("qr-code"), desc: "Scan a code in another room to stop it" },
@@ -71,7 +73,7 @@ export function navMenus(): NavMenu[] {
     {
       label: "Free tools",
       featured: {
-        title: "Most used",
+        title: "Free tools",
         links: liveTools().slice(0, 3).map((t) => ({ href: toolPath(t.slug), label: t.name, desc: t.tagline, icon: t.icon })),
       },
       groups: [
@@ -88,8 +90,11 @@ export function navMenus(): NavMenu[] {
     {
       label: "Guides",
       featured: {
-        title: "Latest",
-        links: latest.map((p) => ({ href: `/blog/${p.slug}`, label: p.metaTitle ?? p.title, desc: p.eyebrow })),
+        title: "Start here",
+        links: START_HERE.map((slug) => {
+          const p = BLOG_POSTS.find((x) => x.slug === slug)!;
+          return { href: `/blog/${p.slug}`, label: p.metaTitle ?? p.title, desc: p.eyebrow };
+        }),
       },
       groups: [{ title: "Topics", links: BLOG_TOPICS.map((t) => ({ href: `/blog/topic/${t.slug}`, label: t.name, icon: TOPIC_ICON[t.slug] ?? "book" })) }],
       footer: { text: "Research-backed, sourced, and honest about limits.", href: "/blog", label: "All articles" },

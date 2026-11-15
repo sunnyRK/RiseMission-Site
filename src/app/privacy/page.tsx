@@ -5,18 +5,18 @@ import { CONTACT_EMAIL } from "@/lib/site";
 
 export const metadata = pageMetadata({
   title: "Privacy Policy & Data Practices",
-  description: "How Rise Mission handles your data: alarms and history stay on your iPhone, camera and voice are processed on-device, and analytics are anonymous.",
+  description: "How Rise Mission handles your data: alarms stay on your iPhone, camera frames are processed on-device, and analytics aren't linked to your identity.",
   path: "/privacy",
 });
 
 export default function Privacy() {
   return (
-    <DocPage title="Rise Mission Privacy Policy" path="/privacy" updated="August 21, 2026">
+    <DocPage title="Rise Mission Privacy Policy" path="/privacy" updated="November 15, 2026">
       <h2>The short version</h2>
       <p>
         Everything personal the app knows (your alarms, wake-up history, streaks, and settings) is stored only on your
         iPhone. There are no accounts and no servers of ours that your data could travel to. The app uses Google&apos;s
-        Firebase Analytics to collect anonymous usage statistics (for example, that the app was installed and opened) so
+        Firebase Analytics to collect usage statistics that are not linked to your identity (for example, that the app was installed and opened) so
         we can understand how Rise Mission is used and measure our advertising. This data is not linked to your
         identity, and we never see your alarms, history, or camera.
       </p>
@@ -36,6 +36,22 @@ export default function Privacy() {
         using Apple&apos;s Speech Recognition. Recognition runs on your device wherever your iPhone supports it; your
         speech is used only to check the phrase and is never recorded, saved, or uploaded by us. You can use the app
         without the microphone at any time by picking a different challenge.
+      </p>
+
+      <h2>Location (Morning Briefing)</h2>
+      <p>
+        If you turn on the weather in Morning Briefing, Rise Mission asks for your location while the app is in use and
+        requests it at approximately one-kilometre accuracy. It is used only to fetch the local forecast from Apple&apos;s
+        WeatherKit service. We do not store your location or send it to our own servers. Separately, Firebase Analytics
+        derives an approximate region from your IP address, as described under Analytics. Morning Briefing works without
+        the weather if you don&apos;t allow location.
+      </p>
+
+      <h2>Calendar (Morning Briefing)</h2>
+      <p>
+        If you turn on calendar events in Morning Briefing, Rise Mission asks for access to your calendars so it can show
+        your first event of the day on the wake-up screen. Events are read on your iPhone only; they are never uploaded,
+        stored by us, or included in analytics. You can turn this off at any time in iOS Settings.
       </p>
 
       <h2>Purchases</h2>
@@ -59,7 +75,11 @@ export default function Privacy() {
       <p>Deleting the app removes this locally stored data from your device.</p>
 
       <h2>Analytics</h2>
-      <p>Rise Mission includes Google&apos;s Firebase Analytics SDK, which collects anonymous, aggregated usage data on our behalf:</p>
+      <p>
+        Rise Mission includes Google&apos;s Firebase Analytics SDK, which collects usage data on our behalf. It is not linked
+        to your name, email, or Apple Account, and Apple&apos;s App Store privacy label lists it as &quot;Data Not Linked to
+        You&quot;:
+      </p>
       <ul>
         <li>
           App events such as first open, sessions, screens viewed, whether onboarding was completed, and whether a Pro
@@ -105,12 +125,14 @@ export default function Privacy() {
         if you pick a camera-based challenge, used as described above. <strong>Microphone &amp; Speech Recognition:</strong>{" "}
         requested only for the Voice challenge, to hear your spoken affirmation on-device. <strong>Motion &amp; Fitness:</strong>{" "}
         requested only for the Walk challenge, to count your steps on-device (the Shake challenge uses the accelerometer,
-        which needs no permission). <strong>Notifications:</strong> optional, used for the evening wind-down reminder and
+        which needs no permission). <strong>Location:</strong> optional, only for the weather in Morning Briefing, at
+        approximate accuracy. <strong>Calendars:</strong> optional, only to show your first event in Morning Briefing,
+        read on your iPhone. <strong>Notifications:</strong> optional, used for the evening wind-down reminder and
         the optional daily focus (Pomodoro) reminder; each can be turned off in the app.
       </p>
 
       <h2>Children</h2>
-      <p>Rise Mission does not knowingly collect personal information from children; the analytics described above are anonymous for all users.</p>
+      <p>Rise Mission does not knowingly collect personal information from children; the analytics described above are not linked to anyone&apos;s identity.</p>
 
       <h2>Changes &amp; contact</h2>
       <p>

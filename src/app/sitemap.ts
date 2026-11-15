@@ -39,7 +39,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         ? {
             videos: [
               {
-                title: "Rise Mission demo: an alarm you can't snooze",
+                title: "Rise Mission app demo",
                 description:
                   "30-second demo of Rise Mission for iPhone: the alarm rings, you complete a wake-up challenge, and the alarm stops once you're awake.",
                 thumbnail_loc: `${SITE_URL}/assets/demo-poster.jpg`,

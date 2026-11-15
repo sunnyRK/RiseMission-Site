@@ -304,7 +304,7 @@ export default function Page() {
         </li>
         <li>
           <strong>Make stopping the alarm take effort.</strong> Distance, a task, or both. This is the idea behind{" "}
-          <Link href="/">Rise Mission</Link>, the alarm app I build: the alarm keeps ringing until you finish a wake-up
+          <Link href="/">Rise Mission</Link>, the alarm app I build: when the alarm rings, you finish a wake-up
           challenge such as walking, a QR scan in another room, push-ups counted by the camera, or math. If you&apos;re
           curious which kinds of tasks hold up against a groggy brain, I compared them in{" "}
           <Link href="/blog/wake-up-challenges-explained">wake-up challenges explained</Link>.

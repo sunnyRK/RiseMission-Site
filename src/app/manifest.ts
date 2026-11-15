@@ -4,7 +4,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Rise Mission: Alarm Clock for Heavy Sleepers",
     short_name: "Rise Mission",
-    description: "The iPhone alarm you can't snooze away. Free tools and guides for waking up on time.",
+    description: "The iPhone alarm that makes you prove you're awake. Free tools and guides for waking up on time.",
     start_url: "/",
     display: "standalone",
     background_color: "#fafafa",

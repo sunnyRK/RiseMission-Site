@@ -1,4 +1,6 @@
 import TurndownService from "turndown";
+// @ts-expect-error -- no types published for the GFM plugin
+import { tables } from "turndown-plugin-gfm";
 import { isMarkdownable, MD_FETCH_HEADER } from "@/lib/markdown";
 import { SITE_URL } from "@/lib/site";
 
@@ -8,7 +10,10 @@ import { SITE_URL } from "@/lib/site";
  * never see it as duplicate content; AI agents get a clean, citable text.
  */
 const td = new TurndownService({ headingStyle: "atx", bulletListMarker: "-", codeBlockStyle: "fenced" });
-td.remove(["script", "style", "noscript", "video", "button", "form"]);
+td.use(tables);
+td.remove(["script", "style", "noscript", "video", "button", "form", "nav"]);
+// FAQ toggles render a decorative "+" in an aria-hidden span; drop aria-hidden nodes.
+td.addRule("ariaHidden", { filter: (n) => (n as HTMLElement).getAttribute?.("aria-hidden") === "true", replacement: () => "" });
 // Inline SVG icons carry no text; drop them (not in HTMLElementTagNameMap).
 td.addRule("svg", { filter: (n) => n.nodeName.toLowerCase() === "svg", replacement: () => "" });
 td.addRule("img", {

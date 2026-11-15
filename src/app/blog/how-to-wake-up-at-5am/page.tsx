@@ -226,9 +226,9 @@ export default function Page() {
       </ol>
       <p>
         The first step is where most 5 AM plans fail, so it&apos;s worth over-engineering. That&apos;s what{" "}
-        <Link href="/">Rise Mission</Link>, the alarm app I build, is for: the alarm keeps ringing until you complete a
+        <Link href="/">Rise Mission</Link>, the alarm app I build, is for: when the alarm rings, you complete a
         wake-up challenge such as walking a set number of steps, scanning a QR code in the kitchen, or a few squats counted
-        by the camera. By the time it stops, you&apos;re standing up in a lit room.
+        by the camera. By the time you&apos;re done, you&apos;re standing up in a lit room.
       </p>
       <Callout title="Snoozing at 5 AM">
         If you set 5:00 and snooze to 5:40, you&apos;ve trained a 5:40 wake time with worse sleep. Pick one alarm time

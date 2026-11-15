@@ -134,7 +134,10 @@ export default function Page() {
           <Link href="/blog/push-up-alarm-clock">how a push-up alarm works</Link>.
         </li>
         <li>
-          <strong>You like variety.</strong> {CHALLENGES.length} challenges: {CHALLENGES.map((x) => x.name).join(", ")}.
+          <strong>You want camera-counted exercise or voice.</strong> Rise Mission counts push-ups and squats with the camera
+          and has a spoken-affirmation challenge. Variety alone isn&apos;t a win: Alarmy&apos;s website lists more missions than
+          its App Store listing, including QR or barcode, steps and typing. Rise Mission has {CHALLENGES.length} in total:{" "}
+          {CHALLENGES.map((x) => x.name).join(", ")}.
         </li>
         <li>
           <strong>You care where camera frames go.</strong> {FACTS.onDevice}

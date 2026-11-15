@@ -22,7 +22,7 @@ export const metadata = pageMetadata({
 const c = (s: string) => getCompetitor(s)!;
 const al = c("alarmy");
 const asOf = new Date(`${SNAPSHOT_DATE}T12:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
-const ALTS = ["rise-mission", "erly", "wayk", "superalarm", "one-percent-alarm", "challenges-alarm-clock", "mathe-alarm-clock"];
+const ALTS = ["rise-mission", "risly", "erly", "wayk", "superalarm", "one-percent-alarm", "challenges-alarm-clock", "mathe-alarm-clock"];
 
 const FAQ: QA[] = [
   {
@@ -85,28 +85,32 @@ export default function Page() {
         <Link href="/blog/wake-up-challenges-explained">how wake-up challenges work</Link>.
       </p>
 
-      <H2>7 Alarmy alternatives for iPhone</H2>
+      <H2>8 Alarmy alternatives for iPhone</H2>
       <div className="grid gap-3">
         <AppEntry slug="rise-mission" rank={1}>
           Push-ups and squats counted by the camera on-device, plus walk, shake, object find, QR code, voice, math, typing and
           memory. Built on Apple&apos;s AlarmKit. Requires iOS 26 and Rise Mission Pro (weekly, yearly or lifetime).
         </AppEntry>
-        <AppEntry slug="erly" rank={2}>
+        <AppEntry slug="risly" rank={2}>
+          Object and QR or barcode scanning, math, memory, shake and camera-counted push-ups, also built for iOS 26. A monthly
+          or yearly subscription is required; no lifetime option is mentioned.
+        </AppEntry>
+        <AppEntry slug="erly" rank={3}>
           Streaks and a wake-up goal that locks within 4 hours of your alarm. A subscription is required for full access.
         </AppEntry>
-        <AppEntry slug="wayk" rank={3}>
+        <AppEntry slug="wayk" rank={4}>
           Missions like making your bed, a sky photo or reading an affirmation aloud. Wayk Pro is required to set alarms.
         </AppEntry>
-        <AppEntry slug="superalarm" rank={4}>
+        <AppEntry slug="superalarm" rank={5}>
           Barcode, object scan, Face ID and walking missions, a wake-up check, and deletion prevention while ringing.
         </AppEntry>
-        <AppEntry slug="one-percent-alarm" rank={5}>
+        <AppEntry slug="one-percent-alarm" rank={6}>
           Movement-only challenges: object hunt, push-ups, squats, brushing your teeth, and challenge chains.
         </AppEntry>
-        <AppEntry slug="challenges-alarm-clock" rank={6}>
+        <AppEntry slug="challenges-alarm-clock" rank={7}>
           Game-style challenges including a maze and Lucky 777, and a strict mode. Its lower average rating is worth noting.
         </AppEntry>
-        <AppEntry slug="mathe-alarm-clock" rank={7}>
+        <AppEntry slug="mathe-alarm-clock" rank={8}>
           A free, math-only alarm with multiple-choice problems and a bedtime reminder.
         </AppEntry>
       </div>
