@@ -243,6 +243,11 @@ function MobileSheet({ menus, open }: { menus: NavMenu[]; open: boolean }) {
             </Link>
           </li>
           <li>
+            <Link href="/gallery" className="flex items-center justify-between py-4 text-[1.05rem] font-semibold text-ink">
+              Screenshots &amp; videos <ChevronRight aria-hidden className="h-5 w-5 text-muted" />
+            </Link>
+          </li>
+          <li>
             <Link href="/about" className="flex items-center justify-between py-4 text-[1.05rem] font-semibold text-ink">
               About <ChevronRight aria-hidden className="h-5 w-5 text-muted" />
             </Link>

@@ -10,7 +10,7 @@ import { liveTools, toolPath } from "./tools";
 
 export type NavIcon =
   | "pushups" | "squats" | "walk" | "shake" | "object" | "qr" | "voice" | "math" | "typing" | "memory"
-  | "moon" | "sunrise" | "bed" | "book" | "alarm" | "snooze" | "science" | "compare";
+  | "moon" | "sunrise" | "bed" | "book" | "alarm" | "snooze" | "science" | "compare" | "gallery";
 
 export type NavLink = { href: string; label: string; desc?: string; icon?: NavIcon };
 export type NavGroup = { title: string; links: NavLink[] };
@@ -64,7 +64,7 @@ export function navMenus(): NavMenu[] {
       },
       groups: [
         { title: "Get your body up", links: ["squats", "walk", "shake", "object-find"].map(challengeLink) },
-        { title: "Get your brain on", links: ["voice", "typing", "memory"].map(challengeLink) },
+        { title: "Get your brain on", links: [...["voice", "typing", "memory"].map(challengeLink), { href: "/gallery", label: "See screenshots & videos", icon: "gallery" as const }] },
       ],
       footer: { text: "Every physical challenge has a mental backup. Tough, never a trap.", href: "/blog/wake-up-challenges-explained", label: "Which challenge suits you?" },
     },

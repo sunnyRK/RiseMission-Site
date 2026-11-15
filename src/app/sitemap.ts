@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { BLOG_POSTS, BLOG_TOPICS, postPath } from "@/lib/blog";
 import { SITE_URL } from "@/lib/site";
 import { liveTools, toolPath } from "@/lib/tools";
+import { GALLERY_SHOTS, GALLERY_VIDEOS } from "@/lib/media";
 
 /**
  * Real, hand-set lastModified dates only — never `new Date()` (a build
@@ -59,6 +60,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
           }
         : {}),
     })),
+    {
+      url: `${SITE_URL}/gallery`,
+      lastModified: "2026-11-15",
+      priority: 0.7,
+      images: GALLERY_SHOTS.map((s) => `${SITE_URL}${s.src}`),
+      videos: GALLERY_VIDEOS.map((v) => ({
+        title: v.title,
+        description: v.description,
+        thumbnail_loc: `${SITE_URL}${v.poster}`,
+        content_loc: `${SITE_URL}${v.src}`,
+        duration: v.durationSec,
+        publication_date: v.uploadDate,
+        family_friendly: "yes" as const,
+      })),
+    },
     ...liveTools().map((t) => ({ url: `${SITE_URL}${toolPath(t.slug)}`, lastModified: t.lastModified, priority: 0.9 })),
     ...BLOG_TOPICS.map((t) => ({ url: `${SITE_URL}/blog/topic/${t.slug}`, lastModified: latestIn(t.posts), priority: 0.6 })),
     ...BLOG_POSTS.map((p) => ({ url: `${SITE_URL}${postPath(p.slug)}`, lastModified: p.updated ?? p.date, priority: 0.8 })),

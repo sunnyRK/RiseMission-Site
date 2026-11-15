@@ -158,6 +158,11 @@ export default function HomePage() {
               <source src="/assets/reel/rise-mission-reel-16x9.mp4" type="video/mp4" />
             </video>
           </div>
+          <p className="mt-5 text-center">
+            <Link href="/gallery" className="inline-flex items-center gap-1.5 font-semibold text-accent hover:underline">
+              More screenshots &amp; videos <ArrowRight aria-hidden className="h-4 w-4" />
+            </Link>
+          </p>
         </div>
       </section>
 

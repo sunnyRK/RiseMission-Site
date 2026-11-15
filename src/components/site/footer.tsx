@@ -22,6 +22,7 @@ export function SiteFooter() {
             ...liveTools().map((t) => ({ href: toolPath(t.slug), label: t.name })),
             { href: "/tools", label: "All free tools" },
             { href: "/alarm-app-size-comparison", label: "Alarm app sizes" },
+            { href: "/gallery", label: "Screenshots & videos" },
             { href: APP_STORE_URL, label: "App Store" },
             { href: "/support", label: "Support" },
           ]}

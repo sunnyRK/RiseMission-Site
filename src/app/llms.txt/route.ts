@@ -27,6 +27,9 @@ ${liveTools().map((t) => `- [${t.name}](${SITE_URL}${toolPath(t.slug)}): ${t.des
 ## Data
 - [Alarm app size comparison](${SITE_URL}/alarm-app-size-comparison): App Store size, ratings and minimum iOS for 12 iPhone alarm apps, dated, CC BY 4.0. JSON: ${SITE_URL}/data/alarm-apps.json
 
+## Media
+- [Screenshots & videos](${SITE_URL}/gallery): current App Store screenshots, a 30-second explainer reel (16:9 and 9:16) and a screen-recorded demo, each with a text description.
+
 ## Topic hubs
 ${BLOG_TOPICS.map((t) => `- [${t.title}](${SITE_URL}/blog/topic/${t.slug}): ${t.description}`).join("\n")}
 

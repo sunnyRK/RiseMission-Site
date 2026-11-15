@@ -2,6 +2,7 @@ import {
   AlarmClock,
   AlarmClockOff,
   FlaskConical,
+  Images,
   Scale,
   BedDouble,
   BookOpen,
@@ -40,6 +41,7 @@ const MAP: Record<NavIcon, LucideIcon> = {
   snooze: AlarmClockOff,
   science: FlaskConical,
   compare: Scale,
+  gallery: Images,
 };
 
 export function NavGlyph({ name, className = "h-4 w-4" }: { name?: NavIcon; className?: string }) {
