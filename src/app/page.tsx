@@ -56,63 +56,68 @@ export default function HomePage() {
     <>
       <JsonLd data={[organizationLd(), webSiteLd(), mobileApplicationLd(DESCRIPTION), demoVideoLd(), faqPageLd(FAQ)]} />
 
-      {/* HERO — split like aicarousels: headline left, pitch + CTA right */}
-      <section className="sunrise-glow dawn">
-        <div className="container-rm pb-12 pt-10 md:pb-16 md:pt-20">
-          <div className="grid items-end gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
-            <div className="fade-up text-center lg:text-left">
-              <p className="t-eyebrow">Alarm clock for heavy sleepers · iPhone
-              </p>
-              <h1 className="t-display mt-5">
-                The alarm you can&apos;t <span className="hl">snooze</span> away.
-              </h1>
-            </div>
-            <div className="fade-up text-center lg:pb-2 lg:text-left">
-              <p className="t-lead mx-auto max-w-xl lg:mx-0">
-                Rise Mission keeps ringing until you prove you&apos;re awake: push-ups counted by your camera, a walk, a QR
-                code in another room, math, or your voice.
-              </p>
-              <div className="mt-7 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-center lg:justify-start">
-                <AppStoreButton placement="home-hero" size="lg" className="justify-center" />
-                <Link
-                  href="#how-it-works"
-                  className="inline-flex h-[60px] items-center justify-center gap-2 rounded-[14px] border border-line bg-card px-6 font-semibold text-ink transition hover:border-ink/20"
-                >
-                  How it works <ArrowRight aria-hidden className="h-4 w-4" />
-                </Link>
-              </div>
-              <p className="t-small mt-4 flex items-center justify-center gap-2 lg:justify-start">
-                <Check aria-hidden className="h-4 w-4 text-good" />
-                {PRICING_COPY.short} · v{LIVE_VERSION} · iOS 26
-              </p>
-            </div>
+      {/* HERO — compact centered pitch, then the demo video as the visual hero */}
+      <section className="sunrise-glow dawn relative overflow-hidden">
+        <div className="container-rm pt-8 text-center sm:pt-10 md:pt-12">
+          <Link
+            href="#whats-new"
+            className="fade-up inline-flex items-center gap-2 rounded-full border border-line bg-card/80 py-1 pl-1 pr-3 text-[0.82rem] text-ink-2 shadow-[0_1px_2px_rgb(22_20_31/0.05)] backdrop-blur transition hover:border-ink/20"
+          >
+            <span className="whitespace-nowrap rounded-full bg-accent px-2 py-0.5 text-[0.72rem] font-semibold text-accent-ink">New in {LIVE_VERSION}</span>
+            <span className="whitespace-nowrap">
+              Morning Briefing<span className="hidden sm:inline">, widgets &amp; Live Activities</span>
+            </span>
+            <ArrowRight aria-hidden className="h-3.5 w-3.5 text-muted" />
+          </Link>
+
+          <h1 className="fade-up mx-auto mt-5 max-w-5xl text-[clamp(2.4rem,1.3rem+3.3vw,3.9rem)] font-medium leading-[1.04] tracking-[-0.045em] text-ink">
+            The alarm you can&apos;t <span className="hl">snooze</span> away.
+          </h1>
+
+          <p className="fade-up t-lead mx-auto mt-4 max-w-[38rem]">
+            It keeps ringing until you prove you&apos;re awake: push-ups counted by your camera, a walk, a QR code across the
+            room, math or your voice.
+          </p>
+
+          <div className="fade-up mx-auto mt-7 flex max-w-sm flex-col items-stretch gap-3 sm:max-w-none sm:flex-row sm:items-center sm:justify-center">
+            <AppStoreButton placement="home-hero" size="lg" className="justify-center" />
+            <Link
+              href="#how-it-works"
+              className="inline-flex h-[60px] items-center justify-center gap-2 rounded-[14px] border border-line bg-card px-6 font-semibold text-ink transition hover:border-ink/20"
+            >
+              How it works <ArrowRight aria-hidden className="h-4 w-4" />
+            </Link>
           </div>
 
-          {/* Showcase panel: demo video + app screens */}
-          <div className="relative mt-10 overflow-hidden rounded-[24px] border border-line bg-gradient-to-b from-accent-soft/80 via-card to-sun-soft/70 px-2.5 pb-5 pt-2.5 sm:rounded-[28px] sm:px-8 sm:pb-6 sm:pt-10 md:mt-16 lg:px-16">
-            <div className="relative mx-auto flex max-w-6xl items-center justify-center gap-6">
-              <ShotCard
-                src="/assets/shots/01-hook.jpg"
-                alt="Rise Mission ringing screen at 6:30 AM with a Start Challenge button"
-                className="hidden w-[17%] -rotate-6 lg:block"
-              />
-              <div className="w-full max-w-3xl rounded-[18px] border border-line bg-card p-1.5 shadow-soft sm:rounded-[22px] sm:p-2">
-                <DemoVideo />
-              </div>
-              <ShotCard
-                src="/assets/shots/02-pushups.jpg"
-                alt="Camera counting push-ups on the floor to dismiss the alarm"
-                className="hidden w-[17%] rotate-6 lg:block"
-              />
+          <ul className="fade-up mx-auto mt-5 flex max-w-3xl flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[0.85rem] text-muted">
+            {[PRICING_COPY.short, ...PRIVACY_COPY.badges.slice(0, 2), "Rings on Silent & Focus"].map((b) => (
+              <li key={b} className="inline-flex items-center gap-1.5">
+                <Check aria-hidden className="h-3.5 w-3.5 text-good" />
+                {b}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Stage: the demo video, big and above the fold, with app screens overlapping its edges */}
+        <div className="container-rm relative mt-8 pb-16 md:mt-10 md:pb-24">
+          <div aria-hidden className="pointer-events-none absolute inset-x-0 top-[12%] mx-auto h-[70%] max-w-5xl rounded-full bg-gradient-to-r from-sun/25 via-coral/20 to-accent/25 blur-3xl" />
+          <div className="relative mx-auto max-w-[1040px]">
+            <div className="rounded-[22px] border border-line bg-card/90 p-1.5 shadow-[0_40px_80px_-30px_rgb(22_20_31/0.45)] backdrop-blur sm:rounded-[28px] sm:p-2.5">
+              <DemoVideo className="!rounded-[16px] sm:!rounded-[20px]" />
             </div>
-            <ul className="mx-auto mt-5 flex max-w-3xl flex-wrap justify-center gap-2 px-2">
-              {[...PRIVACY_COPY.badges, "Rings on Silent & Focus"].map((b) => (
-                <li key={b} className="inline-flex items-center gap-1.5 rounded-full border border-line bg-card/80 px-3 py-1.5 text-[0.85rem] text-ink-2">
-                  <Check aria-hidden className="h-3.5 w-3.5 text-good" />
-                  {b}
-                </li>
-              ))}
-            </ul>
+            <ShotCard
+              src="/assets/shots/01-hook.jpg"
+              alt="Rise Mission ringing screen at 6:30 AM with a Start Challenge button"
+              className="absolute -left-14 bottom-[-12%] hidden w-[19%] -rotate-[7deg] xl:block"
+              sizes="200px"
+            />
+            <ShotCard
+              src="/assets/shots/02-pushups.jpg"
+              alt="Camera counting push-ups on the floor to dismiss the alarm"
+              className="absolute -right-14 bottom-[-12%] hidden w-[19%] rotate-[7deg] xl:block"
+              sizes="200px"
+            />
           </div>
         </div>
       </section>
@@ -182,7 +187,7 @@ export default function HomePage() {
       </Section>
 
       {/* NEW IN 1.5 */}
-      <section className="container-rm">
+      <section id="whats-new" className="container-rm scroll-mt-24">
         <div className="rounded-[28px] bg-ink px-6 py-12 text-paper sm:px-12">
           <p className="t-eyebrow !text-paper/60">What&apos;s new
           </p>
