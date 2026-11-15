@@ -206,6 +206,56 @@ export const BLOG_POSTS: BlogPost[] = [
     date: "2026-11-15",
     readMinutes: 8,
   },
+  {
+    slug: "iphone-alarm-not-going-off",
+    title: "iPhone Alarm Not Going Off? Every Cause and How to Fix It",
+    metaTitle: "iPhone Alarm Not Going Off? Every Fix",
+    description: "A complete checklist for an iPhone alarm that didn't ring: alarm toggles, sound set to None, volume, StandBy, sleep schedules, time changes and third-party apps, using Apple's own documentation.",
+    metaDescription: "iPhone alarm didn't go off? A full checklist from Apple's docs: toggles, sound set to None, volume, StandBy, sleep schedules, time changes and alarm apps.",
+    eyebrow: "iPhone alarms",
+    date: "2026-11-15",
+    readMinutes: 9,
+  },
+  {
+    slug: "loudest-alarm-sound-iphone",
+    title: "How to Make Your iPhone Alarm as Loud as Possible",
+    metaTitle: "Loudest iPhone Alarm: How to Max It Out",
+    description: "Every setting that controls how loud your iPhone alarm is, the hidden ones that make it quieter, how to choose a tone, where to put the phone, and why volume alone fails heavy sleepers.",
+    metaDescription: "Make your iPhone alarm as loud as it goes: the right volume slider, Change with Buttons, Volume Limit, tone and placement, and why loud isn't enough.",
+    eyebrow: "iPhone alarms",
+    date: "2026-11-15",
+    readMinutes: 8,
+  },
+  {
+    slug: "iphone-alarm-volume-low",
+    title: "iPhone Alarm Volume Low? Why It's Quiet and How to Fix It",
+    metaTitle: "iPhone Alarm Volume Low? Why and How to Fix",
+    description: "Why your iPhone alarm is quiet: the ringer-linked slider, Change with Buttons, Attention Aware Features, headphones, speaker limits and the sleep schedule alarm's own volume, checked against Apple's pages.",
+    metaDescription: "Why your iPhone alarm is too quiet: ringer-linked volume, Change with Buttons, Attention Aware Features, headphones and speaker limits, with fixes.",
+    eyebrow: "iPhone alarms",
+    date: "2026-11-15",
+    readMinutes: 8,
+  },
+  {
+    slug: "alarm-app-for-adhd",
+    title: "Waking Up With ADHD: What Research Says and Where an Alarm App Helps",
+    metaTitle: "Alarm App for ADHD: Waking Up Strategies",
+    description: "Why waking up is harder with ADHD (research on delayed body clocks and insomnia), practical strategies like structure, light, novelty and body doubling, and the honest limits of any alarm app.",
+    metaDescription: "Why ADHD makes mornings harder, what research says about delayed body clocks, practical wake-up strategies, and what an alarm app can and can't do for you.",
+    eyebrow: "ADHD mornings",
+    date: "2026-11-15",
+    readMinutes: 9,
+  },
+  {
+    slug: "alarm-that-makes-you-get-out-of-bed",
+    title: "Alarms That Make You Get Out of Bed: Every Approach Compared",
+    metaTitle: "Alarms That Make You Get Out of Bed",
+    description: "QR codes in another room, object finding, step goals, push-ups, a phone across the room and smart plugs, compared on whether they really get you up and how people cheat them.",
+    metaDescription: "Alarms you can't stop from bed, compared: QR codes, object find, step goals, push-ups, a phone across the room and smart plugs, and how not to cheat.",
+    eyebrow: "Wake-up challenges",
+    date: "2026-11-15",
+    readMinutes: 8,
+  },
 ];
 
 export type BlogTopic = {
@@ -230,7 +280,7 @@ export const BLOG_TOPICS: BlogTopic[] = [
       "Guides for people who sleep through alarms: why it happens, what helps, and how to build a wake-up you can't sleep through.",
     intro:
       "If you've ever slept through three alarms and woken up to a missed meeting, these guides are for you. They focus on what changes behaviour on a real morning, not generic sleep tips.",
-    posts: ["how-to-wake-up-as-a-heavy-sleeper", "how-to-stop-hitting-snooze", "sleep-inertia", "why-do-i-sleep-through-my-alarm", "does-iphone-alarm-ring-on-silent"],
+    posts: ["how-to-wake-up-as-a-heavy-sleeper", "how-to-stop-hitting-snooze", "sleep-inertia", "why-do-i-sleep-through-my-alarm", "does-iphone-alarm-ring-on-silent", "loudest-alarm-sound-iphone", "alarm-that-makes-you-get-out-of-bed"],
   },
   {
     slug: "snooze-habit",
@@ -241,7 +291,7 @@ export const BLOG_TOPICS: BlogTopic[] = [
       "What snoozing really does to your morning, what the research says, and practical two-week plans to stop hitting the snooze button for good.",
     intro:
       "Snoozing feels like a gift and acts like a trap. These guides explain the research and give you a plan that works with a half-asleep brain, not against it.",
-    posts: ["how-to-stop-hitting-snooze", "how-to-wake-up-as-a-heavy-sleeper", "sleep-inertia", "how-to-wake-up-at-5am"],
+    posts: ["how-to-stop-hitting-snooze", "how-to-wake-up-as-a-heavy-sleeper", "sleep-inertia", "how-to-wake-up-at-5am", "alarm-that-makes-you-get-out-of-bed"],
   },
   {
     slug: "waking-up-early",
@@ -252,7 +302,7 @@ export const BLOG_TOPICS: BlogTopic[] = [
       "The honest benefits of waking up early, how to shift your wake time safely in 15-minute steps, and morning routines that actually stick.",
     intro:
       "Waking up early isn't magic, but a consistent, earlier morning gives you light, quiet time and room to exercise. Here's how to do it without wrecking your sleep.",
-    posts: ["benefits-of-waking-up-early", "how-to-stop-hitting-snooze", "how-to-wake-up-at-5am"],
+    posts: ["benefits-of-waking-up-early", "how-to-stop-hitting-snooze", "how-to-wake-up-at-5am", "alarm-app-for-adhd"],
   },
   {
     slug: "sleep-science",
@@ -263,7 +313,7 @@ export const BLOG_TOPICS: BlogTopic[] = [
       "Sleep inertia, sleep cycles and why some people sleep through alarms, explained with sources and honest about what the research doesn't show.",
     intro:
       "Why mornings feel the way they do: grogginess, deep sleep, body clocks and alarms. Every claim links to its source, and every guide says where the evidence runs out.",
-    posts: ["sleep-inertia", "why-do-i-sleep-through-my-alarm"],
+    posts: ["sleep-inertia", "why-do-i-sleep-through-my-alarm", "alarm-app-for-adhd"],
   },
   {
     slug: "wake-up-challenges",
@@ -274,7 +324,18 @@ export const BLOG_TOPICS: BlogTopic[] = [
       "How alarm missions work and which one suits you: push-ups, QR codes, math, walking and more, with the research on what actually wakes you up.",
     intro:
       "A wake-up challenge keeps the alarm ringing until you've done something a sleeping brain can't. These guides explain each type, who it suits, and where it stops working.",
-    posts: ["wake-up-challenges-explained", "push-up-alarm-clock", "qr-code-alarm-clock", "math-alarm-clock", "step-alarm-clock"],
+    posts: ["wake-up-challenges-explained", "push-up-alarm-clock", "qr-code-alarm-clock", "math-alarm-clock", "step-alarm-clock", "alarm-that-makes-you-get-out-of-bed"],
+  },
+  {
+    slug: "iphone-alarms",
+    name: "iPhone alarms",
+    title: "iPhone alarm help",
+    metaTitle: "iPhone Alarm Problems & Fixes",
+    description:
+      "Why an iPhone alarm doesn't go off, rings too quietly or stays silent, and how to fix it, checked against Apple's own support pages for iOS 26 and iOS 27.",
+    intro:
+      "Every fix here is checked against Apple's support documentation, with the exact setting names, and we say plainly when Apple doesn't document something.",
+    posts: ["iphone-alarm-not-going-off", "loudest-alarm-sound-iphone", "iphone-alarm-volume-low", "does-iphone-alarm-ring-on-silent"],
   },
   {
     slug: "alarm-apps",
@@ -285,7 +346,7 @@ export const BLOG_TOPICS: BlogTopic[] = [
       "Honest comparisons of iPhone alarm apps for heavy sleepers, using each app's own App Store listing: missions, size, ratings and paid tiers.",
     intro:
       "We make Rise Mission, so we hold these comparisons to a simple rule: every fact comes from each app's own App Store listing, dated, and every app is described by what it's genuinely good at.",
-    posts: ["best-alarm-apps-for-heavy-sleepers", "alarmy-alternatives", "rise-mission-vs-alarmy", "rise-mission-vs-erly"],
+    posts: ["best-alarm-apps-for-heavy-sleepers", "alarmy-alternatives", "rise-mission-vs-alarmy", "rise-mission-vs-erly", "iphone-alarm-not-going-off", "alarm-app-for-adhd"],
   },
 ];
 

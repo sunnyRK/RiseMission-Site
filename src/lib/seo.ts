@@ -154,6 +154,22 @@ export function demoVideoLd() {
   };
 }
 
+/** The animated 30-second explainer reel (16:9 on the site; 9:16 is for social). */
+export function reelVideoLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    name: "Rise Mission in 30 seconds",
+    description:
+      "Animated explainer: Rise Mission rings on Silent and in Focus, you pick one of 10 wake-up challenges, prove you're awake with camera-counted push-ups, and build a wake-up streak.",
+    thumbnailUrl: abs("/assets/reel/rise-mission-reel-16x9-poster.jpg"),
+    contentUrl: abs("/assets/reel/rise-mission-reel-16x9.mp4"),
+    uploadDate: "2026-11-15",
+    duration: "PT31S",
+    publisher: { "@id": organizationId },
+  };
+}
+
 export function webSiteLd() {
   return {
     "@context": "https://schema.org",

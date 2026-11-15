@@ -11,7 +11,7 @@ import { liveTools, toolPath } from "@/lib/tools";
  *   explanatory prose (children) → app CTA → more tools.
  * Keep tool UIs inside <ToolCard>; keep content inside the prose slot.
  */
-export function ToolHero({ title, lead }: { title: string; lead: string }) {
+export function ToolHero({ title, lead, updated = "2026-11-15" }: { title: string; lead: string; updated?: string }) {
   return (
     <section className="sunrise-glow dawn">
       <div className="container-rm pb-8 pt-12 text-center md:pt-16">
@@ -19,6 +19,17 @@ export function ToolHero({ title, lead }: { title: string; lead: string }) {
         </p>
         <h1 className="t-h1 mx-auto mt-3 max-w-3xl">{title}</h1>
         <p className="t-lead mx-auto mt-4 max-w-2xl">{lead}</p>
+        <p className="mt-4 text-[0.85rem] text-muted">
+          By{" "}
+          <Link href="/about" rel="author" className="font-semibold text-ink-2 hover:underline">
+            Sunny Radadiya
+          </Link>{" "}
+          · Updated{" "}
+          <time dateTime={updated}>
+            {new Date(`${updated}T12:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" })}
+          </time>{" "}
+          · Sources cited below
+        </p>
       </div>
     </section>
   );

@@ -1,4 +1,5 @@
-import { BLOG_POSTS, postPath } from "@/lib/blog";
+import { BLOG_POSTS, BLOG_TOPICS, postPath } from "@/lib/blog";
+import { liveTools, toolPath } from "@/lib/tools";
 import { CHALLENGES, FACTS, LIVE_VERSION, PRICING_COPY, PRIVACY_COPY, SITE_URL, APP_STORE_URL } from "@/lib/site";
 
 /**
@@ -20,8 +21,14 @@ export function GET() {
 - Pricing: ${PRICING_COPY.long}
 - App Store: ${APP_STORE_URL}
 
-## Tools
-- [Sleep cycle calculator](${SITE_URL}/sleep-calculator): bedtimes and wake-up times based on 90-minute sleep cycles.
+## Free tools
+${liveTools().map((t) => `- [${t.name}](${SITE_URL}${toolPath(t.slug)}): ${t.description}`).join("\n")}
+
+## Data
+- [Alarm app size comparison](${SITE_URL}/alarm-app-size-comparison): App Store size, ratings and minimum iOS for 12 iPhone alarm apps, dated, CC BY 4.0. JSON: ${SITE_URL}/data/alarm-apps.json
+
+## Topic hubs
+${BLOG_TOPICS.map((t) => `- [${t.title}](${SITE_URL}/blog/topic/${t.slug}): ${t.description}`).join("\n")}
 
 ## Guides
 ${BLOG_POSTS.map((p) => `- [${p.title}](${SITE_URL}${postPath(p.slug)}): ${p.description}`).join("\n")}

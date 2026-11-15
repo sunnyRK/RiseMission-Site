@@ -43,6 +43,7 @@ export function AppSizeTable({ slugs, caption }: { slugs?: string[]; caption?: s
               <tr key={r.slug} className={`border-b border-line last:border-0 ${ours ? "bg-accent-soft/40" : ""}`}>
                 <td className="px-4 py-3 font-medium text-ink">
                   {r.shortName}
+                  {ours && " "}
                   {ours && <span className="ml-2 rounded-full bg-accent px-2 py-0.5 text-[0.7rem] font-semibold text-accent-ink">ours</span>}
                 </td>
                 <td className="px-4 py-3">

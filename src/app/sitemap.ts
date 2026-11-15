@@ -45,6 +45,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
                 publication_date: "2026-08-26",
                 family_friendly: "yes" as const,
               },
+              {
+                title: "Rise Mission in 30 seconds",
+                description:
+                  "Animated explainer: Rise Mission rings on Silent and in Focus, you pick one of 10 wake-up challenges, prove you're awake with camera-counted push-ups, and build a wake-up streak.",
+                thumbnail_loc: `${SITE_URL}/assets/reel/rise-mission-reel-16x9-poster.jpg`,
+                content_loc: `${SITE_URL}/assets/reel/rise-mission-reel-16x9.mp4`,
+                duration: 31,
+                publication_date: "2026-11-15",
+                family_friendly: "yes" as const,
+              },
             ],
           }
         : {}),

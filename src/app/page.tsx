@@ -9,7 +9,7 @@ import { ShotCard } from "@/components/site/shot-card";
 import { JsonLd } from "@/components/seo/json-ld";
 import { BLOG_TOPICS, postPath, sortedPosts } from "@/lib/blog";
 import type { NavIcon } from "@/lib/nav";
-import { demoVideoLd, faqPageLd, mobileApplicationLd, organizationLd, pageMetadata, webSiteLd, type QA } from "@/lib/seo";
+import { demoVideoLd, reelVideoLd, faqPageLd, mobileApplicationLd, organizationLd, pageMetadata, webSiteLd, type QA } from "@/lib/seo";
 import { CHALLENGE_GUIDES, CHALLENGES, FACTS, LIVE_VERSION, PRICING_COPY, PRIVACY_COPY } from "@/lib/site";
 
 const DESCRIPTION =
@@ -54,7 +54,7 @@ export default function HomePage() {
   const posts = sortedPosts().slice(0, 3);
   return (
     <>
-      <JsonLd data={[organizationLd(), webSiteLd(), mobileApplicationLd(DESCRIPTION), demoVideoLd(), faqPageLd(FAQ)]} />
+      <JsonLd data={[organizationLd(), webSiteLd(), mobileApplicationLd(DESCRIPTION), demoVideoLd(), reelVideoLd(), faqPageLd(FAQ)]} />
 
       {/* HERO — compact centered pitch, then the demo video as the visual hero */}
       <section className="sunrise-glow dawn relative overflow-hidden">
@@ -135,6 +135,31 @@ export default function HomePage() {
           ))}
         </ol>
       </Section>
+
+      {/* 30-SECOND REEL */}
+      <section className="container-rm pb-4">
+        <div className="mx-auto max-w-5xl">
+          <div className="text-center">
+            <p className="t-eyebrow justify-center">Watch</p>
+            <h2 className="t-h2 mt-3">Rise Mission in 30 seconds</h2>
+          </div>
+          <div className="mt-8 rounded-[24px] border border-line bg-card p-1.5 shadow-soft sm:p-2">
+            <video
+              className="aspect-video w-full rounded-[18px] bg-paper-2"
+              poster="/assets/reel/rise-mission-reel-16x9-poster.jpg"
+              controls
+              muted
+              playsInline
+              preload="none"
+              width={1920}
+              height={1080}
+              aria-label="Animated explainer: the alarm rings on Silent, you pick a wake-up challenge, prove you're awake, and build a streak"
+            >
+              <source src="/assets/reel/rise-mission-reel-16x9.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+      </section>
 
       {/* CHALLENGES */}
       <Section id="challenges" tone="tint">

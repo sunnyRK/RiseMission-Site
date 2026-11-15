@@ -53,6 +53,24 @@ export const TOOLS: Tool[] = [
     status: "live",
     lastModified: "2026-11-15",
   },
+  {
+    slug: "sleep-debt-calculator",
+    name: "Sleep debt calculator",
+    tagline: "Your weekly sleep debt",
+    description: "Add up the sleep you've missed over the last 7 nights and get a gentle plan to catch up.",
+    icon: "science",
+    status: "live",
+    lastModified: "2026-11-15",
+  },
+  {
+    slug: "chronotype-quiz",
+    name: "Chronotype quiz",
+    tagline: "Early bird or night owl?",
+    description: "A quick, informal 8-question quiz on your natural sleep timing, with wake-time advice for your type.",
+    icon: "sunrise",
+    status: "live",
+    lastModified: "2026-11-15",
+  },
 ];
 
 export const liveTools = () => TOOLS.filter((t) => t.status === "live");

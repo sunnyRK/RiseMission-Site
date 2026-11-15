@@ -41,6 +41,7 @@ const TOPIC_ICON: Record<string, NavIcon> = {
   "sleep-science": "science",
   "wake-up-challenges": "pushups",
   "alarm-apps": "compare",
+  "iphone-alarms": "alarm",
 };
 
 const challengeLink = (slug: string): NavLink => {

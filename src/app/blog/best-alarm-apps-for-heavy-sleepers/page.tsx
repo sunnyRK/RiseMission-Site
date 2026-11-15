@@ -63,7 +63,7 @@ export default function Page() {
       <KeyTakeaways
         items={[
           `Alarmy has by far the largest track record: ${n(c("alarmy").ratingCount)} US ratings at ${c("alarmy").rating!.toFixed(2)}.`,
-          "Mission alarms beat louder alarms for most heavy sleepers, because a task needs a working brain and a loud sound doesn't.",
+          "A mission alarm targets the real failure point: switching the alarm off half-asleep. Volume alone doesn't stop that.",
           `The best-known mission alarm apps (Alarmy, Erly, Wayk, SuperAlarm, 1% Alarm) are 190–350 MB. Rise Mission is ${c("rise-mission").sizeMB.toFixed(1)} MB.`,
           "Almost every app here is free to download with paid features. Check the listing for what's included.",
         ]}
