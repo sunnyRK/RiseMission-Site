@@ -35,6 +35,7 @@ pnpm typecheck && pnpm build
 5. Links: 1 up-link to its hub topic, 2–4 sibling posts, 1 tool (`/sleep-calculator`), the app home `/` once in prose. 3–5 internal links per 1,000 words.
 6. ≥ 1,500 words, ≥ 3 facts not on any other page, first-person operator voice where relevant.
 7. Pace: max 3–5 new URLs per week. Quality over count. Never mass-generate.
+8. After the deploy is live: `pnpm indexnow /blog/<slug>` (or `pnpm indexnow` for the whole sitemap) to notify Bing/ChatGPT search. Key file `public/1234604e902a5cca1a9f3587ad63c7d5.txt` must stay deployed. Then request indexing in Search Console (≤10 URLs/day).
 
 ## Layout gotchas
 - `BlogLayout` auto-builds the TOC from top-level `<H2>`s and injects the app CTA before the 3rd H2 — keep H2s as direct children of the page (fragments are fine).
