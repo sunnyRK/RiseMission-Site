@@ -1,0 +1,345 @@
+/**
+ * Blog registry — the "frontmatter" for every post (pattern from pagedrop).
+ *
+ * Publishing a post = 4 steps, enforced by src/lib/__tests__/blog.test.ts:
+ *   1. add an entry here
+ *   2. add src/app/blog/<slug>/page.tsx using <BlogLayout post={getPost(slug)}>
+ *   3. put the slug in at least one topic in BLOG_TOPICS (hub-and-spoke)
+ *   4. (optional) designed cover at public/blog/covers/<slug>.png — otherwise
+ *      the generated /og cover is used
+ * Sitemap, RSS, llms.txt and the topic hubs update automatically.
+ *
+ * `updated` is ONLY for a real content change (it feeds dateModified + the
+ * sitemap). Never bump dates to fake freshness — Google treats that as spam.
+ */
+
+export type BlogPost = {
+  slug: string;
+  /** H1 on the page. */
+  title: string;
+  /** <title>; ≤ 44 chars (template adds " | Rise Mission"). Falls back to title. */
+  metaTitle?: string;
+  /** Card/listing summary. */
+  description: string;
+  /** ≤ 155 chars. Falls back to description. */
+  metaDescription?: string;
+  /** Short line used on the generated cover image. */
+  eyebrow: string;
+  date: string; // YYYY-MM-DD
+  updated?: string;
+  readMinutes: number;
+  coverImage?: string;
+};
+
+export const BLOG_POSTS: BlogPost[] = [
+  {
+    slug: "how-to-wake-up-as-a-heavy-sleeper",
+    title: "How to Wake Up When You're a Heavy Sleeper (What Actually Works)",
+    metaTitle: "How to Wake Up as a Heavy Sleeper",
+    description:
+      "Why some people sleep through every alarm, and the specific, tested changes that get a heavy sleeper out of bed: alarm placement, light, sound, and making your brain do something.",
+    metaDescription:
+      "Sleep through alarms? Why heavy sleepers miss them and 9 proven fixes: alarm placement, light, sound choice, and wake-up challenges that need a working brain.",
+    eyebrow: "Heavy sleepers",
+    date: "2026-11-15",
+    readMinutes: 9,
+  },
+  {
+    slug: "how-to-stop-hitting-snooze",
+    title: "How to Stop Hitting Snooze: A Practical Guide for Chronic Snoozers",
+    metaTitle: "How to Stop Hitting Snooze",
+    description:
+      "What the research says about snoozing, why your half-asleep brain always wins the negotiation, and a step-by-step plan to break the snooze habit in two weeks.",
+    metaDescription:
+      "Why you keep hitting snooze, what research says it does to your morning, and a 2-week plan to stop: one alarm, a reason to stand up, and a wake-up challenge.",
+    eyebrow: "Snooze habit",
+    date: "2026-11-15",
+    readMinutes: 8,
+  },
+  {
+    slug: "benefits-of-waking-up-early",
+    title: "The Real Benefits of Waking Up Early (and When It Isn't Worth It)",
+    metaTitle: "Benefits of Waking Up Early",
+    description:
+      "An honest look at what waking up early does and doesn't do: consistency, morning light, quiet time and exercise, plus who should not force a 5 AM alarm.",
+    metaDescription:
+      "What waking up early really improves (consistency, light, quiet time, exercise), what the research doesn't support, and how to shift your wake time safely.",
+    eyebrow: "Early rising",
+    date: "2026-11-15",
+    readMinutes: 9,
+  },
+  {
+    slug: "best-alarm-apps-for-heavy-sleepers",
+    title: "10 Best Alarm Apps for Heavy Sleepers in 2026 (Compared)",
+    metaTitle: "Best Alarm Apps for Heavy Sleepers (2026)",
+    description:
+      "Alarmy, Erly, Rise Mission, Wayk, Sleep Cycle and more, compared on missions, size, ratings and paid tiers using each app's own App Store listing.",
+    metaDescription:
+      "10 iPhone alarm apps for heavy sleepers compared: missions, App Store size, ratings and paid tiers, from each app's own listing. Grouped by need, not hype.",
+    eyebrow: "App comparisons",
+    date: "2026-11-15",
+    readMinutes: 10,
+  },
+  {
+    slug: "alarmy-alternatives",
+    title: "7 Alarmy Alternatives for iPhone (Smaller, Different Missions)",
+    metaTitle: "Alarmy Alternatives for iPhone (2026)",
+    description:
+      "Leaving Alarmy? Seven iPhone mission alarms compared by what they do differently: size, missions, accountability and payment model.",
+    metaDescription:
+      "The best Alarmy alternatives for iPhone: Rise Mission, Erly, Wayk, SuperAlarm, 1% Alarm and more, compared on size, missions and paid tiers.",
+    eyebrow: "App comparisons",
+    date: "2026-11-15",
+    readMinutes: 7,
+  },
+  {
+    slug: "rise-mission-vs-alarmy",
+    title: "Rise Mission vs Alarmy: Which Mission Alarm Fits You?",
+    metaTitle: "Rise Mission vs Alarmy",
+    description:
+      "A side-by-side comparison of Rise Mission and Alarmy: missions, size, sleep tracking, iOS support and paid plans, including where Alarmy wins.",
+    metaDescription:
+      "Rise Mission vs Alarmy compared side by side: missions, App Store size, ratings, sleep tracking and paid plans. Honest about where each one wins.",
+    eyebrow: "Head to head",
+    date: "2026-11-15",
+    readMinutes: 6,
+  },
+  {
+    slug: "rise-mission-vs-erly",
+    title: "Rise Mission vs Erly: Streaks or Challenge Variety?",
+    metaTitle: "Rise Mission vs Erly",
+    description:
+      "Erly locks your wake-up goal and tracks streaks; Rise Mission offers ten on-device challenges in a much smaller app. Which fits your mornings?",
+    metaDescription:
+      "Rise Mission vs Erly compared: missions, streaks, locked goals, bedtime app limits, App Store size and paid plans, with where each app is better.",
+    eyebrow: "Head to head",
+    date: "2026-11-15",
+    readMinutes: 6,
+  },
+  {
+    slug: "wake-up-challenges-explained",
+    title: "Wake-Up Challenges Explained: Which Alarm Mission Actually Gets You Up",
+    metaTitle: "Wake-Up Challenges Explained",
+    description: "What alarm missions and wake-up challenges are, why a task beats a single tap during sleep inertia, how body and brain challenges differ, and which one fits the way you sleep.",
+    metaDescription: "What alarm missions are, why a task beats a tap when you're groggy, body vs brain challenges, which suits your sleep, and the safety rules every one needs.",
+    eyebrow: "Wake-up challenges",
+    date: "2026-11-15",
+    readMinutes: 9,
+  },
+  {
+    slug: "push-up-alarm-clock",
+    title: "Push-Up Alarm Clock: How It Works and How to Set It Up",
+    metaTitle: "Push-Up Alarm Clock: How It Works",
+    description: "How a push-up alarm counts real reps with the camera and on-device body-pose detection, what research says about exercise right after waking, setup tips that make counting reliable, and who should skip it.",
+    metaDescription: "How push-up alarms count reps with on-device body-pose detection, what research says about exercise on waking, placement tips, and who should skip it.",
+    eyebrow: "Push-up alarm",
+    date: "2026-11-15",
+    readMinutes: 8,
+  },
+  {
+    slug: "qr-code-alarm-clock",
+    title: "QR Code Alarm Clock: The Scan-It-in-Another-Room Method",
+    metaTitle: "QR Code Alarm Clock: Scan to Wake Up",
+    description: "Why walking to another room and scanning a code beats putting the alarm across the room, where to put the code, whether to print it or use a screen, and how to plan for a lost code.",
+    metaDescription: "How a QR code alarm works, why distance plus a task beats sleep inertia, the best places for the code, print vs screen, and what to do if the code is lost.",
+    eyebrow: "QR code alarm",
+    date: "2026-11-15",
+    readMinutes: 8,
+  },
+  {
+    slug: "math-alarm-clock",
+    title: "Math Alarm Clock: Why Arithmetic Beats Autopilot (and When It Stops)",
+    metaTitle: "Math Alarm Clock: Does It Work?",
+    description: "Why solving arithmetic is hard for a half-asleep brain, how to choose a difficulty that wakes you without frustrating you, and what to do when you start solving it on autopilot.",
+    metaDescription: "Why math alarms work against sleep inertia, how to pick the right difficulty, the lying-down weak spot, and what to do when you solve it on autopilot.",
+    eyebrow: "Math alarm",
+    date: "2026-11-15",
+    readMinutes: 8,
+  },
+  {
+    slug: "step-alarm-clock",
+    title: "Step Alarm Clock: Walk Your Way Awake",
+    metaTitle: "Step Alarm Clock: Walk to Turn It Off",
+    description: "How a walking alarm counts steps with the phone's motion coprocessor, why walking to the light gets you out of bed, route ideas for any home, and the limits of step counting.",
+    metaDescription: "How step alarms count steps with the iPhone motion coprocessor, why walking to light helps you wake, route ideas for any home, and step-counting limits.",
+    eyebrow: "Walk alarm",
+    date: "2026-11-15",
+    readMinutes: 8,
+  },
+  {
+    slug: "sleep-inertia",
+    title: "Sleep Inertia: Why You Feel Groggy After Waking and How Long It Lasts",
+    metaTitle: "Sleep Inertia: What It Is, How Long It Lasts",
+    description: "What sleep inertia is, how long morning grogginess really lasts, why it's worse some mornings, which fixes have evidence (and which don't), and why it makes you hit snooze.",
+    metaDescription: "Sleep inertia is the groggy state after waking. How long it lasts, why sleep loss worsens it, what helps and why it makes you hit snooze.",
+    eyebrow: "Sleep science",
+    date: "2026-11-15",
+    readMinutes: 9,
+  },
+  {
+    slug: "why-do-i-sleep-through-my-alarm",
+    title: "Why Do I Sleep Through My Alarm? 6 Causes and What to Do",
+    metaTitle: "Why Do I Sleep Through My Alarm?",
+    description: "The real reasons people sleep through alarms, from sleep debt and deep sleep to habituation and sleep disorders, with a table to match your situation to a fix and clear signs it's time to see a doctor.",
+    metaDescription: "Sleep through your alarm? The 6 common causes (sleep debt, deep sleep, schedule, habit, setup, disorders), what to try and when to see a doctor.",
+    eyebrow: "Heavy sleepers",
+    date: "2026-11-15",
+    readMinutes: 8,
+  },
+  {
+    slug: "how-to-wake-up-at-5am",
+    title: "How to Wake Up at 5 AM: A 2-Week Plan That Doesn't Wreck Your Sleep",
+    metaTitle: "How to Wake Up at 5 AM (2-Week Plan)",
+    description: "A practical plan for waking up at 5 AM: bedtime math, shifting in 15-minute steps, morning light, the first ten minutes, weekends, and who shouldn't force an early alarm.",
+    metaDescription: "Wake up at 5 AM without wrecking your sleep: what time to go to bed, a 2-week 15-minute shift schedule, morning light, weekends, and who shouldn't try it.",
+    eyebrow: "Early rising",
+    date: "2026-11-15",
+    readMinutes: 8,
+  },
+  {
+    slug: "does-iphone-alarm-ring-on-silent",
+    title: "Does the iPhone Alarm Ring on Silent? What Apple Says (and Why Some Apps Didn't)",
+    metaTitle: "Does iPhone Alarm Ring on Silent?",
+    description: "Yes: the iPhone Clock alarm rings on Silent and Do Not Disturb. What Apple says about volume, headphones and vibration-only alarms, why third-party alarm apps often couldn't ring on Silent, and how AlarmKit changes that.",
+    metaDescription: "Yes, the iPhone Clock alarm rings on Silent and Do Not Disturb. Volume, headphones, vibrate-only fixes, a checklist, and AlarmKit apps explained.",
+    eyebrow: "iPhone alarms",
+    date: "2026-11-15",
+    readMinutes: 8,
+  },
+];
+
+export type BlogTopic = {
+  slug: string;
+  name: string;
+  /** Hub H1. */
+  title: string;
+  metaTitle: string;
+  description: string;
+  intro: string;
+  posts: string[];
+};
+
+/** Hub-and-spoke clusters. Every post must belong to ≥ 1 topic. */
+export const BLOG_TOPICS: BlogTopic[] = [
+  {
+    slug: "heavy-sleepers",
+    name: "Heavy sleepers",
+    title: "Waking up as a heavy sleeper",
+    metaTitle: "Guides for Heavy Sleepers",
+    description:
+      "Guides for people who sleep through alarms: why it happens, what helps, and how to build a wake-up you can't sleep through.",
+    intro:
+      "If you've ever slept through three alarms and woken up to a missed meeting, these guides are for you. They focus on what changes behaviour on a real morning, not generic sleep tips.",
+    posts: ["how-to-wake-up-as-a-heavy-sleeper", "how-to-stop-hitting-snooze", "sleep-inertia", "why-do-i-sleep-through-my-alarm", "does-iphone-alarm-ring-on-silent"],
+  },
+  {
+    slug: "snooze-habit",
+    name: "Snooze habit",
+    title: "Breaking the snooze habit",
+    metaTitle: "How to Break the Snooze Habit",
+    description:
+      "What snoozing really does to your morning, what the research says, and practical two-week plans to stop hitting the snooze button for good.",
+    intro:
+      "Snoozing feels like a gift and acts like a trap. These guides explain the research and give you a plan that works with a half-asleep brain, not against it.",
+    posts: ["how-to-stop-hitting-snooze", "how-to-wake-up-as-a-heavy-sleeper", "sleep-inertia", "how-to-wake-up-at-5am"],
+  },
+  {
+    slug: "waking-up-early",
+    name: "Waking up early",
+    title: "Becoming a morning person",
+    metaTitle: "Waking Up Early: Guides & Science",
+    description:
+      "The honest benefits of waking up early, how to shift your wake time safely in 15-minute steps, and morning routines that actually stick.",
+    intro:
+      "Waking up early isn't magic, but a consistent, earlier morning gives you light, quiet time and room to exercise. Here's how to do it without wrecking your sleep.",
+    posts: ["benefits-of-waking-up-early", "how-to-stop-hitting-snooze", "how-to-wake-up-at-5am"],
+  },
+  {
+    slug: "sleep-science",
+    name: "Sleep science",
+    title: "The science of waking up",
+    metaTitle: "Sleep Science: How Waking Up Works",
+    description:
+      "Sleep inertia, sleep cycles and why some people sleep through alarms, explained with sources and honest about what the research doesn't show.",
+    intro:
+      "Why mornings feel the way they do: grogginess, deep sleep, body clocks and alarms. Every claim links to its source, and every guide says where the evidence runs out.",
+    posts: ["sleep-inertia", "why-do-i-sleep-through-my-alarm"],
+  },
+  {
+    slug: "wake-up-challenges",
+    name: "Wake-up challenges",
+    title: "Wake-up challenges and mission alarms",
+    metaTitle: "Wake-Up Challenges & Mission Alarms",
+    description:
+      "How alarm missions work and which one suits you: push-ups, QR codes, math, walking and more, with the research on what actually wakes you up.",
+    intro:
+      "A wake-up challenge keeps the alarm ringing until you've done something a sleeping brain can't. These guides explain each type, who it suits, and where it stops working.",
+    posts: ["wake-up-challenges-explained", "push-up-alarm-clock", "qr-code-alarm-clock", "math-alarm-clock", "step-alarm-clock"],
+  },
+  {
+    slug: "alarm-apps",
+    name: "Alarm app comparisons",
+    title: "Alarm app comparisons",
+    metaTitle: "Alarm App Comparisons & Reviews",
+    description:
+      "Honest comparisons of iPhone alarm apps for heavy sleepers, using each app's own App Store listing: missions, size, ratings and paid tiers.",
+    intro:
+      "We make Rise Mission, so we hold these comparisons to a simple rule: every fact comes from each app's own App Store listing, dated, and every app is described by what it's genuinely good at.",
+    posts: ["best-alarm-apps-for-heavy-sleepers", "alarmy-alternatives", "rise-mission-vs-alarmy", "rise-mission-vs-erly"],
+  },
+];
+
+export function getPost(slug: string): BlogPost {
+  const p = BLOG_POSTS.find((x) => x.slug === slug);
+  if (!p) throw new Error(`Unknown blog post: ${slug}`);
+  return p;
+}
+
+export function getTopic(slug: string): BlogTopic | undefined {
+  return BLOG_TOPICS.find((t) => t.slug === slug);
+}
+
+export function topicsForPost(slug: string): BlogTopic[] {
+  return BLOG_TOPICS.filter((t) => t.posts.includes(slug));
+}
+
+export function sortedPosts(): BlogPost[] {
+  return [...BLOG_POSTS].sort((a, b) => b.date.localeCompare(a.date) || a.slug.localeCompare(b.slug));
+}
+
+export function postPath(slug: string) {
+  return `/blog/${slug}`;
+}
+
+export function postCover(post: BlogPost) {
+  return post.coverImage ?? `/og?${new URLSearchParams({ title: post.title, eyebrow: post.eyebrow }).toString()}`;
+}
+
+/** FNV-1a — stable, order-independent tie-break so older posts keep getting links. */
+function pairRank(a: string, b: string): number {
+  const s = a < b ? `${a}|${b}` : `${b}|${a}`;
+  let h = 0x811c9dc5;
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 0x01000193);
+  }
+  return h >>> 0;
+}
+
+/**
+ * Related posts: rank by shared topics, tie-break by a stable hash (NOT date).
+ * pagedrop learned that date ordering funnels every link to the newest posts
+ * and starves older ones into "Discovered – currently not indexed".
+ */
+export function relatedPosts(slug: string, limit = 3): BlogPost[] {
+  const mine = new Set(topicsForPost(slug).map((t) => t.slug));
+  return BLOG_POSTS.filter((p) => p.slug !== slug)
+    .map((p) => ({
+      p,
+      shared: topicsForPost(p.slug).filter((t) => mine.has(t.slug)).length,
+      rank: pairRank(slug, p.slug),
+    }))
+    .sort((a, b) => b.shared - a.shared || a.rank - b.rank)
+    .slice(0, limit)
+    .map((x) => x.p);
+}

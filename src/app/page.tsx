@@ -1,0 +1,267 @@
+import Link from "next/link";
+import { ArrowRight, Check } from "lucide-react";
+import { AppStoreButton } from "@/components/site/app-store-button";
+import { DemoVideo } from "@/components/site/demo-video";
+import { Faq } from "@/components/site/faq";
+import { IconTile } from "@/components/site/icons";
+import { Section, SectionHeader } from "@/components/site/section";
+import { ShotCard } from "@/components/site/shot-card";
+import { JsonLd } from "@/components/seo/json-ld";
+import { BLOG_TOPICS, postPath, sortedPosts } from "@/lib/blog";
+import type { NavIcon } from "@/lib/nav";
+import { demoVideoLd, faqPageLd, mobileApplicationLd, organizationLd, pageMetadata, webSiteLd, type QA } from "@/lib/seo";
+import { CHALLENGE_GUIDES, CHALLENGES, FACTS, LIVE_VERSION, PRICING_COPY, PRIVACY_COPY } from "@/lib/site";
+
+const DESCRIPTION =
+  "Rise Mission is the iPhone alarm clock for heavy sleepers. It keeps ringing until you prove you're awake with push-ups, a walk, a QR scan, math or your voice.";
+
+export const metadata = pageMetadata({
+  title: "Rise Mission: Alarm Clock for Heavy Sleepers",
+  absoluteTitle: true,
+  description: "The iPhone alarm you can't snooze away. Prove you're awake with push-ups, a walk, a QR scan, math or voice. Built on AlarmKit, rings on Silent.",
+  path: "/",
+  ogImage: "/assets/og-image.png",
+});
+
+const FAQ: QA[] = [
+  {
+    q: "How does Rise Mission stop me from snoozing?",
+    a: "When the alarm rings you complete a short wake-up challenge, such as push-ups counted by your camera, a walk, scanning a QR code in another room, math, or saying an affirmation out loud. The alarm keeps going until you finish, so you can't tap snooze half-asleep and drift back off.",
+  },
+  { q: "Does the alarm ring on Silent, in Focus, or when the app is closed?", a: `Yes. ${FACTS.ringsOnSilent} ${FACTS.poweredOff}` },
+  { q: "Which wake-up challenges can I choose from?", a: `${FACTS.challengeCount}: ${CHALLENGES.map((c) => c.name).join(", ")}. ${FACTS.backupChallenge}` },
+  { q: "Is my camera and voice data private?", a: PRIVACY_COPY.long },
+  { q: "What if the camera can't see me or I'm sick?", a: `${FACTS.backupChallenge} ${FACTS.emergencyDismiss}` },
+  { q: "How much does Rise Mission cost?", a: PRICING_COPY.long },
+  {
+    q: "Who is Rise Mission for?",
+    a: "Heavy sleepers and chronic snoozers: anyone who can switch off a normal alarm in their sleep. It's especially useful if you have early workouts, classes, shifts or flights, where waking up on the first alarm actually matters.",
+  },
+];
+
+const STEPS = [
+  { n: "01", t: "Set your alarm", d: "Pick a time, the days, and a wake-up challenge with a difficulty that suits you." },
+  { n: "02", t: "It rings, for real", d: "AlarmKit rings on the Lock Screen, in Silent and in Focus, even with the app closed." },
+  { n: "03", t: "Prove you're up", d: "Finish the challenge to stop it. Your streak grows and your brain is already online." },
+];
+
+const ICON: Record<string, NavIcon> = {
+  "push-ups": "pushups", squats: "squats", walk: "walk", shake: "shake", "object-find": "object",
+  "qr-code": "qr", voice: "voice", math: "math", typing: "typing", memory: "memory",
+};
+
+export default function HomePage() {
+  const posts = sortedPosts().slice(0, 3);
+  return (
+    <>
+      <JsonLd data={[organizationLd(), webSiteLd(), mobileApplicationLd(DESCRIPTION), demoVideoLd(), faqPageLd(FAQ)]} />
+
+      {/* HERO — split like aicarousels: headline left, pitch + CTA right */}
+      <section className="sunrise-glow dawn">
+        <div className="container-rm pb-12 pt-10 md:pb-16 md:pt-20">
+          <div className="grid items-end gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
+            <div className="fade-up text-center lg:text-left">
+              <p className="t-eyebrow">Alarm clock for heavy sleepers · iPhone
+              </p>
+              <h1 className="t-display mt-5">
+                The alarm you can&apos;t <span className="hl">snooze</span> away.
+              </h1>
+            </div>
+            <div className="fade-up text-center lg:pb-2 lg:text-left">
+              <p className="t-lead mx-auto max-w-xl lg:mx-0">
+                Rise Mission keeps ringing until you prove you&apos;re awake: push-ups counted by your camera, a walk, a QR
+                code in another room, math, or your voice.
+              </p>
+              <div className="mt-7 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-center lg:justify-start">
+                <AppStoreButton placement="home-hero" size="lg" className="justify-center" />
+                <Link
+                  href="#how-it-works"
+                  className="inline-flex h-[60px] items-center justify-center gap-2 rounded-[14px] border border-line bg-card px-6 font-semibold text-ink transition hover:border-ink/20"
+                >
+                  How it works <ArrowRight aria-hidden className="h-4 w-4" />
+                </Link>
+              </div>
+              <p className="t-small mt-4 flex items-center justify-center gap-2 lg:justify-start">
+                <Check aria-hidden className="h-4 w-4 text-good" />
+                {PRICING_COPY.short} · v{LIVE_VERSION} · iOS 26
+              </p>
+            </div>
+          </div>
+
+          {/* Showcase panel: demo video + app screens */}
+          <div className="relative mt-10 overflow-hidden rounded-[24px] border border-line bg-gradient-to-b from-accent-soft/80 via-card to-sun-soft/70 px-2.5 pb-5 pt-2.5 sm:rounded-[28px] sm:px-8 sm:pb-6 sm:pt-10 md:mt-16 lg:px-16">
+            <div className="relative mx-auto flex max-w-6xl items-center justify-center gap-6">
+              <ShotCard
+                src="/assets/shots/01-hook.jpg"
+                alt="Rise Mission ringing screen at 6:30 AM with a Start Challenge button"
+                className="hidden w-[17%] -rotate-6 lg:block"
+              />
+              <div className="w-full max-w-3xl rounded-[18px] border border-line bg-card p-1.5 shadow-soft sm:rounded-[22px] sm:p-2">
+                <DemoVideo />
+              </div>
+              <ShotCard
+                src="/assets/shots/02-pushups.jpg"
+                alt="Camera counting push-ups on the floor to dismiss the alarm"
+                className="hidden w-[17%] rotate-6 lg:block"
+              />
+            </div>
+            <ul className="mx-auto mt-5 flex max-w-3xl flex-wrap justify-center gap-2 px-2">
+              {[...PRIVACY_COPY.badges, "Rings on Silent & Focus"].map((b) => (
+                <li key={b} className="inline-flex items-center gap-1.5 rounded-full border border-line bg-card/80 px-3 py-1.5 text-[0.85rem] text-ink-2">
+                  <Check aria-hidden className="h-3.5 w-3.5 text-good" />
+                  {b}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* HOW IT WORKS */}
+      <Section id="how-it-works">
+        <SectionHeader eyebrow="How it works" title="Three steps to a morning you don't negotiate with." />
+        <ol className="mt-12 grid gap-4 md:grid-cols-3">
+          {STEPS.map((s) => (
+            <li key={s.n} className="rounded-2xl border border-line bg-card p-7">
+              <span className="font-mono text-sm text-muted">{s.n}</span>
+              <h3 className="t-h3 mt-6">{s.t}</h3>
+              <p className="mt-2 text-ink-2">{s.d}</p>
+            </li>
+          ))}
+        </ol>
+      </Section>
+
+      {/* CHALLENGES */}
+      <Section id="challenges" tone="tint">
+        <SectionHeader
+          eyebrow={`${FACTS.challengeCount} wake-up challenges`}
+          title="Prove you're awake, your way."
+          lead="Body challenges get you out of bed. Brain challenges get your head online. Pair one of each, and the backup takes over if the camera can't see you."
+        />
+        <p className="mt-4">
+          <Link href="/blog/wake-up-challenges-explained" className="inline-flex items-center gap-1.5 font-semibold text-accent hover:underline">
+            Which challenge suits you? <ArrowRight aria-hidden className="h-4 w-4" />
+          </Link>
+        </p>
+        <ul className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+          {CHALLENGES.map((c) => (
+            <li key={c.slug} id={`challenge-${c.slug}`} className="scroll-mt-24 rounded-2xl border border-line bg-card p-5">
+              <div className="flex items-center justify-between">
+                <IconTile name={ICON[c.slug]} size="md" tone="accent" />
+                <span className="text-[0.75rem] font-medium text-muted">{c.kind === "physical" ? "Body" : "Brain"}</span>
+              </div>
+              <h3 className="t-h3 mt-4">{c.name}</h3>
+              <p className="mt-1.5 text-[0.92rem] leading-relaxed text-ink-2">{c.how}</p>
+              {CHALLENGE_GUIDES[c.slug] && (
+                <Link href={CHALLENGE_GUIDES[c.slug]} className="mt-3 inline-flex items-center gap-1 text-[0.85rem] font-semibold text-accent hover:underline">
+                  Read the guide <ArrowRight aria-hidden className="h-3.5 w-3.5" />
+                </Link>
+              )}
+            </li>
+          ))}
+        </ul>
+      </Section>
+
+      {/* FAIR BY DESIGN */}
+      <Section>
+        <div className="grid items-center gap-14 lg:grid-cols-2">
+          <div className="order-2 mx-auto flex w-full max-w-md gap-5 lg:order-1">
+            <ShotCard src="/assets/shots/03-object-voice.jpg" alt="Object Find and Voice affirmation challenges" className="w-1/2" />
+            <ShotCard src="/assets/shots/06-track.jpg" alt="Wake-up history calendar and statistics with streaks" className="mt-14 w-1/2" />
+          </div>
+          <div className="order-1 lg:order-2">
+            <SectionHeader eyebrow="Fair by design" title="Tough, never a trap." />
+            <dl className="mt-10 grid gap-x-8 gap-y-8 sm:grid-cols-2">
+              <Feature title="A backup for every body challenge">{FACTS.backupChallenge}</Feature>
+              <Feature title="Emergency dismiss, always">{FACTS.emergencyDismiss}</Feature>
+              <Feature title="Private by design">{FACTS.onDevice}</Feature>
+              <Feature title="Practice before tomorrow">{FACTS.testAlarm}</Feature>
+            </dl>
+          </div>
+        </div>
+      </Section>
+
+      {/* NEW IN 1.5 */}
+      <section className="container-rm">
+        <div className="rounded-[28px] bg-ink px-6 py-12 text-paper sm:px-12">
+          <p className="t-eyebrow !text-paper/60">What&apos;s new
+          </p>
+          <h2 className="t-h2 mt-3 !text-paper">Version {LIVE_VERSION}</h2>
+          <ul className="mt-8 grid gap-x-10 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
+            {FACTS.v15Features.map((f) => (
+              <li key={f} className="flex gap-3 text-paper/80">
+                <Check aria-hidden className="mt-1 h-4 w-4 shrink-0 text-sun" />
+                {f}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* TOOLS + GUIDES (internal linking hub) */}
+      <Section>
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <SectionHeader eyebrow="Free tools & guides" title="Wake up on the first alarm." />
+          <Link href="/blog" className="inline-flex items-center gap-1.5 font-semibold text-ink hover:text-accent">
+            All articles <ArrowRight aria-hidden className="h-4 w-4" />
+          </Link>
+        </div>
+        <div className="mt-12 grid gap-4 lg:grid-cols-3">
+          <Link href="/sleep-calculator" className="group flex flex-col justify-between rounded-2xl bg-accent p-7 text-accent-ink transition hover:-translate-y-0.5 lg:row-span-2">
+            <div>
+              <IconTile name="moon" size="lg" tone="inverse" />
+              <h3 className="mt-6 text-2xl font-semibold tracking-tight">Sleep cycle calculator</h3>
+              <p className="mt-2 opacity-85">Find the bedtime that lines your alarm up with the end of a sleep cycle. Free, no sign-up.</p>
+            </div>
+            <span className="mt-8 inline-flex items-center gap-1.5 font-semibold">
+              Open the calculator <ArrowRight aria-hidden className="h-4 w-4 transition group-hover:translate-x-0.5" />
+            </span>
+          </Link>
+          {posts.map((p) => (
+            <Link key={p.slug} href={postPath(p.slug)} className="group rounded-2xl border border-line bg-card p-6 transition hover:-translate-y-0.5 hover:shadow-soft">
+              <p className="text-[0.8rem] font-medium text-accent">{p.eyebrow}</p>
+              <h3 className="t-h3 mt-2 group-hover:underline">{p.title}</h3>
+              <p className="mt-2 line-clamp-2 text-[0.92rem] text-ink-2">{p.description}</p>
+            </Link>
+          ))}
+          <div className="rounded-2xl border border-dashed border-line p-6">
+            <p className="text-[0.8rem] font-medium text-muted">Browse by topic</p>
+            <ul className="mt-3 flex flex-wrap gap-2">
+              {BLOG_TOPICS.map((t) => (
+                <li key={t.slug}>
+                  <Link href={`/blog/topic/${t.slug}`} className="inline-block rounded-full border border-line bg-card px-3 py-1.5 text-[0.88rem] text-ink-2 hover:text-ink">
+                    {t.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </Section>
+
+      <Faq items={FAQ} />
+
+      {/* FINAL CTA */}
+      <section className="container-rm mt-24">
+        <div className="sunrise-glow rounded-[28px] border border-line bg-card px-6 py-16 text-center">
+          <h2 className="t-h2 mx-auto max-w-2xl">
+            Wake up without <span className="hl">negotiating</span> with yourself.
+          </h2>
+          <p className="t-lead mx-auto mt-4 max-w-lg">Set it tonight, try the test alarm, and make tomorrow the first morning you don&apos;t snooze.</p>
+          <div className="mt-8 flex justify-center">
+            <AppStoreButton placement="home-final" size="lg" />
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+function Feature({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <dt className="t-h3">{title}</dt>
+      <dd className="mt-1.5 text-ink-2">{children}</dd>
+    </div>
+  );
+}
