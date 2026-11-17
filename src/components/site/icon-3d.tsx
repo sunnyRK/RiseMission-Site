@@ -6,7 +6,8 @@ export type { Icon3DName };
 /**
  * The app's soft-3D icon (3dicons.co, CC0; same files as the app's
  * Assets.xcassets/Icons3D). Sources are 256px palette PNGs; next/image serves
- * AVIF/WebP at the rendered size. Decorative by default (alt=""), because the
+ * AVIF/WebP at the rendered size. Fixed width and no `sizes`, so the markup
+ * is a 1x/2x srcset (2 URLs) instead of the full 15-width list. Decorative by default (alt=""), because the
  * text next to it always names the thing.
  */
 export function Icon3D({
@@ -28,7 +29,6 @@ export function Icon3D({
       alt={alt}
       width={size}
       height={size}
-      sizes={`${size}px`}
       preload={priority}
       loading={priority ? undefined : "lazy"}
       draggable={false}

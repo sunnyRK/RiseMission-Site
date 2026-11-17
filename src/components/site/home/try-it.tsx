@@ -16,7 +16,7 @@ export function TryIt({ slug, name, color }: { slug: string; name: string; color
         onClick={() => setOpen(true)}
         onPointerEnter={() => void import("./demo-sheet")}
         aria-haspopup="dialog"
-        aria-label={`Try a ${name} demo`}
+        aria-label={`Try it: ${name} demo`}
         className="inline-flex min-h-11 flex-1 items-center justify-center gap-1.5 rounded-full bg-white px-5 text-[0.95rem] font-extrabold shadow-[0_3px_8px_rgb(0_0_0/0.15)] transition-transform duration-150 hover:scale-[1.02] active:scale-[0.97] motion-reduce:transform-none"
         style={{ color }}
       >

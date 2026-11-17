@@ -15,7 +15,7 @@
   --ink-2: #4a5059; /* slideLabel: 8:1 on white */
   --muted: #676a70; /* textSecondary-ish: 5.0:1 on paper, 4.6:1 on paper-2 */
   --line: #e4e5e8; /* hairline 7% ink */
-  --accent: #2f5bff;
+  --accent: #2550ee; /* app #2F5BFF, one step deeper so text passes AA on tints and washes */
   --accent-deep: #1e3fd9;
   --accent-ink: #ffffff;
   --accent-soft: #e8edff; /* accent 14% on white */
@@ -349,6 +349,11 @@ dd {
     transform: translateY(14px);
   }
 }
+@keyframes rm-lift {
+  from {
+    transform: translateY(14px);
+  }
+}
 @keyframes rm-fade {
   from {
     opacity: 0;
@@ -362,8 +367,10 @@ dd {
 
   /* Hero entrance (pure CSS, runs without JS). Children of .fade-up-group
      cascade 70ms apart. */
+  /* Transform only (no opacity): the hero text is the LCP element and must
+     paint on the first frame. */
   .fade-up {
-    animation: rm-rise var(--dur-3) var(--ease-out) backwards;
+    animation: rm-lift var(--dur-3) var(--ease-out) backwards;
   }
   .fade-up-group > .fade-up:nth-child(2) { animation-delay: 70ms; }
   .fade-up-group > .fade-up:nth-child(3) { animation-delay: 140ms; }
@@ -571,12 +578,13 @@ dd {
   pointer-events: none;
 }
 .rm-orbit > * { grid-area: 1 / 1; }
-.rm-orbit-center { z-index: 2; }
+.rm-orbit-center { z-index: 1; }
 .rm-orbit-y {
-  z-index: 1;
+  z-index: 2;
+  will-change: transform, opacity;
   animation: rm-orbit-y calc(var(--period) / 2) var(--ease-in-out) var(--d) infinite alternate both;
 }
-.rm-orbit-x { animation: rm-orbit-x calc(var(--period) / 2) var(--ease-in-out) calc(var(--d) - var(--period) / 4) infinite alternate both; }
+.rm-orbit-x { will-change: transform; animation: rm-orbit-x calc(var(--period) / 2) var(--ease-in-out) calc(var(--d) - var(--period) / 4) infinite alternate both; }
 .rm-orbit-bob { animation: rm-bob 6s ease-in-out var(--b) infinite alternate both; }
 .rm-bubble {
   display: grid;
@@ -587,12 +595,10 @@ dd {
   background: radial-gradient(circle at 50% 30%, rgb(255 255 255 / 0.75), rgb(255 255 255 / 0.35));
   border: 1.2px solid rgb(255 255 255 / 0.9);
   box-shadow: 0 5px 16px -4px rgb(138 90 60 / 0.25), inset 0 -6px 12px rgb(255 255 255 / 0.25);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
 }
 @keyframes rm-orbit-y {
-  from { transform: translateY(calc(var(--ry) * -1)) scale(0.84); opacity: 0.74; z-index: 1; }
-  to { transform: translateY(var(--ry)) scale(1.08); opacity: 1; z-index: 3; }
+  from { transform: translateY(calc(var(--ry) * -1)) scale(0.84); opacity: 0.78; }
+  to { transform: translateY(var(--ry)) scale(1.08); opacity: 1; }
 }
 @keyframes rm-orbit-x {
   from { transform: translateX(calc(var(--rx) * -1)); }
@@ -649,7 +655,7 @@ dd {
 
 /* ---------- Carousel (shared, see components/motion/carousel.tsx) ---------- */
 .rm-track {
-  --card-w: min(84%, 360px);
+  --card-w: min(80vw, 360px);
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: var(--card-w);
@@ -667,14 +673,26 @@ dd {
 .rm-track[data-dragging] * { pointer-events: none; }
 @media (pointer: fine) { .rm-track { cursor: grab; } }
 .rm-slide { scroll-snap-align: center; scroll-snap-stop: always; min-width: 0; }
+/* Wide screens show several cards: start-align them on the page gutter
+   (like a row in the App Store) instead of centering the first one. */
+@media (min-width: 1024px) {
+  .rm-track {
+    --gutter: max(2.5rem, calc((100% - 1320px) / 2 + 2.5rem));
+    padding-inline: var(--gutter);
+    scroll-padding-inline: var(--gutter);
+  }
+  .rm-slide { scroll-snap-align: start; scroll-snap-stop: normal; }
+}
 
 /* Side cards ease down in scale/opacity with a whisper of 3D turn (≤ 6°),
    driven by each slide's own position in the scroller: no JS per frame. */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
-    .rm-slide > .rm-depth {
-      animation: rm-depth linear both;
-      animation-timeline: view(inline);
+    @media (max-width: 1023px) {
+      .rm-slide > .rm-depth {
+        animation: rm-depth linear both;
+        animation-timeline: view(inline);
+      }
     }
     .rm-slide .rm-px-x {
       animation: rm-px-x linear both;
@@ -683,9 +701,9 @@ dd {
   }
 }
 @keyframes rm-depth {
-  0% { transform: perspective(1000px) rotateY(-6deg) scale(0.9); opacity: 0.8; }
-  35%, 65% { transform: none; opacity: 1; }
-  100% { transform: perspective(1000px) rotateY(6deg) scale(0.9); opacity: 0.8; }
+  0% { transform: perspective(1000px) rotateY(-6deg) scale(0.9); }
+  35%, 65% { transform: none; }
+  100% { transform: perspective(1000px) rotateY(6deg) scale(0.9); }
 }
 @keyframes rm-px-x {
   from { translate: 22px 0; }

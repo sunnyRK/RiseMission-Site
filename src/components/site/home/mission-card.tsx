@@ -31,7 +31,7 @@ export function MissionCard({ c, index, total }: { c: ChallengeFact; index: numb
           </span>
         </p>
         <div className="mt-3 flex">
-          <TryIt slug={c.slug} name={c.name} color={st.deep} />
+          <TryIt slug={c.slug} name={c.name} color={st.ink} />
         </div>
       </div>
     </article>

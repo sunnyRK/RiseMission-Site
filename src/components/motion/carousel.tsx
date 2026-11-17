@@ -31,7 +31,7 @@ export function Carousel({
   autoplay?: number;
   /** Per-slide colour for the active dot (the app tints it with the challenge). */
   dotColors?: string[];
-  /** CSS width of one card, e.g. "min(84%, 340px)". */
+  /** CSS width of one card in viewport units (a % would resolve against the padded track), e.g. "min(80vw, 340px)". */
   cardWidth?: string;
   /** Headroom above cards (for icons that break out of the top). */
   padTop?: string;
@@ -39,7 +39,7 @@ export function Carousel({
 }) {
   const slides = Children.toArray(children);
   const n = slides.length;
-  const track = useRef<HTMLUListElement>(null);
+  const track = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
   const [playing, setPlaying] = useState(Boolean(autoplay));
   const [held, setHeld] = useState(false); // hover / focus inside
@@ -58,12 +58,14 @@ export function Carousel({
     (i: number) => {
       const el = track.current;
       if (!el) return;
-      const idx = (i + n) % n;
+      // Past the end (or stuck at the scroll end on wide screens): wrap around.
+      const atEnd = el.scrollLeft >= el.scrollWidth - el.clientWidth - 2;
+      const idx = i >= n || (i > active && atEnd) ? 0 : (i + n) % n;
       const s = el.children[idx] as HTMLElement | undefined;
       if (!s) return;
-      el.scrollTo({ left: s.offsetLeft - (el.clientWidth - s.offsetWidth) / 2, behavior: reduced ? "auto" : "smooth" });
+      el.scrollTo({ left: targetLeft(el, s), behavior: reduced ? "auto" : "smooth" });
     },
-    [n, reduced],
+    [n, reduced, active],
   );
 
   // Track the centered slide (rAF-throttled scroll listener).
@@ -73,12 +75,11 @@ export function Carousel({
     let raf = 0;
     const measure = () => {
       raf = 0;
-      const mid = el.scrollLeft + el.clientWidth / 2;
       let best = 0;
       let bestD = Infinity;
       Array.from(el.children).forEach((c, i) => {
         const s = c as HTMLElement;
-        const d = Math.abs(s.offsetLeft + s.offsetWidth / 2 - mid);
+        const d = Math.abs(targetLeft(el, s) - el.scrollLeft);
         if (d < bestD) {
           bestD = d;
           best = i;
@@ -139,12 +140,11 @@ export function Carousel({
       const first = el.children[0] as HTMLElement | undefined;
       const step = first ? first.offsetWidth : el.clientWidth;
       const dx = e.clientX - startX;
-      const mid = startLeft + el.clientWidth / 2;
       let from = 0;
       let bestD = Infinity;
       Array.from(el.children).forEach((c, i) => {
         const s = c as HTMLElement;
-        const d = Math.abs(s.offsetLeft + s.offsetWidth / 2 - mid);
+        const d = Math.abs(targetLeft(el, s) - startLeft);
         if (d < bestD) {
           bestD = d;
           from = i;
@@ -153,7 +153,7 @@ export function Carousel({
       const jump = Math.abs(dx) > step / 3 ? Math.max(1, Math.round(Math.abs(dx) / step)) : 0;
       const target = Math.min(n - 1, Math.max(0, from + (dx < 0 ? jump : -jump)));
       const s = el.children[target] as HTMLElement;
-      el.scrollTo({ left: s.offsetLeft - (el.clientWidth - s.offsetWidth) / 2, behavior: "smooth" });
+      el.scrollTo({ left: targetLeft(el, s), behavior: "smooth" });
     };
     el.addEventListener("pointerdown", onDown);
     window.addEventListener("pointermove", onMove);
@@ -206,19 +206,20 @@ export function Carousel({
         }
       }}
     >
-      <ul
+      <div
         ref={track}
         tabIndex={0}
+        role="group"
         aria-label={`${label}: use the arrow keys to move between cards`}
         className="rm-track focus-visible:outline-offset-[-2px]"
         style={{ ...(cardWidth ? { "--card-w": cardWidth } : {}), ...(padTop ? { "--pad-top": padTop } : {}) } as CSSProperties}
       >
         {slides.map((child, i) => (
-          <li key={i} className="rm-slide" role="group" aria-roledescription="slide" aria-label={`${i + 1} of ${n}`}>
+          <div key={i} className="rm-slide" role="group" aria-roledescription="slide" aria-label={`${i + 1} of ${n}`}>
             <div className="rm-depth h-full">{child}</div>
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
 
       <div className="container-rm -mt-3 flex items-center justify-between gap-3">
         <p aria-live={running ? "off" : "polite"} aria-atomic="true" className="t-rounded min-w-[4.5rem] text-[0.95rem] font-extrabold text-ink">
@@ -255,6 +256,15 @@ export function Carousel({
       </div>
     </div>
   );
+}
+
+/** scrollLeft that snaps slide `s` into place (centered on phones, start-aligned on wide screens). */
+function targetLeft(track: HTMLElement, s: HTMLElement) {
+  const start = getComputedStyle(s).scrollSnapAlign.includes("start");
+  // padding-left == scroll-padding-left on the track, and unlike scroll-padding
+  // it always computes to px.
+  const raw = start ? s.offsetLeft - (parseFloat(getComputedStyle(track).paddingLeft) || 0) : s.offsetLeft - (track.clientWidth - s.offsetWidth) / 2;
+  return Math.max(0, Math.min(raw, track.scrollWidth - track.clientWidth));
 }
 
 const BTN =

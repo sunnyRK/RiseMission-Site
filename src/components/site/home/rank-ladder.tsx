@@ -53,14 +53,14 @@ export function RankLadder() {
         </p>
       </div>
 
-      <Carousel label="Rank ladder" cardWidth="min(78%, 290px)" padTop="28px" className="mt-2">
+      <Carousel label="Rank ladder" cardWidth="min(74vw, 290px)" padTop="28px" className="mt-2">
         {RANKS.map((r, i) => (
           <article key={r.name} className="rm-card group flex h-full flex-col p-5">
             <div className="flex items-start justify-between">
               <span className="rm-px-x">
                 <Icon3D name={r.icon3d} size={84} className="icon3d-hover -mt-1" />
               </span>
-              <span className="t-rounded rounded-full bg-accent-soft px-2.5 py-1 text-[0.78rem] font-extrabold text-accent">
+              <span className="t-rounded rounded-full bg-accent-soft px-2.5 py-1 text-[0.78rem] font-extrabold text-accent-deep dark:text-accent">
                 {r.xp.toLocaleString("en-US")} XP
               </span>
             </div>

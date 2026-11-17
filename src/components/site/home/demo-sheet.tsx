@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import { Delete, Footprints, Mic, QrCode, RotateCcw, X } from "lucide-react";
 import { Icon3D, type Icon3DName } from "@/components/site/icon-3d";
 import { appStoreHref } from "@/components/site/app-store-button";
@@ -151,10 +151,7 @@ function MathDemo({ color, onWin }: { color: string; onWin: () => void }) {
 
 /* ---------- Memory: 4 tiles flash on a 3×3 grid, tap them back in order ---------- */
 function MemoryDemo({ color, top, onWin }: { color: string; top: string; onWin: () => void }) {
-  const seq = useMemo(() => {
-    const pool = [0, 1, 2, 3, 4, 5, 6, 7, 8].sort(() => Math.random() - 0.5);
-    return pool.slice(0, 4);
-  }, []);
+  const [seq] = useState(() => [0, 1, 2, 3, 4, 5, 6, 7, 8].sort(() => Math.random() - 0.5).slice(0, 4));
   const [lit, setLit] = useState<number | null>(null);
   const [phase, setPhase] = useState<"show" | "play">("show");
   const [got, setGot] = useState(0);
@@ -211,6 +208,12 @@ function MemoryDemo({ color, top, onWin }: { color: string; top: string; onWin: 
 const PHRASE = "I am awake and ready";
 function TypingDemo({ color, onWin }: { color: string; onWin: () => void }) {
   const [v, setV] = useState("");
+  const input = useRef<HTMLInputElement>(null);
+  // Focus after the parent's showModal() (which moves focus to the first control).
+  useEffect(() => {
+    const id = requestAnimationFrame(() => input.current?.focus());
+    return () => cancelAnimationFrame(id);
+  }, []);
   return (
     <div>
       <p className="t-rounded rounded-2xl bg-paper-2 p-4 text-center text-[1.3rem] font-bold tracking-tight" aria-hidden>
@@ -225,7 +228,7 @@ function TypingDemo({ color, onWin }: { color: string; onWin: () => void }) {
       </label>
       <input
         id="demo-type"
-        autoFocus
+        ref={input}
         autoComplete="off"
         autoCorrect="off"
         autoCapitalize="off"
@@ -245,25 +248,37 @@ function TypingDemo({ color, onWin }: { color: string; onWin: () => void }) {
 /* ---------- Shake: DeviceMotion on phones, space-bar mash on laptops ---------- */
 function ShakeDemo({ color, onWin }: { color: string; onWin: () => void }) {
   const [n, setN] = useState(0);
-  const [mode, setMode] = useState<"keys" | "ask" | "motion">("keys");
+  // Client-only module (loaded with ssr: false), so window is available here.
+  const [mode, setMode] = useState<"keys" | "ask" | "motion">(() =>
+    window.matchMedia("(pointer: coarse)").matches && "DeviceMotionEvent" in window ? "ask" : "keys",
+  );
   const target = mode === "motion" ? 15 : 25;
   const last = useRef(0);
   useEffect(() => {
-    if (window.matchMedia("(pointer: coarse)").matches && "DeviceMotionEvent" in window) setMode("ask");
-  }, []);
-  useEffect(() => {
     if (n >= target) onWin();
   }, [n, target, onWin]);
+  const shakeBtn = useRef<HTMLButtonElement>(null);
+  // Space counts a shake. Focus sits on the Shake! button (its own click
+  // counts); anywhere else Space is swallowed so it can never press the
+  // dialog's Close button by accident.
   useEffect(() => {
     if (mode !== "keys") return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.code === "Space") {
-        e.preventDefault();
-        setN((x) => x + 1);
-      }
+    const id = requestAnimationFrame(() => shakeBtn.current?.focus());
+    const onDown = (e: KeyboardEvent) => {
+      if (e.code !== "Space" || e.target === shakeBtn.current) return;
+      e.preventDefault();
+      if (!e.repeat) setN((x) => x + 1);
     };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    const onUp = (e: KeyboardEvent) => {
+      if (e.code === "Space" && e.target !== shakeBtn.current) e.preventDefault();
+    };
+    window.addEventListener("keydown", onDown);
+    window.addEventListener("keyup", onUp);
+    return () => {
+      cancelAnimationFrame(id);
+      window.removeEventListener("keydown", onDown);
+      window.removeEventListener("keyup", onUp);
+    };
   }, [mode]);
   useEffect(() => {
     if (mode !== "motion") return;
@@ -307,7 +322,7 @@ function ShakeDemo({ color, onWin }: { color: string; onWin: () => void }) {
           <p className="font-bold text-ink-2">
             Mash the <kbd className="rounded-md border border-line bg-paper-2 px-1.5 py-0.5 text-[0.85em]">Space</kbd> bar, or tap below
           </p>
-          <button type="button" onClick={() => setN((x) => x + 1)} className="rm-btn-primary mt-3 min-h-12 rounded-full px-8 font-extrabold active:scale-95">
+          <button ref={shakeBtn} type="button" onClick={() => setN((x) => x + 1)} className="rm-btn-primary mt-3 min-h-12 rounded-full px-8 font-extrabold active:scale-95">
             Shake!
           </button>
         </div>
@@ -438,8 +453,7 @@ function Ring({ pct, color, children }: { pct: number; color: string; children: 
 /* ---------- Win state ---------- */
 const CONFETTI = ["#2F5BFF", "#F5A623", "#00B865", "#FF7A59", "#B57BFF", "#38BDF8"];
 function Win({ slug, color, onAgain }: { slug: string; color: string; onAgain: () => void }) {
-  const bits = useMemo(
-    () =>
+  const [bits] = useState(() =>
       Array.from({ length: 28 }, (_, i) => ({
         "--cx": `${Math.round(Math.cos((i / 28) * Math.PI * 2) * (90 + Math.random() * 90))}px`,
         "--cy": `${Math.round(Math.sin((i / 28) * Math.PI * 2) * (70 + Math.random() * 80) + 60)}px`,
@@ -447,7 +461,6 @@ function Win({ slug, color, onAgain }: { slug: string; color: string; onAgain: (
         background: CONFETTI[i % CONFETTI.length],
         animationDelay: `${Math.random() * 120}ms`,
       })),
-    [],
   );
   return (
     <div className="relative text-center" role="status">

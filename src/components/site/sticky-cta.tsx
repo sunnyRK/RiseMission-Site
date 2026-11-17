@@ -17,7 +17,10 @@ export function StickyCta() {
 
     const seen = new Set<Element>();
     const io = new IntersectionObserver((entries) => {
-      for (const e of entries) e.isIntersecting ? seen.add(e.target) : seen.delete(e.target);
+      for (const e of entries) {
+        if (e.isIntersecting) seen.add(e.target);
+        else seen.delete(e.target);
+      }
       setShow(seen.size === 0 && window.scrollY > 400);
     });
     ctas.forEach((c) => io.observe(c));
