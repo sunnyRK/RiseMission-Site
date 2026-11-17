@@ -29,8 +29,51 @@ export type OptimisedVideo = {
   sources: readonly VideoSource[];
 };
 
+/**
+ * v1.6 media (2026-11-17). Originals in /assets/v16/.
+ *   reel 16:9  3,690 KB H.264 -> 1,459 KB AV1 / 1,687 KB HEVC
+ *   reel 9:16  3,942 KB H.264 -> 1,621 KB AV1 / 1,819 KB HEVC
+ *   app demo     613 KB H.264 ->   350 KB AV1 /   378 KB HEVC
+ */
+
+/** v1.6 animated explainer, 1920x1080, 30 s. */
+export const REEL_V16_16X9_VIDEO: OptimisedVideo = {
+  poster: "/assets/v/rise-mission-1-6-reel-16x9-poster.cc6d91ec.webp",
+  sources: [
+    { src: "/assets/v/rise-mission-1-6-reel-16x9.av1.d0ecea9d.mp4", type: 'video/mp4; codecs="av01.0.08M.10"' },
+    { src: "/assets/v/rise-mission-1-6-reel-16x9.hevc.1eb39fd4.mp4", type: 'video/mp4; codecs="hvc1.1.6.L120.B0"' },
+    { src: "/assets/v16/rise-mission-1-6-reel-16x9.mp4", type: 'video/mp4; codecs="avc1.640032"' },
+  ],
+};
+
+/** v1.6 vertical cut, 1080x1920, 30 s. */
+export const REEL_V16_9X16_VIDEO: OptimisedVideo = {
+  poster: "/assets/v/rise-mission-1-6-reel-9x16-poster.749d3cca.webp",
+  sources: [
+    { src: "/assets/v/rise-mission-1-6-reel-9x16.av1.7fcf902b.mp4", type: 'video/mp4; codecs="av01.0.08M.10"' },
+    { src: "/assets/v/rise-mission-1-6-reel-9x16.hevc.eaf5cbdf.mp4", type: 'video/mp4; codecs="hvc1.1.6.L120.B0"' },
+    { src: "/assets/v16/rise-mission-1-6-reel-9x16.mp4", type: 'video/mp4; codecs="avc1.640032"' },
+  ],
+};
+
+/** v1.6 real-app screen recording, 1280x720, 24 s. */
+export const DEMO_V16_VIDEO: OptimisedVideo = {
+  poster: "/assets/v/rise-mission-1-6-app-demo-poster.c452a73f.webp",
+  sources: [
+    { src: "/assets/v/rise-mission-1-6-app-demo.av1.44aa623c.mp4", type: 'video/mp4; codecs="av01.0.05M.10"' },
+    { src: "/assets/v/rise-mission-1-6-app-demo.hevc.ad9aae5c.mp4", type: 'video/mp4; codecs="hvc1.1.6.L93.B0"' },
+    { src: "/assets/v16/rise-mission-1-6-app-demo.mp4", type: 'video/mp4; codecs="avc1.64001F"' },
+  ],
+};
+
+/*
+ * Legacy (v1.0 demo, v1.5 reel). Files stay on disk: old sitemap/JSON-LD URLs
+ * must keep working. Not shown in /gallery any more; pages should move to the
+ * V16 sets above.
+ */
+
 /** 30 s product demo, 1280×720. 1,163 KB H.264 → 681 KB AV1 / 839 KB HEVC. */
-export const DEMO_VIDEO: OptimisedVideo = {
+export const LEGACY_DEMO_VIDEO: OptimisedVideo = {
   poster: "/assets/v/demo-poster.8d3f3448.webp",
   sources: [
     { src: "/assets/v/demo.av1.0a740f8e.mp4", type: 'video/mp4; codecs="av01.0.05M.10"' },
@@ -40,7 +83,7 @@ export const DEMO_VIDEO: OptimisedVideo = {
 };
 
 /** Animated explainer, 1920×1080. 1,999 KB H.264 → 705 KB AV1 / 886 KB HEVC. */
-export const REEL_16X9_VIDEO: OptimisedVideo = {
+export const LEGACY_REEL_16X9_VIDEO: OptimisedVideo = {
   poster: "/assets/v/rise-mission-reel-16x9-poster.b39e1849.webp",
   sources: [
     { src: "/assets/v/rise-mission-reel-16x9.av1.34fab2e0.mp4", type: 'video/mp4; codecs="av01.0.08M.10"' },
@@ -50,7 +93,7 @@ export const REEL_16X9_VIDEO: OptimisedVideo = {
 };
 
 /** Vertical cut, 1080×1920. 2,265 KB H.264 → 776 KB AV1 / 1,040 KB HEVC. */
-export const REEL_9X16_VIDEO: OptimisedVideo = {
+export const LEGACY_REEL_9X16_VIDEO: OptimisedVideo = {
   poster: "/assets/v/rise-mission-reel-9x16-poster.43d859ee.webp",
   sources: [
     { src: "/assets/v/rise-mission-reel-9x16.av1.68ed0764.mp4", type: 'video/mp4; codecs="av01.0.08M.10"' },
@@ -59,7 +102,12 @@ export const REEL_9X16_VIDEO: OptimisedVideo = {
   ],
 };
 
+/** Current-version aliases used by the homepage and demo player. */
+export const DEMO_VIDEO = DEMO_V16_VIDEO;
+export const REEL_16X9_VIDEO = REEL_V16_16X9_VIDEO;
+export const REEL_9X16_VIDEO = REEL_V16_9X16_VIDEO;
+
 /** Look up the optimised variant set for an original /assets MP4 URL. */
 export function optimisedVideo(originalSrc: string): OptimisedVideo | undefined {
-  return [DEMO_VIDEO, REEL_16X9_VIDEO, REEL_9X16_VIDEO].find((v) => v.sources.at(-1)?.src === originalSrc);
+  return [REEL_V16_16X9_VIDEO, REEL_V16_9X16_VIDEO, DEMO_V16_VIDEO, LEGACY_DEMO_VIDEO, LEGACY_REEL_16X9_VIDEO, LEGACY_REEL_9X16_VIDEO].find((v) => v.sources.at(-1)?.src === originalSrc);
 }
