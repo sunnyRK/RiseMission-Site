@@ -121,7 +121,13 @@ function MathDemo({ color, onWin }: { color: string; onWin: () => void }) {
     const onKey = (e: KeyboardEvent) => {
       if (/^\d$/.test(e.key)) press(e.key);
       else if (e.key === "Backspace") press("del");
-      else if (e.key === "Enter") press("ok");
+      else if (e.key === "Enter") {
+        // showModal() puts focus on the Close button; without this, Enter would
+        // also "click" it and close the sheet right as the answer is checked.
+        e.preventDefault();
+        press("ok");
+      } else return;
+      e.preventDefault();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
