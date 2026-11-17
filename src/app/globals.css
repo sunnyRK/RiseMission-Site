@@ -295,7 +295,9 @@ dd {
   font-weight: 650;
   margin-top: 1.8em;
 }
-.prose-rm a {
+/* `.not-prose` blocks (App Store button, app cards) keep their own colours:
+   unlayered, this rule would otherwise beat their Tailwind utilities. */
+.prose-rm a:not(.not-prose a) {
   color: var(--accent);
   text-decoration: underline;
   text-underline-offset: 3px;
