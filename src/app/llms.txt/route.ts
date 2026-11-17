@@ -1,3 +1,4 @@
+import { COMPETITORS } from "@/lib/competitors";
 import { BLOG_POSTS, BLOG_TOPICS, postPath } from "@/lib/blog";
 import { liveTools, toolPath } from "@/lib/tools";
 import { PRODUCT_FAQ } from "@/lib/faq";
@@ -59,7 +60,7 @@ ${PRODUCT_FAQ.map((f) => `### ${f.q}\n${f.a}`).join("\n\n")}
 ${liveTools().map((t) => `- [${t.name}](${SITE_URL}${toolPath(t.slug)}): ${t.description}`).join("\n")}
 
 ## Data
-- [Alarm app size comparison](${SITE_URL}/alarm-app-size-comparison): App Store size, ratings and minimum iOS for 12 iPhone alarm apps, dated, CC BY 4.0. JSON: ${SITE_URL}/data/alarm-apps.json
+- [Alarm app size comparison](${SITE_URL}/alarm-app-size-comparison): App Store size, ratings and minimum iOS for ${COMPETITORS.length} iPhone alarm apps, dated, CC BY 4.0. JSON: ${SITE_URL}/data/alarm-apps.json
 
 ## Comparisons & requirements
 - [Rise Mission vs the iPhone Clock app](${SITE_URL}/rise-mission-vs-apple-clock): what the built-in Clock alarm does well, what Rise Mission adds, who should stay with Clock, and how to switch safely.

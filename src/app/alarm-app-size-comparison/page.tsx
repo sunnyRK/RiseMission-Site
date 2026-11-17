@@ -10,7 +10,7 @@ import { SITE_URL } from "@/lib/site";
 
 export const metadata = pageMetadata({
   title: "Alarm App Size Comparison (2026)",
-  description: "How big are iPhone alarm apps? App Store sizes and ratings for 12 alarm apps, from 20 MB to 348 MB, with methodology and an open dataset.",
+  description: "How big are iPhone alarm apps? App Store sizes and ratings for 13 alarm apps, from 20 MB to 348 MB, with methodology and an open dataset.",
   path: "/alarm-app-size-comparison",
 });
 
@@ -30,7 +30,7 @@ const dateLabel = new Date(`${SNAPSHOT_DATE}T12:00:00Z`).toLocaleDateString("en-
 const FAQ: QA[] = [
   {
     q: "How big is a typical iPhone alarm app?",
-    a: `In our ${dateLabel} snapshot of 12 popular alarm apps, the median size of the 11 third-party apps other than Rise Mission was ${othersMedian.toFixed(1)} MB. The range ran from ${sortedBySize[0].sizeMB.toFixed(1)} MB (${sortedBySize[0].shortName}) to ${largest.sizeMB.toFixed(1)} MB (${largest.shortName}).`,
+    a: `In our ${dateLabel} snapshot of ${COMPETITORS.length} popular alarm apps, the median size of the ${others.length} third-party apps other than Rise Mission was ${othersMedian.toFixed(1)} MB. The range ran from ${sortedBySize[0].sizeMB.toFixed(1)} MB (${sortedBySize[0].shortName}) to ${largest.sizeMB.toFixed(1)} MB (${largest.shortName}).`,
   },
   {
     q: "Why are some alarm apps over 200 MB?",
@@ -91,7 +91,7 @@ export default function SizeComparisonPage() {
             <strong>
               {over100} of the {others.length} other popular iPhone alarm apps we checked are over 100 MB.
             </strong>{" "}
-            In our {dateLabel} App Store snapshot, the median of the other 11 apps was {othersMedian.toFixed(1)} MB and the largest was{" "}
+            In our {dateLabel} App Store snapshot, the median of the other {others.length} apps was {othersMedian.toFixed(1)} MB and the largest was{" "}
             {largest.shortName} at {largest.sizeMB.toFixed(1)} MB. Rise Mission is {rm.sizeMB.toFixed(1)} MB, roughly{" "}
             {Math.round(sizeRatio(getCompetitor("erly")!))} to {Math.round(sizeRatio(largest))} times smaller than the big mission
             alarm apps.

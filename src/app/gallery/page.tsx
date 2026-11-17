@@ -244,7 +244,7 @@ export default function GalleryPage() {
           {[
             { href: "/blog/wake-up-challenges-explained", t: "Every challenge explained", d: "Which wake-up challenge suits you, and why they work." },
             { href: "/blog/push-up-alarm-clock", t: "How the push-up alarm works", d: "On-device rep counting, setup tips and limits." },
-            { href: "/alarm-app-size-comparison", t: "Alarm app size comparison", d: "How Rise Mission's size compares with 11 other alarm apps." },
+            { href: "/alarm-app-size-comparison", t: "Alarm app size comparison", d: "How Rise Mission's size compares with 12 other alarm apps." },
           ].map((c) => (
             <Link key={c.href} href={c.href} className="group rounded-2xl border border-line bg-card p-6 transition hover:-translate-y-0.5 hover:shadow-soft">
               <p className="t-h3">{c.t}</p>
