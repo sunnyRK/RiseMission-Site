@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { AppStoreButton } from "@/components/site/app-store-button";
 import { IconTile } from "@/components/site/icons";
 import { flattenBlocks, wrapTables } from "@/components/blog/prose";
+import { RelatedGuides } from "@/components/seo/related-guides";
 import { liveTools, toolPath } from "@/lib/tools";
 import "@/app/content.css";
 
@@ -146,8 +147,10 @@ export function ToolCta({ placement, title, body }: { placement: string; title: 
 
 export function MoreTools({ current }: { current: string }) {
   const others = liveTools().filter((t) => t.slug !== current);
-  if (!others.length) return null;
+  if (!others.length) return <RelatedGuides tool={current} />;
   return (
+    <>
+    <RelatedGuides tool={current} />
     <section className="container-rm mt-16">
       <div className="mx-auto max-w-3xl">
         <p className="t-h3">More free tools</p>
@@ -170,5 +173,6 @@ export function MoreTools({ current }: { current: string }) {
         </Link>
       </div>
     </section>
+    </>
   );
 }

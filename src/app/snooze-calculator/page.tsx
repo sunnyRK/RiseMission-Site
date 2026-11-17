@@ -2,19 +2,15 @@ import Link from "next/link";
 import { Answer, H2, Limits, Sources } from "@/components/blog/prose";
 import { Faq } from "@/components/site/faq";
 import { JsonLd } from "@/components/seo/json-ld";
+import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { MoreTools, ToolCard, ToolCta, ToolHero } from "@/components/tools/tool-shell";
 import { SnoozeCalculator } from "@/components/tools/snooze-calculator";
-import { breadcrumbLd, faqPageLd, pageMetadata, type QA } from "@/lib/seo";
+import { faqPageLd, type QA, staticPageMetadata } from "@/lib/seo";
 import { SITE_URL } from "@/lib/site";
 import { NIGHT_HOURS, WEEKS_PER_YEAR, fmtNumber, snoozeCost } from "@/lib/snooze";
 import { SRC } from "@/lib/sources";
 
-export const metadata = pageMetadata({
-  title: "Snooze Calculator: What Snoozing Costs",
-  description:
-    "Free snooze calculator. Enter how often you hit snooze and for how long to see the minutes per morning, hours per year and full nights it adds up to.",
-  path: "/snooze-calculator",
-});
+export const metadata = staticPageMetadata("/snooze-calculator");
 
 const typical = snoozeCost({ snoozes: 3, minutes: 9, days: 5 });
 
@@ -59,13 +55,10 @@ export default function SnoozeCalculatorPage() {
             operatingSystem: "Any (web browser)",
             offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
           },
-          breadcrumbLd([
-            { name: "Home", path: "/" },
-            { name: "Snooze calculator", path: "/snooze-calculator" },
-          ]),
           faqPageLd(FAQ),
         ]}
       />
+      <Breadcrumbs path="/snooze-calculator" />
       <ToolHero
         title="Snooze cost calculator"
         lead="How many hours a year does your snooze button take? Enter your habit and see it in minutes, hours and full nights of sleep."

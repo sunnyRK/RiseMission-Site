@@ -4,15 +4,12 @@ import { Answer, H2, Limits } from "@/components/blog/prose";
 import { AppStoreButton } from "@/components/site/app-store-button";
 import { Faq } from "@/components/site/faq";
 import { JsonLd } from "@/components/seo/json-ld";
+import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { COMPETITORS, SNAPSHOT_DATE, SNAPSHOT_SOURCE, getCompetitor } from "@/lib/competitors";
-import { breadcrumbLd, faqPageLd, pageMetadata, type QA } from "@/lib/seo";
+import { faqPageLd, publisherRef, type QA, staticPageMetadata } from "@/lib/seo";
 import { SITE_URL } from "@/lib/site";
 
-export const metadata = pageMetadata({
-  title: "Alarm App Size Comparison (2026)",
-  description: "How big are iPhone alarm apps? App Store sizes and ratings for 13 alarm apps, from 20 MB to 348 MB, with methodology and an open dataset.",
-  path: "/alarm-app-size-comparison",
-});
+export const metadata = staticPageMetadata("/alarm-app-size-comparison");
 
 const rm = getCompetitor("rise-mission")!;
 const missionApps = COMPETITORS.filter((c) => c.missions.length > 0 && c.slug !== "rise-mission");
@@ -58,19 +55,16 @@ export default function SizeComparisonPage() {
             description: `App Store size, rating, rating count and minimum iOS version for ${COMPETITORS.length} iPhone alarm apps, captured ${dateLabel}.`,
             url: `${SITE_URL}/alarm-app-size-comparison`,
             license: "https://creativecommons.org/licenses/by/4.0/",
-            creator: { "@type": "Organization", name: "Rise Mission", url: SITE_URL },
+            creator: publisherRef(),
             dateModified: SNAPSHOT_DATE,
             temporalCoverage: SNAPSHOT_DATE,
             isAccessibleForFree: true,
             distribution: [{ "@type": "DataDownload", encodingFormat: "application/json", contentUrl: `${SITE_URL}/data/alarm-apps.json` }],
           },
-          breadcrumbLd([
-            { name: "Home", path: "/" },
-            { name: "Alarm app size comparison", path: "/alarm-app-size-comparison" },
-          ]),
           faqPageLd(FAQ),
         ]}
       />
+      <Breadcrumbs path="/alarm-app-size-comparison" />
       <section className="sunrise-glow dawn">
         <div className="container-rm pb-10 pt-12 md:pt-16">
           <div className="mx-auto max-w-3xl">

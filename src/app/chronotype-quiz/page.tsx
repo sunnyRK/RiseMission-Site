@@ -2,19 +2,15 @@ import Link from "next/link";
 import { Answer, H2, Limits, Sources, type Source } from "@/components/blog/prose";
 import { Faq } from "@/components/site/faq";
 import { JsonLd } from "@/components/seo/json-ld";
+import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { ChronotypeQuiz } from "@/components/tools/chronotype-quiz";
 import { MoreTools, ToolCard, ToolCta, ToolHero } from "@/components/tools/tool-shell";
 import { CHRONOTYPES, EARLY_TO, MAX_SCORE, MIN_SCORE, OWL_FROM, QUESTIONS } from "@/lib/chronotype";
-import { breadcrumbLd, faqPageLd, pageMetadata, type QA } from "@/lib/seo";
+import { faqPageLd, type QA, staticPageMetadata } from "@/lib/seo";
 import { SITE_URL } from "@/lib/site";
 import { SRC } from "@/lib/sources";
 
-export const metadata = pageMetadata({
-  title: "Chronotype Quiz: Early Bird or Night Owl?",
-  description:
-    "Free 8-question chronotype quiz. Find out if you lean early bird, in between or night owl, and get practical wake-time advice for your type.",
-  path: "/chronotype-quiz",
-});
+export const metadata = staticPageMetadata("/chronotype-quiz");
 
 /** Page-local sources. DOIs resolved on Crossref and abstracts read on PubMed, 2026-11-15. */
 const CHRONO_SRC: Record<string, Source> = {
@@ -83,13 +79,10 @@ export default function ChronotypeQuizPage() {
             operatingSystem: "Any (web browser)",
             offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
           },
-          breadcrumbLd([
-            { name: "Home", path: "/" },
-            { name: "Chronotype quiz", path: "/chronotype-quiz" },
-          ]),
           faqPageLd(FAQ),
         ]}
       />
+      <Breadcrumbs path="/chronotype-quiz" />
       <ToolHero
         title="Chronotype quiz"
         lead={`Are you an early bird, a night owl or in between? Answer ${QUESTIONS.length} quick questions about your natural sleep and energy, then get wake-time advice that fits your type.`}

@@ -2,19 +2,15 @@ import Link from "next/link";
 import { Answer, H2, Limits, Sources, type Source } from "@/components/blog/prose";
 import { Faq } from "@/components/site/faq";
 import { JsonLd } from "@/components/seo/json-ld";
+import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { SleepDebtCalculator } from "@/components/tools/sleep-debt-calculator";
 import { MoreTools, ToolCard, ToolCta, ToolHero } from "@/components/tools/tool-shell";
-import { breadcrumbLd, faqPageLd, pageMetadata, type QA } from "@/lib/seo";
+import { faqPageLd, type QA, staticPageMetadata } from "@/lib/seo";
 import { SITE_URL } from "@/lib/site";
 import { DEFAULT_NEED, DEFAULT_NIGHTS, fmtHours, sleepDebt } from "@/lib/sleep-debt";
 import { SRC } from "@/lib/sources";
 
-export const metadata = pageMetadata({
-  title: "Sleep Debt Calculator: Your Weekly Total",
-  description:
-    "Free sleep debt calculator. Enter your sleep need and the last 7 nights to see your weekly sleep debt, nightly average and a gentle plan to catch up.",
-  path: "/sleep-debt-calculator",
-});
+export const metadata = staticPageMetadata("/sleep-debt-calculator");
 
 /** Page-local sources. DOIs resolved on Crossref and abstracts read on PubMed, 2026-11-15. */
 const DEBT_SRC: Record<string, Source> = {
@@ -86,13 +82,10 @@ export default function SleepDebtCalculatorPage() {
             operatingSystem: "Any (web browser)",
             offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
           },
-          breadcrumbLd([
-            { name: "Home", path: "/" },
-            { name: "Sleep debt calculator", path: "/sleep-debt-calculator" },
-          ]),
           faqPageLd(FAQ),
         ]}
       />
+      <Breadcrumbs path="/sleep-debt-calculator" />
       <ToolHero
         title="Sleep debt calculator"
         lead="Enter how much sleep you need and how long you actually slept on each of the last 7 nights. See your weekly sleep debt and a gentle way to pay it back."

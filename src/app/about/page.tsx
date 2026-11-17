@@ -1,14 +1,10 @@
 import Link from "next/link";
 import { DocPage } from "@/components/site/doc-page";
 import { JsonLd } from "@/components/seo/json-ld";
-import { organizationLd, pageMetadata, personLd } from "@/lib/seo";
+import { organizationLd, personLd, staticPageMetadata } from "@/lib/seo";
 import { AUTHOR, CONTACT_EMAIL, LIVE_VERSION } from "@/lib/site";
 
-export const metadata = pageMetadata({
-  title: "About Rise Mission",
-  description: "Rise Mission is an independent iPhone alarm app built by Sunny Radadiya for heavy sleepers. Who builds it, why, and how we write our guides.",
-  path: "/about",
-});
+export const metadata = staticPageMetadata("/about");
 
 export default function About() {
   return (

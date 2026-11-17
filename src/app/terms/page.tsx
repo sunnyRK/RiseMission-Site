@@ -1,13 +1,9 @@
 import Link from "next/link";
 import { DocPage } from "@/components/site/doc-page";
-import { pageMetadata } from "@/lib/seo";
+import { staticPageMetadata } from "@/lib/seo";
 import { CONTACT_EMAIL } from "@/lib/site";
 
-export const metadata = pageMetadata({
-  title: "Terms of Use & Subscriptions",
-  description: "Terms of Use for the Rise Mission iPhone alarm app, including Rise Mission Pro subscriptions, renewals, cancellation and acceptable use.",
-  path: "/terms",
-});
+export const metadata = staticPageMetadata("/terms");
 
 export default function Terms() {
   return (

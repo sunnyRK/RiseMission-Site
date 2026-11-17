@@ -1,13 +1,9 @@
 import Link from "next/link";
 import { DocPage } from "@/components/site/doc-page";
-import { pageMetadata } from "@/lib/seo";
+import { staticPageMetadata } from "@/lib/seo";
 import { CONTACT_EMAIL } from "@/lib/site";
 
-export const metadata = pageMetadata({
-  title: "Privacy Policy & Data Practices",
-  description: "How Rise Mission handles your data: alarms stay on your iPhone, camera frames are processed on-device, and analytics aren't linked to your identity.",
-  path: "/privacy",
-});
+export const metadata = staticPageMetadata("/privacy");
 
 export default function Privacy() {
   return (

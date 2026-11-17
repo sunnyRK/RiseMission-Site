@@ -4,8 +4,9 @@ import { Answer, H2, Limits, Sources, type Source } from "@/components/blog/pros
 import { AppStoreButton } from "@/components/site/app-store-button";
 import { Faq } from "@/components/site/faq";
 import { JsonLd } from "@/components/seo/json-ld";
+import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { GALLERY_SHOTS } from "@/lib/media";
-import { breadcrumbLd, faqPageLd, mobileApplicationLd, pageMetadata, type QA } from "@/lib/seo";
+import { faqPageLd, mobileApplicationLd, type QA, staticPageMetadata } from "@/lib/seo";
 import { CHALLENGES, FACTS, LIVE_VERSION, MIN_IOS, PRICING_COPY } from "@/lib/site";
 
 /**
@@ -17,12 +18,7 @@ import { CHALLENGES, FACTS, LIVE_VERSION, MIN_IOS, PRICING_COPY } from "@/lib/si
 const PATH = "/compatibility";
 const UPDATED = "2026-11-17";
 
-export const metadata = pageMetadata({
-  title: "Which iPhones Run Rise Mission? (iOS 26)",
-  description:
-    "Rise Mission needs an iPhone on iOS 26 or later because it uses Apple's AlarmKit. Supported models, permissions and why there's no Android or iPad version.",
-  path: PATH,
-});
+export const metadata = staticPageMetadata(PATH);
 
 const SRC_APPLE = {
   models: {
@@ -77,16 +73,13 @@ export default function CompatibilityPage() {
     <>
       <JsonLd
         data={[
-          breadcrumbLd([
-            { name: "Home", path: "/" },
-            { name: "Compatibility", path: PATH },
-          ]),
           mobileApplicationLd(
             "Rise Mission is an iPhone alarm clock app with wake-up challenges. Requires iOS 26 or later (Apple's AlarmKit); no Android, iPad or Apple Watch version. Free to download; Rise Mission Pro unlocks the app.",
           ),
           faqPageLd(FAQ),
         ]}
       />
+      <Breadcrumbs path="/compatibility" />
 
       <section className="sunrise-glow dawn">
         <div className="container-rm pb-10 pt-12 md:pt-16">

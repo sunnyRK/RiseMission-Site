@@ -4,8 +4,9 @@ import { Icon3d } from "@/components/content/icon-3d";
 import { AppStoreButton } from "@/components/site/app-store-button";
 import { Faq } from "@/components/site/faq";
 import { JsonLd } from "@/components/seo/json-ld";
+import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { PRODUCT_FAQ } from "@/lib/faq";
-import { breadcrumbLd, faqPageLd, mobileApplicationLd, pageMetadata } from "@/lib/seo";
+import { faqPageLd, mobileApplicationLd, staticPageMetadata, V16_OG_IMAGE } from "@/lib/seo";
 import {
   ACHIEVEMENT_COUNT,
   ACHIEVEMENTS,
@@ -37,11 +38,7 @@ import "@/app/content.css";
 const PATH = "/whats-new";
 const UPDATED = "2026-11-17";
 
-export const metadata = pageMetadata({
-  title: `What's New in Rise Mission ${LIVE_VERSION}`,
-  description: `Rise Mission ${LIVE_VERSION} release notes: levels and XP, the 7-Day Rise Challenge, a morning routine, a bedtime nudge, ${ACHIEVEMENT_COUNT} achievements and a new Focus tab.`,
-  path: PATH,
-});
+export const metadata = staticPageMetadata("/whats-new", { ogImage: V16_OG_IMAGE.url, ogImageSize: { width: V16_OG_IMAGE.width, height: V16_OG_IMAGE.height } });
 
 const fmt = (iso: string) =>
   new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
@@ -56,10 +53,6 @@ export default function WhatsNewPage() {
     <>
       <JsonLd
         data={[
-          breadcrumbLd([
-            { name: "Home", path: "/" },
-            { name: "What's new", path: PATH },
-          ]),
           mobileApplicationLd(
             `Rise Mission ${LIVE_VERSION} for iPhone adds levels and XP, the 7-Day Rise Challenge, a morning routine, an optional bedtime nudge and ${ACHIEVEMENT_COUNT} achievements to an alarm you stop by finishing a wake-up challenge. Requires ${MIN_IOS}. Free to download; Rise Mission Pro unlocks the app.`,
             { releaseNotesUrl: PATH },
@@ -67,6 +60,7 @@ export default function WhatsNewPage() {
           faqPageLd(PRODUCT_FAQ),
         ]}
       />
+      <Breadcrumbs path="/whats-new" />
 
       <section className="sunrise-glow dawn">
         <div className="container-rm pb-10 pt-12 md:pt-16">

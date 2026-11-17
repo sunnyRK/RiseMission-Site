@@ -2,17 +2,15 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { IconTile } from "@/components/site/icons";
 import { JsonLd } from "@/components/seo/json-ld";
+import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { ToolCta } from "@/components/tools/tool-shell";
-import { breadcrumbLd, collectionPageLd, pageMetadata } from "@/lib/seo";
+import { collectionPageLd, staticPageMetadata } from "@/lib/seo";
+import { getPage } from "@/lib/links";
 import { liveTools, toolPath } from "@/lib/tools";
 
-const DESCRIPTION = "Free sleep and alarm tools: a sleep cycle calculator, nap calculator, online alarm clock and more. They run in your browser with no sign-up.";
+const DESCRIPTION = getPage("/tools").description;
 
-export const metadata = pageMetadata({
-  title: "Free Sleep & Alarm Tools",
-  description: DESCRIPTION,
-  path: "/tools",
-});
+export const metadata = staticPageMetadata("/tools");
 
 export default function ToolsHub() {
   const tools = liveTools();
@@ -20,13 +18,10 @@ export default function ToolsHub() {
     <>
       <JsonLd
         data={[
-          collectionPageLd({ name: "Free sleep & alarm tools", description: DESCRIPTION, path: "/tools", urls: tools.map((t) => toolPath(t.slug)) }),
-          breadcrumbLd([
-            { name: "Home", path: "/" },
-            { name: "Free tools", path: "/tools" },
-          ]),
+          collectionPageLd({ name: "Free sleep & alarm tools", description: DESCRIPTION, path: "/tools", items: tools.map((t) => ({ url: toolPath(t.slug), name: t.name })) }),
         ]}
       />
+      <Breadcrumbs path="/tools" />
       <section className="sunrise-glow dawn">
         <div className="container-rm pb-12 pt-12 text-center md:pt-16">
           <p className="t-eyebrow justify-center">Free · No sign-up · Works in your browser

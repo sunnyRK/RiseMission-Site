@@ -3,11 +3,13 @@ import Link from "next/link";
 import { isValidElement, type ReactElement, type ReactNode } from "react";
 import { AppStoreButton } from "@/components/site/app-store-button";
 import { Faq } from "@/components/site/faq";
+import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { JsonLd } from "@/components/seo/json-ld";
-import { postCover, postPath, relatedPosts, topicsForPost, type BlogPost } from "@/lib/blog";
-import { articleLd, breadcrumbLd, faqPageLd, type QA } from "@/lib/seo";
-import { AUTHOR, PRICING_COPY } from "@/lib/site";
-import { ArrowRight, ArrowUp, ChevronDown, ChevronRight, ListOrdered } from "lucide-react";
+import { postCover, postPath, topicsForPost, type BlogPost } from "@/lib/blog";
+import { postLinks } from "@/lib/links";
+import { articleLd, faqPageLd, type QA } from "@/lib/seo";
+import { AUTHOR, LIVE_VERSION, PRICING_COPY } from "@/lib/site";
+import { ArrowRight, ArrowUp, ChevronDown, ListOrdered } from "lucide-react";
 import { ReadingProgress, TocList } from "./article-chrome";
 import { H2, flattenBlocks, slugify, textOf, wrapTables } from "./prose";
 import "@/app/content.css";
@@ -47,10 +49,10 @@ export function BlogLayout({ post, faq, children }: { post: BlogPost; faq?: QA[]
   const toc = collectToc(blocks);
   const body = wrapTables(injectMidCta(blocks));
   const topics = topicsForPost(post.slug);
-  const related = relatedPosts(post.slug);
+  const links = postLinks(post.slug);
+  const related = links.siblings;
   const path = postPath(post.slug);
   const cover = postCover(post);
-  const hub = topics[0];
 
   const ld: object[] = [
     articleLd({
@@ -61,12 +63,6 @@ export function BlogLayout({ post, faq, children }: { post: BlogPost; faq?: QA[]
       datePublished: post.date,
       dateModified: post.updated,
     }),
-    breadcrumbLd([
-      { name: "Home", path: "/" },
-      { name: "Blog", path: "/blog" },
-      ...(hub ? [{ name: hub.name, path: `/blog/topic/${hub.slug}` }] : []),
-      { name: post.title, path },
-    ]),
   ];
   if (faq?.length) ld.push(faqPageLd(faq));
 
@@ -77,27 +73,7 @@ export function BlogLayout({ post, faq, children }: { post: BlogPost; faq?: QA[]
       <div className="sunrise-glow dawn">
         <div className="container-rm grid grid-cols-[minmax(0,1fr)] gap-x-14 lg:grid-cols-[minmax(0,1fr)_15rem]">
           <header className="mx-auto w-full max-w-[42.5rem] pb-10 pt-10 md:pt-16">
-            <nav aria-label="Breadcrumb" className="text-[0.875rem] text-muted">
-              <ol className="flex flex-wrap items-center gap-x-1.5 gap-y-1">
-                <li>
-                  <Link href="/blog" className="rm-focus rounded hover:text-ink">
-                    Blog
-                  </Link>
-                </li>
-                {hub && (
-                  <>
-                    <li aria-hidden>
-                      <ChevronRight className="h-3.5 w-3.5 opacity-60" />
-                    </li>
-                    <li>
-                      <Link href={`/blog/topic/${hub.slug}`} className="rm-focus rounded hover:text-ink">
-                        {hub.name}
-                      </Link>
-                    </li>
-                  </>
-                )}
-              </ol>
-            </nav>
+            <Breadcrumbs path={path} bare />
             <h1 className="t-h1 mt-4 text-balance">{post.title}</h1>
             <p className="t-lead mt-4 text-pretty">{post.description}</p>
 
@@ -219,22 +195,49 @@ export function BlogLayout({ post, faq, children }: { post: BlogPost; faq?: QA[]
               <div className="mt-6 flex justify-center">
                 <AppStoreButton placement={`blog-end-${post.slug}`} />
               </div>
+              <p className="mt-5 flex flex-wrap justify-center gap-x-4 gap-y-1 text-[0.875rem]">
+                <Link href="/compatibility" className="rm-focus inline-flex min-h-6 items-center rounded font-medium text-ink-2 hover:text-ink hover:underline">
+                  iPhone and iOS 26 requirements
+                </Link>
+                <Link href="/whats-new" className="rm-focus inline-flex min-h-6 items-center rounded font-medium text-ink-2 hover:text-ink hover:underline">
+                  What&apos;s new in {LIVE_VERSION}
+                </Link>
+                <Link href="/gallery" className="rm-focus inline-flex min-h-6 items-center rounded font-medium text-ink-2 hover:text-ink hover:underline">
+                  Screenshots and videos
+                </Link>
+              </p>
             </div>
           </div>
 
-          {!topics.some((t) => t.slug === "alarm-apps") && (
+          <aside aria-labelledby="try-tool" className="mt-10">
+            <p id="try-tool" className="text-[0.8125rem] font-semibold text-ink">
+              Free tool
+            </p>
+            <Link
+              href={links.tool.href}
+              className="rm-focus group mt-3 flex items-center justify-between gap-4 rounded-2xl border border-line bg-card px-4 py-4 transition hover:border-ink/20 hover:shadow-soft"
+            >
+              <span className="min-w-0">
+                <span className="block font-semibold text-ink">{links.tool.label}</span>
+                <span className="mt-0.5 block text-[0.9375rem] text-ink-2">{links.tool.pitch}</span>
+              </span>
+              <ArrowRight aria-hidden className="h-4 w-4 shrink-0 text-muted transition group-hover:translate-x-0.5 group-hover:text-ink motion-reduce:transition-none" />
+            </Link>
+          </aside>
+
+          {links.compare.length > 0 && (
             <aside aria-labelledby="choose-app" className="mt-10">
               <p id="choose-app" className="text-[0.8125rem] font-semibold text-ink">
                 Choosing an alarm app?
               </p>
               <ul className="mt-3 grid gap-2 sm:grid-cols-3">
-                {CHOOSE_LINKS.map((l) => (
+                {links.compare.map((l) => (
                   <li key={l.href}>
                     <Link
                       href={l.href}
                       className="rm-focus group flex h-full min-h-14 items-center justify-between gap-3 rounded-2xl border border-line bg-card px-4 py-3 text-[0.9375rem] font-semibold leading-snug text-ink transition hover:border-ink/20 hover:shadow-soft"
                     >
-                      <span>{l.text}</span>
+                      <span>{l.label}</span>
                       <ArrowRight aria-hidden className="h-4 w-4 shrink-0 text-muted transition group-hover:translate-x-0.5 group-hover:text-ink motion-reduce:transition-none" />
                     </Link>
                   </li>
@@ -272,12 +275,6 @@ export function BlogLayout({ post, faq, children }: { post: BlogPost; faq?: QA[]
     </article>
   );
 }
-
-const CHOOSE_LINKS = [
-  { href: "/blog/best-alarm-apps-for-heavy-sleepers", text: "Best alarm apps for heavy sleepers" },
-  { href: "/blog/rise-mission-vs-alarmy", text: "Rise Mission vs Alarmy" },
-  { href: "/blog/alarmy-alternatives", text: "Alarmy alternatives" },
-];
 
 const initials = (name: string) =>
   name

@@ -1,13 +1,9 @@
 import Link from "next/link";
 import { DocPage } from "@/components/site/doc-page";
-import { pageMetadata } from "@/lib/seo";
+import { staticPageMetadata } from "@/lib/seo";
 import { BEDTIME_NUDGE, CHALLENGES, CONTACT_EMAIL, FACTS, RISE_CHALLENGE, SOUNDS, XP_RULES } from "@/lib/site";
 
-export const metadata = pageMetadata({
-  title: "Help & Support: Alarms and Challenges",
-  description: "Get help with Rise Mission: setting up alarms and challenges, push-up counting tips, Silent mode, emergency dismiss, and how to contact us.",
-  path: "/support",
-});
+export const metadata = staticPageMetadata("/support");
 
 export default function Support() {
   return (

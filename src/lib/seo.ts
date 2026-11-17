@@ -9,10 +9,12 @@ import {
   SITE_NAME,
   SITE_URL,
   CHALLENGES,
+  ENTITY_DESCRIPTION,
   RELEASES,
   V16_FEATURES,
 } from "./site";
 import { GALLERY_SHOTS, GALLERY_VIDEOS, type GalleryVideo } from "./media";
+import { crumbsFor, getPage } from "./links";
 
 /**
  * Metadata + JSON-LD helpers. Every page goes through `pageMetadata()` and
@@ -36,6 +38,8 @@ type PageMetaInput = {
   absoluteTitle?: boolean;
   type?: "website" | "article";
   ogImage?: string;
+  /** Pixel size of `ogImage` when it isn't a 1200x630 card. */
+  ogImageSize?: { width: number; height: number };
   publishedTime?: string;
   modifiedTime?: string;
   noindex?: boolean;
@@ -67,7 +71,7 @@ export function pageMetadata(input: PageMetaInput): Metadata {
       title: input.title,
       description: input.description,
       locale: "en_US",
-      images: [{ url: image, width: 1200, height: 630, alt: input.title }],
+      images: [{ url: image, ...(input.ogImageSize ?? { width: 1200, height: 630 }), alt: input.title }],
       ...(input.type === "article"
         ? {
             publishedTime: input.publishedTime,
@@ -83,6 +87,18 @@ export function pageMetadata(input: PageMetaInput): Metadata {
       images: [image],
     },
   };
+}
+
+/** The v1.6 reel poster (real app screens): share image for home, gallery and what's new. */
+export const V16_OG_IMAGE = { url: GALLERY_VIDEOS.find((v) => v.id === "reel-16x9")!.poster, width: 1920, height: 1080 } as const;
+
+/**
+ * Metadata for a page registered in `PAGES` (src/lib/links.ts): title,
+ * description and canonical come from the registry so tests can check them.
+ */
+export function staticPageMetadata(path: string, extra: Partial<PageMetaInput> = {}): Metadata {
+  const p = getPage(path);
+  return pageMetadata({ title: p.title, description: p.description, path: p.path, absoluteTitle: p.absoluteTitle, ...extra });
 }
 
 const abs = (path: string) => (path.startsWith("http") ? path : `${SITE_URL}${path}`);
@@ -104,6 +120,7 @@ export function organizationLd() {
     name: SITE_NAME,
     url: SITE_URL,
     logo: abs("/assets/rise-mission-app-icon.png"),
+    description: ENTITY_DESCRIPTION,
     founder: { "@id": authorId },
     sameAs: [INSTAGRAM_URL, APP_STORE_URL],
   };
@@ -141,6 +158,9 @@ export function mobileApplicationLd(description: string, opts: { releaseNotesUrl
     url: SITE_URL,
     installUrl: APP_STORE_URL,
     image: abs("/assets/rise-mission-app-icon.png"),
+    inLanguage: "en",
+    // No aggregateRating: the US listing shows 0 ratings (iTunes lookup, 2026-11-17).
+    // Add it only from a verified, current count.
     ...(live.date ? { dateModified: live.date } : {}),
     datePublished: RELEASES.at(-1)!.date,
     ...(opts.releaseNotesUrl ? { releaseNotes: abs(opts.releaseNotesUrl) } : {}),
@@ -199,6 +219,11 @@ export function webSiteLd() {
 }
 
 export type Crumb = { name: string; path: string };
+
+/** BreadcrumbList for a registered path (same trail as the visible <Breadcrumbs>). */
+export function breadcrumbLdFor(path: string) {
+  return breadcrumbLd(crumbsFor(path));
+}
 
 export function breadcrumbLd(crumbs: Crumb[]) {
   return {
@@ -264,13 +289,36 @@ export function itemListLd(name: string, items: { name: string; url: string }[])
   };
 }
 
-export function collectionPageLd(input: { name: string; description: string; path: string; urls: string[] }) {
+export function collectionPageLd(input: {
+  name: string;
+  description: string;
+  path: string;
+  /** The listed pages, with the name shown for each. */
+  items: { url: string; name: string }[];
+}) {
   return {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     name: input.name,
     description: input.description,
     url: abs(input.path),
-    hasPart: input.urls.map((u) => ({ "@type": "WebPage", url: abs(u) })),
+    hasPart: input.items.map((u) => ({ "@type": "WebPage", url: abs(u.url), name: u.name })),
+  };
+}
+
+/**
+ * HowTo: only for real, visible numbered steps on the page. (Google no longer
+ * shows HowTo rich results, but the markup still describes the steps for
+ * other engines.)
+ */
+export function howToLd(input: { name: string; description: string; path: string; steps: { name: string; text: string }[]; totalTime?: string }) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: input.name,
+    description: input.description,
+    url: abs(input.path),
+    ...(input.totalTime ? { totalTime: input.totalTime } : {}),
+    step: input.steps.map((s, i) => ({ "@type": "HowToStep", position: i + 1, name: s.name, text: s.text, url: `${abs(input.path)}#step-${i + 1}` })),
   };
 }

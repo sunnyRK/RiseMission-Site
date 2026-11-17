@@ -2,19 +2,15 @@ import Link from "next/link";
 import { Answer, H2, Limits, Sources, type Source } from "@/components/blog/prose";
 import { Faq } from "@/components/site/faq";
 import { JsonLd } from "@/components/seo/json-ld";
+import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { OnlineAlarmClock } from "@/components/tools/online-alarm-clock";
 import { MoreTools, ToolCard, ToolCta, ToolHero } from "@/components/tools/tool-shell";
 import { PROBLEMS_TO_STOP } from "@/lib/alarm-clock";
-import { breadcrumbLd, faqPageLd, pageMetadata, type QA } from "@/lib/seo";
+import { faqPageLd, type QA, staticPageMetadata } from "@/lib/seo";
 import { FACTS, SITE_URL } from "@/lib/site";
 import { SRC } from "@/lib/sources";
 
-export const metadata = pageMetadata({
-  title: "Online Alarm Clock with Math Challenge",
-  description:
-    "Free online alarm clock that rings in your browser and only stops after you solve 3 math problems. Set a time or a countdown, pick a tone. No sign-up.",
-  path: "/online-alarm-clock",
-});
+export const metadata = staticPageMetadata("/online-alarm-clock");
 
 /** Page-local sources, each fetched and read on 2026-11-15. */
 const WEB: Record<string, Source> = {
@@ -79,13 +75,10 @@ export default function OnlineAlarmClockPage() {
             operatingSystem: "Any (web browser)",
             offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
           },
-          breadcrumbLd([
-            { name: "Home", path: "/" },
-            { name: "Online alarm clock", path: "/online-alarm-clock" },
-          ]),
           faqPageLd(FAQ),
         ]}
       />
+      <Breadcrumbs path="/online-alarm-clock" />
       <ToolHero
         title="Online alarm clock you stop with math"
         lead="Set an alarm in your browser for a time or a countdown. When it rings, it keeps going until you solve three quick sums, so you can't switch it off half-asleep."

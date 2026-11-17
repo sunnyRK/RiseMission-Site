@@ -2,18 +2,15 @@ import Link from "next/link";
 import { Answer, H2, Limits, Sources } from "@/components/blog/prose";
 import { Faq } from "@/components/site/faq";
 import { JsonLd } from "@/components/seo/json-ld";
+import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { SleepCalculator } from "@/components/tools/sleep-calculator";
 import { MoreTools, ToolCard, ToolCta, ToolHero } from "@/components/tools/tool-shell";
 import { bedtimesFor, fmtTime } from "@/lib/sleep";
-import { breadcrumbLd, faqPageLd, pageMetadata, type QA } from "@/lib/seo";
+import { faqPageLd, type QA, staticPageMetadata } from "@/lib/seo";
 import { SITE_URL } from "@/lib/site";
 import { SRC } from "@/lib/sources";
 
-export const metadata = pageMetadata({
-  title: "Sleep Calculator: Best Time to Wake Up",
-  description: "Free sleep cycle calculator. Enter your wake-up time to get bedtimes that fit 90-minute cycles, or find the best time to wake if you go to bed now.",
-  path: "/sleep-calculator",
-});
+export const metadata = staticPageMetadata("/sleep-calculator");
 
 const FAQ: QA[] = [
   {
@@ -50,13 +47,10 @@ export default function SleepCalculatorPage() {
             operatingSystem: "Any (web browser)",
             offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
           },
-          breadcrumbLd([
-            { name: "Home", path: "/" },
-            { name: "Sleep calculator", path: "/sleep-calculator" },
-          ]),
           faqPageLd(FAQ),
         ]}
       />
+      <Breadcrumbs path="/sleep-calculator" />
       <ToolHero
         title="Sleep cycle calculator"
         lead="Find the best time to go to bed or wake up, so your alarm lands at the end of a sleep cycle instead of in the middle of deep sleep."
