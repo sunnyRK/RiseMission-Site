@@ -16,6 +16,9 @@ export function Icon3d({ name, size = 40, alt = "", className = "" }: { name: Ic
       height={size}
       loading="lazy"
       decoding="async"
+      // Fixed box: as a flex child (e.g. /whats-new cards) preflight's
+      // `height: auto` would otherwise let align-items: stretch distort it.
+      style={{ width: size, height: size }}
       className={`inline-block shrink-0 select-none ${className}`}
     />
   );
