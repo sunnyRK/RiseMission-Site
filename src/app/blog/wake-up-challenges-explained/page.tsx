@@ -303,7 +303,7 @@ export default function Page() {
       <H2>What wake-up challenges can&apos;t do</H2>
       <Limits>
         <p>
-          The research on sleep inertia is solid, but there is no trial showing that alarm challenges improve sleep,
+          The research on sleep inertia is solid, but there is no study showing that alarm challenges improve sleep,
           mood or health, and nothing here should be read that way. Challenges make it harder to switch an alarm off
           without waking up. They don&apos;t give you more sleep, and the one study on exercise right after waking found
           people felt more alert without performing better (<a href={EXTRA.kovac2021.href}>Kovac et al., 2021</a>). If

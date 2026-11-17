@@ -39,7 +39,7 @@ const FAQ: QA[] = [
   },
   {
     q: "Do both apps require a subscription?",
-    a: "Both are free to download. Alarmy's listing mentions premium features with a 7-day free trial. Rise Mission requires Rise Mission Pro after onboarding, available weekly, yearly or as a one-time lifetime purchase.",
+    a: "Both are free to download. Alarmy's listing mentions premium features. Rise Mission Pro unlocks the app after onboarding, as a subscription or a one-time Lifetime purchase.",
   },
 ];
 
@@ -53,7 +53,7 @@ const ROWS: [string, string, string][] = [
   ["Sleep sounds", "No", "Yes (ASMR, rain, white noise)"],
   ["Multiple missions per alarm", "Primary challenge + backup", "Yes (added in a recent update)"],
   ["System alarm framework", "Apple AlarmKit", "Not stated"],
-  ["Paid tier", "Pro required: weekly, yearly or lifetime", "Premium with 7-day free trial"],
+  ["Paid tier", "Pro unlocks the app: subscription or Lifetime", "Free core features, paid premium tier"],
 ];
 
 export default function Page() {

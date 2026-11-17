@@ -91,8 +91,8 @@ export default function Page() {
       <AppEntry slug="alarmy">
         The most-reviewed mission alarm on the App Store by a wide margin. Its listing names math, memory games, shaking,
         squats and a photo mission, and a recent update lets you stack multiple missions on one alarm. It also covers
-        sleep: snore detection, a sleep tracker and sleep sounds. The listing mentions a premium tier with a 7-day free
-        trial. The trade-off is size: {c("alarmy").sizeMB.toFixed(1)} MB.
+        sleep: snore detection, a sleep tracker and sleep sounds. The listing mentions a paid premium tier. The
+        trade-off is size: {c("alarmy").sizeMB.toFixed(1)} MB.
       </AppEntry>
 
       <H2>Best for accountability and streaks: Erly</H2>
@@ -130,8 +130,8 @@ export default function Page() {
       <H2>Best for &quot;get out of bed&quot; only: 1% Alarm</H2>
       <AppEntry slug="one-percent-alarm">
         Every challenge 1% Alarm names needs you up and moving: find and scan an object, push-ups, squats, even brushing
-        your teeth. A recent update added challenge chains. The listing says a premium subscription is required (with a
-        free trial).
+        your teeth. A recent update added challenge chains. The listing says a premium subscription is
+        required.
       </AppEntry>
 
       <H2>Best if you wake up groggy: Sleep Cycle</H2>

@@ -111,11 +111,11 @@ export const COMPETITORS: Competitor[] = [
       photo: "Choose 'Photo Mission' as the alarm dismissal mission",
       sleepTracking: "Check if you snored last night",
       sleepSounds: "calm ASMR, rain sounds, white noise.",
-      subscription: "a 7-day-Free Trial is provided.",
+      subscription: "premium features (paid tier).",
       "multipleMissions (release notes)": "Now you can enjoy Multiple Missions at one single alarm.",
     },
     notes:
-      "By far the largest rating count in this set (251,919 US ratings at 4.76). Broad wellness scope: Anti-Snooze feature, snore and sleep tracker, calm sleep sounds, bedtime alarms. Listing says the sleep tracker and sleep sounds are free and premium features come with a 7-day free trial. Latest release adds combining multiple missions on one alarm. Music/Spotify not mentioned.",
+      "By far the largest rating count in this set (251,919 US ratings at 4.76). Broad wellness scope: Anti-Snooze feature, snore and sleep tracker, calm sleep sounds, bedtime alarms. Listing says the sleep tracker and sleep sounds are free and premium features are paid. Latest release adds combining multiple missions on one alarm. Music/Spotify not mentioned.",
   },
   {
     id: 6751428380,
@@ -338,11 +338,11 @@ export const COMPETITORS: Competitor[] = [
       pushUps: "Get up and complete your push ups to stop the alarm.",
       squats: "Start moving immediately by completing a set of squats.",
       toothbrush: "Brush your teeth and start the day with one task already completed.",
-      subscription: "1% ALARM REQUIRES A PREMIUM SUBSCRIPTION. START YOUR FREE TRIAL TODAY.",
+      subscription: "1% ALARM REQUIRES A PREMIUM SUBSCRIPTION.",
       "challengeChains (release notes)": "Added challenge chains and a random challenge option.",
     },
     notes:
-      "Every named challenge requires getting out of bed. Premium subscription required (free trial offered). Latest release adds challenge chains and a random challenge option. Smaller rating base (722).",
+      "Every named challenge requires getting out of bed. Premium subscription required. Latest release adds challenge chains and a random challenge option. Smaller rating base (722).",
   },
   {
     id: 1146308678,

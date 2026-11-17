@@ -121,7 +121,7 @@ export default function Page() {
       <H3>Insomnia and medication add to it</H3>
       <p>
         A literature update by Wynchank and colleagues reports insomnia in 43 to 80 percent of adults with ADHD across
-        three studies, and notes insomnia is reported as a side effect in trials of several ADHD medications (
+        three studies, and notes insomnia is reported as a side effect in studies of several ADHD medications (
         <a href={EXTRA.wynchank2017.href}>Wynchank et al., 2017</a>). Its recommendation is that adults with ADHD should be
         assessed for insomnia and both conditions treated. If you fall asleep late because you can&apos;t fall asleep,
         that&apos;s a conversation for your prescriber, not something to work around with louder alarms. Never change
