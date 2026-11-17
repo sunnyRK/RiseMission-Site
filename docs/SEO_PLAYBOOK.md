@@ -75,3 +75,8 @@
 - 2026-11-15 — Branch `nextjs-seo`: Next.js 16 rebuild; home, sleep calculator, 3 cornerstone posts, 3 topic hubs, about/E-E-A-T,
   privacy/terms/support ported, sitemap/robots/llms.txt/RSS, OG image route, JSON-LD (MobileApplication, FAQPage,
   BlogPosting, BreadcrumbList, CollectionPage, Person), env-gated GA4/PostHog, 301s for old .html URLs, vitest guards. Not deployed yet.
+- 2026-11-17 — Branch `v1.6-site-seo`: keyword map (`docs/KEYWORD_MAP.md`); link graph in `src/lib/links.ts` (page registry,
+  post → tool, tool → guides, rotated comparison links, 5-group footer); visible breadcrumbs + BreadcrumbList on every page;
+  sitemap from the registry; robots names AI crawlers; `/llms.txt` restructured + `/llms-full.txt`; hub answer paragraphs;
+  App Store `ct` capped at Apple's 30 chars; new post `/blog/squat-alarm-clock`; tests for orphans, meta lengths,
+  JSON-LD and sitemap completeness, plus `pnpm seo:audit` over the built HTML.

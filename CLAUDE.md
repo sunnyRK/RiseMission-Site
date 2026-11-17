@@ -11,6 +11,7 @@ Strategy, calendar and indexing protocol: `docs/SEO_PLAYBOOK.md`. Pattern source
 pnpm dev --port 3002     # local
 pnpm test                # registry + metadata + sleep-math guards (must pass)
 pnpm typecheck && pnpm build
+pnpm seo:audit           # after build: crawls .next output (titles, canonicals, JSON-LD, breadcrumbs, inlinks, em dash/trial)
 ```
 
 ## Single sources of truth (never retype these in pages)
@@ -18,6 +19,7 @@ pnpm typecheck && pnpm build
 - `src/lib/sources.ts` — verified citations (DOI resolved + title checked). Add new sources here first.
 - `src/lib/blog.ts` — post registry + topic hubs + related-post ranking.
 - `src/lib/seo.ts` — `pageMetadata()` and all JSON-LD builders. No inline schema literals in pages (tool pages excepted).
+- `src/lib/links.ts` — every non-post URL (`PAGES`: title, description, lastModified, breadcrumb parent), the internal-link graph and the footer. Pages use `staticPageMetadata(path)`; the sitemap reads `PAGES`.
 
 ## Honesty rules (Google + App Review + trust)
 - **Never say the app is "free"** without "Pro unlocks the app" — v1.2+ has a hard paywall for new installs. Use `PRICING_COPY`.
@@ -32,6 +34,7 @@ pnpm typecheck && pnpm build
 1. Add entry to `BLOG_POSTS` (metaTitle ≤ 44 chars, metaDescription ≤ 155).
 2. `src/app/blog/<slug>/page.tsx` → `<BlogLayout post={getPost(slug)} faq={FAQ}>`.
 3. Add slug to ≥ 1 topic in `BLOG_TOPICS`.
+   Then add the post's one tool to `POST_TOOL` in `src/lib/links.ts` (link graph: tests fail if any URL has < 3 in-content inlinks). Keyword ownership: `docs/KEYWORD_MAP.md`.
 4. Structure: `<Answer>` (40–60 words, bold first sentence) → `<KeyTakeaways>` → `<H2>` sections → table → `<Limits>` → `<Sources>`. Visible FAQ == FAQPage JSON-LD (BlogLayout does this).
 5. Links: 1 up-link to its hub topic, 2–4 sibling posts, 1 tool (`/sleep-calculator`), the app home `/` once in prose. 3–5 internal links per 1,000 words.
 6. ≥ 1,500 words, ≥ 3 facts not on any other page, first-person operator voice where relevant.
