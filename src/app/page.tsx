@@ -8,10 +8,12 @@ import { Icon3D, type Icon3DName } from "@/components/site/icon-3d";
 import { Phone } from "@/components/site/phone";
 import { Section, SectionHeader } from "@/components/site/section";
 import { StickyCta } from "@/components/site/sticky-cta";
+import { LazyVideo } from "@/components/site/lazy-video";
 import { FlipBadge } from "@/components/site/home/flip-badge";
 import { MissionCard } from "@/components/site/home/mission-card";
 import { RankLadder } from "@/components/site/home/rank-ladder";
-import { CHALLENGE_STYLE, screenById, V16_SCREENS_FALLBACK } from "@/components/site/home/data";
+import { CHALLENGE_STYLE } from "@/components/site/home/data";
+import { v16Screen, type V16ScreenId } from "@/lib/media";
 import { Carousel } from "@/components/motion/carousel";
 import { Orbit } from "@/components/motion/orbit";
 import { Reveal } from "@/components/motion/reveal";
@@ -34,8 +36,9 @@ import {
   XP_RULES,
 } from "@/lib/site";
 
-// TODO: switch to V16_SCREENS from media.ts at merge
-const SCREENS = V16_SCREENS_FALLBACK;
+/** Screens carousel order. The paywall screen is left out on purpose: it shows prices. */
+const SCREEN_IDS: V16ScreenId[] = ["home", "challenges", "ringing", "math", "success", "stats", "focus", "memory", "editor", "typing", "onboarding", "settings"];
+const SCREENS = SCREEN_IDS.map(v16Screen);
 
 const DESCRIPTION =
   "Rise Mission is the iPhone alarm clock for heavy sleepers. When it rings, you prove you're awake with a challenge: push-ups, a walk, a QR scan, math or your voice.";
@@ -93,15 +96,15 @@ const LEAD_HUES: [string, string][] = [
 
 export default function HomePage() {
   const posts = sortedPosts().slice(0, 3);
-  const home = screenById(SCREENS, "home");
-  const challengesShot = screenById(SCREENS, "challenges");
-  const focus = screenById(SCREENS, "focus");
+  const home = v16Screen("home");
+  const challengesShot = v16Screen("challenges");
+  const focus = v16Screen("focus");
   const lead = V16_FEATURES.slice(0, 2);
   const restFeatures = V16_FEATURES.slice(2);
 
   return (
     <>
-      <JsonLd data={[organizationLd(), webSiteLd(), mobileApplicationLd(DESCRIPTION), reelVideoLd(), faqPageLd(FAQ)]} />
+      <JsonLd data={[organizationLd(), webSiteLd(), mobileApplicationLd(DESCRIPTION, { releaseNotesUrl: "/whats-new" }), reelVideoLd(), faqPageLd(FAQ)]} />
 
       {/* HERO: the app's time-of-day header wash, the pitch, and the real v1.6
           Home screen in a device frame with the welcome-scene icon orbit. */}
@@ -162,7 +165,7 @@ export default function HomePage() {
                 />
                 <Phone src={home.src} alt={home.alt} preload sizes="(max-width: 640px) 210px, (max-width: 1024px) 240px, 272px" className="rm-float relative w-[210px] sm:w-[240px] lg:w-[272px]" />
                 {/* Floating "alarm ready" + streak chips, like the Home screen cards */}
-                <div aria-hidden className="rm-glass rm-float-slow absolute -right-[38%] top-[14%] hidden items-center gap-2 rounded-2xl px-3 py-2 sm:flex">
+                <div aria-hidden className="rm-card rm-float-slow absolute -right-[46%] top-[2%] hidden items-center gap-2 rounded-2xl px-3 py-2 sm:flex">
                   <span className="grid h-7 w-7 place-items-center rounded-full bg-good text-white">
                     <Check className="h-4 w-4" strokeWidth={3} />
                   </span>
@@ -171,8 +174,8 @@ export default function HomePage() {
                     <span className="block text-[0.7rem] font-semibold text-muted">Backup: Math</span>
                   </span>
                 </div>
-                <div aria-hidden className="rm-glass rm-float absolute -left-[30%] bottom-[12%] flex items-center gap-2 rounded-2xl py-1.5 pl-1.5 pr-3 [--tilt:-3deg]">
-                  <Icon3D name="3d-fire" size={34} priority />
+                <div aria-hidden className="rm-card rm-float absolute -left-[30%] bottom-[12%] flex items-center gap-2 rounded-2xl py-1.5 pl-1.5 pr-3 [--tilt:-3deg]">
+                  <Icon3D name="3d-fire" size={34} />
                   <span className="text-left leading-tight">
                     <span className="t-rounded block text-[0.95rem] font-extrabold text-ink">7 day streak</span>
                     <span className="block text-[0.68rem] font-bold text-muted">+15 XP this morning</span>
@@ -210,7 +213,7 @@ export default function HomePage() {
             lead="Swipe through the missions and tap Try it for a 20-second web demo. Body challenges get you out of bed, brain challenges get your head online, and the backup takes over if the camera can't see you."
           />
         </div>
-        <Carousel label="Wake-up challenges" cardWidth="min(84%, 340px)" padTop="56px" dotColors={CHALLENGES.map((c) => CHALLENGE_STYLE[c.slug].top)} className="mt-6">
+        <Carousel label="Wake-up challenges" cardWidth="min(80vw, 340px)" padTop="56px" dotColors={CHALLENGES.map((c) => CHALLENGE_STYLE[c.slug].top)} className="mt-6">
           {CHALLENGES.map((c, i) => (
             <MissionCard key={c.slug} c={c} index={i} total={CHALLENGES.length} />
           ))}
@@ -329,7 +332,7 @@ export default function HomePage() {
             <p className="mt-2 text-ink-2">Hover or tap a badge to see how to earn it.</p>
           </div>
         </div>
-        <Carousel label="Achievements" cardWidth="min(62%, 220px)" padTop="20px" className="mt-2">
+        <Carousel label="Achievements" cardWidth="min(56vw, 220px)" padTop="20px" className="mt-2">
           {ACHIEVEMENTS.map((a) => (
             <FlipBadge key={a.name} name={a.name} how={a.how} icon={a.icon3d} isNew={a.since === "1.6"} />
           ))}
@@ -390,7 +393,7 @@ export default function HomePage() {
             </Link>
           </div>
         </div>
-        <Carousel label="App screenshots" cardWidth="min(64%, 260px)" padTop="28px" autoplay={3800} className="mt-4">
+        <Carousel label="App screenshots" cardWidth="min(60vw, 260px)" padTop="28px" autoplay={3800} className="mt-4">
           {SCREENS.map((s) => (
             <figure key={s.id} className="px-1">
               <Phone src={s.src} alt={s.alt} sizes="(max-width: 640px) 64vw, 260px" />
@@ -443,21 +446,13 @@ export default function HomePage() {
             <h2 className="t-h2 mt-3">Rise Mission in 30 seconds</h2>
           </div>
           <div className="rm-card mt-8 p-1.5 sm:p-2">
-            <video
-              className="aspect-video w-full rounded-[18px] bg-paper-2"
-              poster={REEL_16X9_VIDEO.poster}
-              controls
-              muted
-              playsInline
-              preload="none"
+            <LazyVideo
+              video={REEL_16X9_VIDEO}
               width={1920}
               height={1080}
-              aria-label="Animated explainer: the alarm rings on Silent, you pick a wake-up challenge, prove you're awake, and build a streak"
-            >
-              {REEL_16X9_VIDEO.sources.map((v) => (
-                <source key={v.src} src={v.src} type={v.type} />
-              ))}
-            </video>
+              className="aspect-video w-full rounded-[18px] bg-paper-2"
+              label="Animated explainer: the alarm rings on Silent, you pick a wake-up challenge, prove you're awake, and build a streak"
+            />
           </div>
         </Reveal>
       </section>

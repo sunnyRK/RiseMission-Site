@@ -55,21 +55,3 @@ export function weeksToRanks(perWeek: number, onTime: boolean, routine: boolean)
   const pw = Math.min(7, Math.max(1, Math.round(perWeek)));
   return RANKS.map((r) => (r.xp === 0 ? 0 : Math.ceil(wakesToXP(r.xp, onTime, routine) / pw)));
 }
-
-/* ---------------- Merge fallback ---------------- */
-
-export type V16Screen = { id: string; src: string; alt: string; width: number; height: number };
-
-// TODO: switch to V16_SCREENS from media.ts at merge
-export const V16_SCREENS_FALLBACK: V16Screen[] = [
-  { id: "home", alt: "Rise Mission home screen: a good-morning greeting, a 5:45 AM alarm with a Memory challenge and a 6 day streak card" },
-  { id: "challenges", alt: "Challenges tab with a Push-ups mission card, its time and effort chips and a Try it button" },
-  { id: "ringing", alt: "Ringing screen with the alarm time and a button to start the wake-up challenge" },
-  { id: "success", alt: "Success screen after a completed wake-up challenge with the streak and a level-up card" },
-  { id: "stats", alt: "Statistics tab showing Level 1 Sleepyhead, XP progress toward Early Riser and the rank ladder" },
-  { id: "focus", alt: "Focus tab with a 25 minute dial, session presets and today's focus minutes" },
-  { id: "editor", alt: "Alarm editor with a time wheel, repeat days and the chosen wake-up challenge" },
-  { id: "settings", alt: "Settings tab of Rise Mission" },
-].map((s) => ({ ...s, src: `/assets/v16/rise-mission-v16-${s.id}.webp`, width: 1320, height: 2868 }));
-
-export const screenById = (screens: V16Screen[], id: string) => screens.find((s) => s.id === id) ?? screens[0];
