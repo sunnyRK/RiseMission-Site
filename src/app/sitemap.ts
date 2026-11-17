@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { BLOG_POSTS, BLOG_TOPICS, postPath } from "@/lib/blog";
 import { SITE_URL } from "@/lib/site";
 import { liveTools, toolPath } from "@/lib/tools";
-import { GALLERY_SHOTS, GALLERY_VIDEOS } from "@/lib/media";
+import { GALLERY_SHOTS, GALLERY_VIDEOS, type GalleryVideo } from "@/lib/media";
 import { postCover } from "@/lib/blog";
 
 /**
@@ -10,7 +10,7 @@ import { postCover } from "@/lib/blog";
  * timestamp on every URL tells Google every page changed every deploy).
  */
 const PAGES: { path: string; lastModified: string; priority: number }[] = [
-  { path: "/", lastModified: "2026-11-15", priority: 1 },
+  { path: "/", lastModified: "2026-11-17", priority: 1 },
   { path: "/tools", lastModified: "2026-11-15", priority: 0.8 },
   { path: "/alarm-app-size-comparison", lastModified: "2026-11-15", priority: 0.8 },
   { path: "/rise-mission-vs-apple-clock", lastModified: "2026-11-17", priority: 0.8 },
@@ -22,6 +22,16 @@ const PAGES: { path: string; lastModified: string; priority: number }[] = [
   { path: "/privacy", lastModified: "2026-11-15", priority: 0.2 },
   { path: "/terms", lastModified: "2026-08-21", priority: 0.2 },
 ];
+
+const videoEntry = (v: GalleryVideo) => ({
+  title: v.title,
+  description: v.description,
+  thumbnail_loc: `${SITE_URL}${v.poster}`,
+  content_loc: `${SITE_URL}${v.src}`,
+  duration: v.durationSec,
+  publication_date: v.uploadDate,
+  family_friendly: "yes" as const,
+});
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const latestIn = (slugs: string[]) =>
@@ -37,32 +47,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: p.lastModified,
       priority: p.priority,
       ...(p.path === "/" ? { images: [`${SITE_URL}/assets/rise-mission-app-icon.png`, ...GALLERY_SHOTS.slice(0, 2).map((s) => `${SITE_URL}${s.src}`)] } : {}),
-      // Homepage hero demo video (also described by VideoObject JSON-LD on the page).
+      // Homepage videos (v1.6 app demo + 16:9 reel), same data as their VideoObject JSON-LD.
       ...(p.path === "/"
-        ? {
-            videos: [
-              {
-                title: "Rise Mission app demo",
-                description:
-                  "30-second demo of Rise Mission for iPhone: the alarm rings, you complete a wake-up challenge, and the alarm stops once you're awake.",
-                thumbnail_loc: `${SITE_URL}/assets/demo-poster.jpg`,
-                content_loc: `${SITE_URL}/assets/demo.mp4`,
-                duration: 30,
-                publication_date: "2026-08-26",
-                family_friendly: "yes" as const,
-              },
-              {
-                title: "Rise Mission in 30 seconds",
-                description:
-                  "Animated explainer: Rise Mission rings on Silent and in Focus, you pick one of 10 wake-up challenges, prove you're awake with camera-counted push-ups, and build a wake-up streak.",
-                thumbnail_loc: `${SITE_URL}/assets/reel/rise-mission-reel-16x9-poster.jpg`,
-                content_loc: `${SITE_URL}/assets/reel/rise-mission-reel-16x9.mp4`,
-                duration: 31,
-                publication_date: "2026-11-15",
-                family_friendly: "yes" as const,
-              },
-            ],
-          }
+        ? { videos: GALLERY_VIDEOS.filter((v) => v.id === "app-demo" || v.id === "reel-16x9").map(videoEntry) }
         : {}),
     })),
     {
@@ -70,15 +57,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: "2026-11-17",
       priority: 0.7,
       images: GALLERY_SHOTS.map((s) => `${SITE_URL}${s.src}`),
-      videos: GALLERY_VIDEOS.map((v) => ({
-        title: v.title,
-        description: v.description,
-        thumbnail_loc: `${SITE_URL}${v.poster}`,
-        content_loc: `${SITE_URL}${v.src}`,
-        duration: v.durationSec,
-        publication_date: v.uploadDate,
-        family_friendly: "yes" as const,
-      })),
+      videos: GALLERY_VIDEOS.map(videoEntry),
     },
     ...liveTools().map((t) => ({ url: `${SITE_URL}${toolPath(t.slug)}`, lastModified: t.lastModified, priority: 0.9 })),
     ...BLOG_TOPICS.map((t) => ({ url: `${SITE_URL}/blog/topic/${t.slug}`, lastModified: latestIn(t.posts), priority: 0.6 })),

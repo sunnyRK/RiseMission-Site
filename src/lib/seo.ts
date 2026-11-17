@@ -12,7 +12,7 @@ import {
   RELEASES,
   V16_FEATURES,
 } from "./site";
-import { GALLERY_SHOTS } from "./media";
+import { GALLERY_SHOTS, GALLERY_VIDEOS, type GalleryVideo } from "./media";
 
 /**
  * Metadata + JSON-LD helpers. Every page goes through `pageMetadata()` and
@@ -160,36 +160,31 @@ export function mobileApplicationLd(description: string, opts: { releaseNotesUrl
   };
 }
 
-/** The hero demo video. uploadDate = when it was first published on the site. */
-export function demoVideoLd() {
+/** VideoObject for a GALLERY_VIDEOS entry (data lives in media.ts). */
+function videoLd(v: GalleryVideo) {
   return {
     "@context": "https://schema.org",
     "@type": "VideoObject",
-    name: "Rise Mission app demo",
-    description:
-      "30-second demo of Rise Mission for iPhone: the alarm rings, you complete a wake-up challenge such as push-ups counted by the camera, and the alarm stops once you're awake.",
-    thumbnailUrl: abs("/assets/demo-poster.jpg"),
-    contentUrl: abs("/assets/demo.mp4"),
-    uploadDate: "2026-08-26T09:00:00+00:00",
-    duration: "PT30S",
+    name: v.title,
+    description: v.description,
+    thumbnailUrl: abs(v.poster),
+    contentUrl: abs(v.src),
+    uploadDate: v.uploadDate,
+    duration: `PT${v.durationSec}S`,
+    width: v.width,
+    height: v.height,
     publisher: publisherRef(),
   };
 }
 
-/** The animated 30-second explainer reel (16:9 on the site; 9:16 is for social). */
+/** The homepage demo video: the v1.6 real-app screen recording. */
+export function demoVideoLd() {
+  return videoLd(GALLERY_VIDEOS.find((v) => v.id === "app-demo")!);
+}
+
+/** The 30-second explainer reel (16:9 on the site; 9:16 is for social). */
 export function reelVideoLd() {
-  return {
-    "@context": "https://schema.org",
-    "@type": "VideoObject",
-    name: "Rise Mission in 30 seconds",
-    description:
-      "Animated explainer: Rise Mission rings on Silent and in Focus, you pick one of 10 wake-up challenges, prove you're awake with camera-counted push-ups, and build a wake-up streak.",
-    thumbnailUrl: abs("/assets/reel/rise-mission-reel-16x9-poster.jpg"),
-    contentUrl: abs("/assets/reel/rise-mission-reel-16x9.mp4"),
-    uploadDate: "2026-11-15T10:00:00+00:00",
-    duration: "PT31S",
-    publisher: publisherRef(),
-  };
+  return videoLd(GALLERY_VIDEOS.find((v) => v.id === "reel-16x9")!);
 }
 
 export function webSiteLd() {
