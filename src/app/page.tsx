@@ -1,18 +1,41 @@
 import Link from "next/link";
-import { ArrowRight, Check } from "lucide-react";
+import type { CSSProperties } from "react";
+import { ArrowRight, Check, ChevronRight } from "lucide-react";
 import { AppStoreButton } from "@/components/site/app-store-button";
-import { DemoVideo } from "@/components/site/demo-video";
+import { ClayTile } from "@/components/site/clay-tile";
 import { Faq } from "@/components/site/faq";
-import { IconTile } from "@/components/site/icons";
-import { REEL_16X9_VIDEO } from "@/lib/perf/video-sources";
+import { Icon3D, type Icon3DName } from "@/components/site/icon-3d";
+import { Phone } from "@/components/site/phone";
 import { Section, SectionHeader } from "@/components/site/section";
-import { ShotCard } from "@/components/site/shot-card";
-import { JsonLd } from "@/components/seo/json-ld";
+import { StickyCta } from "@/components/site/sticky-cta";
+import { FlipBadge } from "@/components/site/home/flip-badge";
+import { MissionCard } from "@/components/site/home/mission-card";
+import { RankLadder } from "@/components/site/home/rank-ladder";
+import { CHALLENGE_STYLE, screenById, V16_SCREENS_FALLBACK } from "@/components/site/home/data";
+import { Carousel } from "@/components/motion/carousel";
+import { Orbit } from "@/components/motion/orbit";
 import { Reveal } from "@/components/motion/reveal";
+import { JsonLd } from "@/components/seo/json-ld";
+import { REEL_16X9_VIDEO } from "@/lib/perf/video-sources";
 import { BLOG_TOPICS, postPath, sortedPosts } from "@/lib/blog";
-import type { NavIcon } from "@/lib/nav";
-import { demoVideoLd, reelVideoLd, faqPageLd, mobileApplicationLd, organizationLd, pageMetadata, webSiteLd, type QA } from "@/lib/seo";
-import { CHALLENGE_GUIDES, CHALLENGES, FACTS, LIVE_VERSION, PRICING_COPY, PRIVACY_COPY } from "@/lib/site";
+import { faqPageLd, mobileApplicationLd, organizationLd, pageMetadata, reelVideoLd, webSiteLd, type QA } from "@/lib/seo";
+import {
+  ACHIEVEMENT_COUNT,
+  ACHIEVEMENTS,
+  CHALLENGE_GUIDES,
+  CHALLENGES,
+  FACTS,
+  FOCUS_PRESETS,
+  LIVE_VERSION,
+  PRICING_COPY,
+  PRIVACY_COPY,
+  RANKS,
+  V16_FEATURES,
+  XP_RULES,
+} from "@/lib/site";
+
+// TODO: switch to V16_SCREENS from media.ts at merge
+const SCREENS = V16_SCREENS_FALLBACK;
 
 const DESCRIPTION =
   "Rise Mission is the iPhone alarm clock for heavy sleepers. When it rings, you prove you're awake with a challenge: push-ups, a walk, a QR scan, math or your voice.";
@@ -34,6 +57,10 @@ const FAQ: QA[] = [
   { q: "Which iPhones does Rise Mission work on?", a: FACTS.minIOS },
   { q: "Does the alarm ring on Silent, in Focus, or when the app is closed?", a: `Yes. ${FACTS.ringsOnSilent} ${FACTS.poweredOff}` },
   { q: "Which wake-up challenges can I choose from?", a: `${FACTS.challengeCount}: ${CHALLENGES.map((c) => c.name).join(", ")}. ${FACTS.backupChallenge}` },
+  {
+    q: "How do levels and XP work?",
+    a: `Every completed wake-up earns ${XP_RULES.base} XP, plus ${XP_RULES.onTimeBonus} for finishing on time without snoozing and ${XP_RULES.routineBonus} for your morning routine. A streak multiplies it, up to ×2 from 14 days. You climb six ranks, from ${RANKS[0].name} to ${RANKS[RANKS.length - 1].name}, and can earn ${ACHIEVEMENT_COUNT} achievements.`,
+  },
   { q: "Is my camera and voice data private?", a: PRIVACY_COPY.long },
   { q: "What if the camera can't see me or I'm sick?", a: `${FACTS.backupChallenge} ${FACTS.emergencyDismiss}` },
   { q: "How much does Rise Mission cost?", a: PRICING_COPY.long },
@@ -43,86 +70,116 @@ const FAQ: QA[] = [
   },
 ];
 
-const STEPS = [
-  { n: "01", t: "Set your alarm", d: "Pick a time, the days, and a wake-up challenge with a difficulty that suits you." },
-  { n: "02", t: "It rings, for real", d: "AlarmKit rings on the Lock Screen, in Silent and in Focus, even with the app closed." },
-  { n: "03", t: "Prove you're up", d: "Finish the challenge to stop it. Your streak grows and your brain is already online." },
+const STEPS: { icon: Icon3DName; t: string; d: string }[] = [
+  { icon: "3d-clock", t: "Set your alarm", d: "Pick a time, the days, and a wake-up challenge with a difficulty that suits you." },
+  { icon: "3d-bell", t: "It rings, for real", d: "AlarmKit rings on the Lock Screen, in Silent and in Focus, even with the app closed." },
+  { icon: "3d-tick", t: "Prove you're up", d: "Finish the challenge to stop it. Your streak grows, you earn XP and your brain is already online." },
 ];
 
-const ICON: Record<string, NavIcon> = {
-  "push-ups": "pushups", squats: "squats", walk: "walk", shake: "shake", "object-find": "object",
-  "qr-code": "qr", voice: "voice", math: "math", typing: "typing", memory: "memory",
+const ORBIT_ICONS: Icon3DName[] = ["3d-dumbbell", "3d-calculator", "3d-fire", "3d-pencil", "3d-camera", "3d-puzzle", "3d-trophy"];
+
+/** Focus preset tiles in the app's colours (teal / blue / violet). */
+const PRESET_HUES: Record<number, [string, string]> = {
+  15: ["#2DD4BF", "#0E8F9A"],
+  25: ["#4F7BFF", "#1E3FD9"],
+  45: ["#B57BFF", "#6D3FD6"],
 };
+
+/** Gradient hues for the two lead feature cards (RMGradientHue). */
+const LEAD_HUES: [string, string][] = [
+  ["#7B4DFF", "#5A2FD6"], // violet
+  ["#D23B1E", "#A8221D"], // ember
+];
 
 export default function HomePage() {
   const posts = sortedPosts().slice(0, 3);
+  const home = screenById(SCREENS, "home");
+  const challengesShot = screenById(SCREENS, "challenges");
+  const focus = screenById(SCREENS, "focus");
+  const lead = V16_FEATURES.slice(0, 2);
+  const restFeatures = V16_FEATURES.slice(2);
+
   return (
     <>
-      <JsonLd data={[organizationLd(), webSiteLd(), mobileApplicationLd(DESCRIPTION), demoVideoLd(), reelVideoLd(), faqPageLd(FAQ)]} />
+      <JsonLd data={[organizationLd(), webSiteLd(), mobileApplicationLd(DESCRIPTION), reelVideoLd(), faqPageLd(FAQ)]} />
 
-      {/* HERO — compact centered pitch, then the demo video as the visual hero */}
-      <section className="sunrise-glow dawn relative overflow-hidden">
-        <div className="fade-up-group container-rm pt-8 text-center sm:pt-10 md:pt-12">
-          <Link
-            href="#whats-new"
-            className="fade-up inline-flex items-center gap-2 rounded-full border border-line bg-card/80 py-1 pl-1 pr-3 text-[0.82rem] text-ink-2 shadow-[0_1px_2px_rgb(22_20_31/0.05)] backdrop-blur transition-colors duration-150 hover:border-ink/20"
-          >
-            <span className="whitespace-nowrap rounded-full bg-accent px-2 py-0.5 text-[0.72rem] font-semibold text-accent-ink">New in {LIVE_VERSION}</span>
-            <span className="whitespace-nowrap">
-              Morning Briefing<span className="hidden sm:inline">, widgets &amp; Live Activities</span>
-            </span>
-            <ArrowRight aria-hidden className="h-3.5 w-3.5 text-muted" />
-          </Link>
-
-          <h1 className="fade-up mx-auto mt-5 max-w-5xl text-[clamp(2.4rem,1.3rem+3.3vw,3.9rem)] font-medium leading-[1.04] tracking-[-0.045em] text-ink">
-            The alarm clock app that makes you <span className="hl">prove</span> you&apos;re awake.
-          </h1>
-
-          <p className="fade-up t-lead mx-auto mt-4 max-w-[38rem]">
-            Rise Mission is an iPhone alarm app for heavy sleepers. When it rings, you finish a wake-up challenge: push-ups
-            counted by your camera, a walk, a QR code across the room, math or your voice. By the time you&apos;re done,
-            you&apos;re up.
-          </p>
-
-          <div className="fade-up mx-auto mt-7 flex max-w-sm flex-col items-stretch gap-3 sm:max-w-none sm:flex-row sm:items-center sm:justify-center">
-            <AppStoreButton placement="home-hero" size="lg" className="justify-center" />
+      {/* HERO: the app's time-of-day header wash, the pitch, and the real v1.6
+          Home screen in a device frame with the welcome-scene icon orbit. */}
+      <section className="rm-wash -mt-16 overflow-hidden pt-16">
+        <div className="container-rm grid items-center gap-6 pb-10 pt-8 md:pt-12 lg:grid-cols-[1.02fr_1fr] lg:gap-8 lg:pb-16">
+          <div className="fade-up-group text-center lg:text-left">
             <Link
-              href="#how-it-works"
-              className="group inline-flex h-[60px] items-center justify-center gap-2 rounded-[14px] border border-line bg-card px-6 font-semibold text-ink transition-colors duration-150 hover:border-ink/20"
+              href="#whats-new"
+              className="fade-up inline-flex items-center gap-2 rounded-full border border-white/80 bg-card/80 py-1 pl-1 pr-3 text-[0.82rem] font-semibold text-ink-2 shadow-[0_1px_2px_rgb(20_23_28/0.06)] backdrop-blur transition-colors duration-150 hover:border-ink/20 dark:border-line"
             >
-              How it works <ArrowRight aria-hidden className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+              <span className="whitespace-nowrap rounded-full bg-accent px-2 py-0.5 text-[0.72rem] font-extrabold text-accent-ink">New in {LIVE_VERSION}</span>
+              <span className="whitespace-nowrap">
+                Levels, badges<span className="hidden sm:inline"> &amp; a Focus tab</span>
+              </span>
+              <ArrowRight aria-hidden className="h-3.5 w-3.5 text-muted" />
             </Link>
+
+            <h1 className="fade-up t-display mx-auto mt-5 max-w-[15ch] lg:mx-0">
+              The alarm clock app that makes you <span className="hl">prove</span> you&apos;re awake.
+            </h1>
+
+            <p className="fade-up t-lead mx-auto mt-5 max-w-[36rem] lg:mx-0">
+              Rise Mission is an iPhone alarm app for heavy sleepers. When it rings, you finish a wake-up challenge: push-ups
+              counted by your camera, a walk, a QR code across the room, math or your voice. By the time you&apos;re done,
+              you&apos;re up.
+            </p>
+
+            <div className="fade-up mx-auto mt-7 flex max-w-sm flex-col items-stretch gap-3 sm:max-w-none sm:flex-row sm:items-center sm:justify-center lg:justify-start">
+              <AppStoreButton placement="home-hero" size="lg" className="justify-center" />
+              <Link
+                href="#challenges"
+                className="group inline-flex h-[60px] items-center justify-center gap-2 rounded-full border border-line bg-card px-6 font-bold text-ink shadow-[inset_0_1px_0_var(--highlight)] transition-colors duration-150 hover:border-ink/20"
+              >
+                Try a challenge <ArrowRight aria-hidden className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+              </Link>
+            </div>
+
+            <ul className="fade-up mx-auto mt-6 flex max-w-xl flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[0.85rem] font-semibold text-muted lg:mx-0 lg:justify-start">
+              {["iPhone · iOS 26 or later", PRICING_COPY.short, PRIVACY_COPY.badges[0], "Rings on Silent & Focus"].map((b) => (
+                <li key={b} className="inline-flex items-center gap-1.5">
+                  <Check aria-hidden className="h-3.5 w-3.5 text-good" strokeWidth={3} />
+                  {b}
+                </li>
+              ))}
+            </ul>
           </div>
 
-          <ul className="fade-up mx-auto mt-5 flex max-w-3xl flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[0.85rem] text-muted">
-            {["iPhone · iOS 26 or later", PRICING_COPY.short, PRIVACY_COPY.badges[0], "Rings on Silent & Focus"].map((b) => (
-              <li key={b} className="inline-flex items-center gap-1.5">
-                <Check aria-hidden className="h-3.5 w-3.5 text-good" />
-                {b}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Stage: the demo video, big and above the fold, with app screens overlapping its edges */}
-        <div className="fade-in-late container-rm relative mt-8 pb-16 md:mt-10 md:pb-24">
-          <div aria-hidden className="pointer-events-none absolute inset-x-0 top-[12%] mx-auto h-[70%] max-w-5xl rounded-full bg-gradient-to-r from-sun/25 via-coral/20 to-accent/25 blur-3xl" />
-          <div className="relative mx-auto max-w-[1040px]">
-            <div className="rounded-[22px] border border-line bg-card/90 p-1.5 shadow-[0_40px_80px_-30px_rgb(22_20_31/0.45)] backdrop-blur sm:rounded-[28px] sm:p-2.5">
-              <DemoVideo className="!rounded-[16px] sm:!rounded-[20px]" />
-            </div>
-            <ShotCard
-              src="/assets/screens/rise-mission-alarm-ringing-screen.jpg"
-              alt="Rise Mission ringing screen at 6:30 AM with a Start Challenge button"
-              className="absolute -left-14 bottom-[-12%] hidden w-[19%] -rotate-[7deg] xl:block"
-              sizes="200px"
-            />
-            <ShotCard
-              src="/assets/screens/rise-mission-push-up-alarm-camera-counts-reps.jpg"
-              alt="Camera counting push-ups on the floor to dismiss the alarm"
-              className="absolute -right-14 bottom-[-12%] hidden w-[19%] rotate-[7deg] xl:block"
-              sizes="200px"
-            />
+          {/* Stage */}
+          <div className="fade-in-late relative mx-auto h-[500px] w-full max-w-[560px] sm:h-[560px] lg:h-[640px]">
+            <div aria-hidden className="absolute left-1/2 top-1/2 h-[70%] w-[80%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--glow)_55%,transparent),transparent)] blur-2xl" />
+            <Orbit icons={ORBIT_ICONS} bubble={58} className="[--rx:150px] [--ry:205px] sm:[--rx:205px] sm:[--ry:235px] lg:[--rx:235px] lg:[--ry:270px]">
+              <div className="relative">
+                <Phone
+                  src={challengesShot.src}
+                  alt=""
+                  sizes="180px"
+                  className="rm-float-slow absolute -left-[46%] top-[9%] hidden w-[180px] [--tilt:-8deg] opacity-95 sm:block lg:w-[200px]"
+                />
+                <Phone src={home.src} alt={home.alt} preload sizes="(max-width: 640px) 210px, (max-width: 1024px) 240px, 272px" className="rm-float relative w-[210px] sm:w-[240px] lg:w-[272px]" />
+                {/* Floating "alarm ready" + streak chips, like the Home screen cards */}
+                <div aria-hidden className="rm-glass rm-float-slow absolute -right-[38%] top-[14%] hidden items-center gap-2 rounded-2xl px-3 py-2 sm:flex">
+                  <span className="grid h-7 w-7 place-items-center rounded-full bg-good text-white">
+                    <Check className="h-4 w-4" strokeWidth={3} />
+                  </span>
+                  <span className="text-left leading-tight">
+                    <span className="block text-[0.8rem] font-extrabold text-ink">Your 6:30 AM alarm is ready</span>
+                    <span className="block text-[0.7rem] font-semibold text-muted">Backup: Math</span>
+                  </span>
+                </div>
+                <div aria-hidden className="rm-glass rm-float absolute -left-[30%] bottom-[12%] flex items-center gap-2 rounded-2xl py-1.5 pl-1.5 pr-3 [--tilt:-3deg]">
+                  <Icon3D name="3d-fire" size={34} priority />
+                  <span className="text-left leading-tight">
+                    <span className="t-rounded block text-[0.95rem] font-extrabold text-ink">7 day streak</span>
+                    <span className="block text-[0.68rem] font-bold text-muted">+15 XP this morning</span>
+                  </span>
+                </div>
+              </div>
+            </Orbit>
           </div>
         </div>
       </section>
@@ -131,14 +188,251 @@ export default function HomePage() {
       <Section id="how-it-works">
         <SectionHeader eyebrow="How it works" title="Three steps to a morning you don't negotiate with." />
         <Reveal as="ol" stagger className="mt-12 grid gap-4 md:grid-cols-3">
-          {STEPS.map((s) => (
-            <li key={s.n} className="relative rounded-2xl border border-line bg-card p-7 shadow-[0_1px_2px_rgb(22_20_31/0.04)]">
-              <span className="inline-flex h-8 min-w-8 items-center justify-center rounded-full bg-accent-soft px-2 font-mono text-[0.8rem] font-medium text-accent">{s.n}</span>
-              <h3 className="t-h3 mt-6">{s.t}</h3>
+          {STEPS.map((s, i) => (
+            <li key={s.t} className="rm-card lift group relative p-6 sm:p-7">
+              <div className="flex items-start justify-between">
+                <Icon3D name={s.icon} size={72} className="icon3d-hover -ml-1 -mt-1" />
+                <span className="t-rounded text-[0.95rem] font-extrabold text-muted">0{i + 1}</span>
+              </div>
+              <h3 className="t-h3 mt-4 text-[1.25rem]">{s.t}</h3>
               <p className="mt-2 text-ink-2">{s.d}</p>
             </li>
           ))}
         </Reveal>
+      </Section>
+
+      {/* CHALLENGES: the app's mission carousel with playable demos, then the full list */}
+      <section id="challenges" className="scroll-mt-16 border-y border-line/70 bg-paper-2/60 py-20 md:py-28">
+        <div className="container-rm">
+          <SectionHeader
+            eyebrow={`${FACTS.challengeCount} wake-up challenges`}
+            title="Prove you're awake, your way."
+            lead="Swipe through the missions and tap Try it for a 20-second web demo. Body challenges get you out of bed, brain challenges get your head online, and the backup takes over if the camera can't see you."
+          />
+        </div>
+        <Carousel label="Wake-up challenges" cardWidth="min(84%, 340px)" padTop="56px" dotColors={CHALLENGES.map((c) => CHALLENGE_STYLE[c.slug].top)} className="mt-6">
+          {CHALLENGES.map((c, i) => (
+            <MissionCard key={c.slug} c={c} index={i} total={CHALLENGES.length} />
+          ))}
+        </Carousel>
+
+        <div className="container-rm mt-14">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h3 className="flex items-center gap-2.5 text-[1.35rem] font-extrabold tracking-tight">
+              <span aria-hidden className="grid h-8 w-8 place-items-center rounded-[10px] bg-accent text-white">
+                <svg viewBox="0 0 16 16" className="h-4 w-4 fill-current">
+                  <rect x="2" y="2" width="5" height="5" rx="1.5" />
+                  <rect x="9" y="2" width="5" height="5" rx="1.5" />
+                  <rect x="2" y="9" width="5" height="5" rx="1.5" />
+                  <rect x="9" y="9" width="5" height="5" rx="1.5" />
+                </svg>
+              </span>
+              All missions
+            </h3>
+            <Link href="/blog/wake-up-challenges-explained" className="inline-flex min-h-11 items-center gap-1.5 font-bold text-accent hover:underline">
+              Which challenge suits you? <ArrowRight aria-hidden className="h-4 w-4" />
+            </Link>
+          </div>
+          <Reveal as="ul" stagger className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-5">
+            {CHALLENGES.map((c) => {
+              const st = CHALLENGE_STYLE[c.slug];
+              return (
+                <li key={c.slug} id={`challenge-${c.slug}`} className="rm-card lift group flex scroll-mt-24 flex-col p-3.5 sm:p-4" style={{ "--tint": st.top, "--chip": st.ink } as CSSProperties}>
+                  <span className="rm-icon-tile h-14 w-14 sm:h-16 sm:w-16">
+                    <Icon3D name={c.icon3d} size={46} className="icon3d-hover h-10 w-10 sm:h-[46px] sm:w-[46px]" />
+                  </span>
+                  <h4 className="mt-3 text-[1.1rem] font-extrabold tracking-tight text-ink">{c.name}</h4>
+                  <p className="text-[0.88rem] font-semibold text-ink-2">{c.tagline}</p>
+                  <p className="mt-2">
+                    <span className="rm-chip dark:[--chip:var(--ink-2)]">
+                      {st.time} · {st.effort}
+                    </span>
+                  </p>
+                  <p className="mt-3 line-clamp-4 text-[0.84rem] leading-relaxed text-ink-2 sm:line-clamp-none sm:text-[0.88rem]">{c.how}</p>
+                  {CHALLENGE_GUIDES[c.slug] && (
+                    <Link href={CHALLENGE_GUIDES[c.slug]} className="mt-auto inline-flex min-h-11 items-center gap-1 pt-2 text-[0.85rem] font-bold text-accent hover:underline">
+                      Read the guide <ChevronRight aria-hidden className="h-4 w-4" />
+                    </Link>
+                  )}
+                </li>
+              );
+            })}
+          </Reveal>
+        </div>
+      </section>
+
+      {/* NEW IN 1.6 */}
+      <Section id="whats-new">
+        <SectionHeader eyebrow={`New in ${LIVE_VERSION}`} title="The biggest update yet." lead="A fresh look and new reasons to win every morning." />
+        <Reveal as="ul" stagger className="mt-10 grid grid-cols-2 gap-3 lg:grid-cols-4">
+          {lead.map((f, i) => (
+            <li key={f.id} className="rm-grad lift group col-span-2 flex min-h-[190px] flex-col justify-between p-6 sm:col-span-1 lg:col-span-2" style={{ "--top": LEAD_HUES[i][0], "--deep": LEAD_HUES[i][1] } as CSSProperties}>
+              <Icon3D name={f.icon3d} size={88} className="icon3d-hover -ml-1 -mt-1" />
+              <div className="mt-6">
+                <h3 className="text-[1.45rem] font-extrabold tracking-tight">{f.title}</h3>
+                <p className="mt-1 max-w-sm font-medium text-white/90">{f.blurb}</p>
+              </div>
+            </li>
+          ))}
+          {restFeatures.map((f) => (
+            <li key={f.id} className="rm-card lift group flex flex-col gap-2 p-4 sm:flex-row sm:gap-3.5 sm:p-5">
+              <Icon3D name={f.icon3d} size={52} className="icon3d-hover h-11 w-11 shrink-0 sm:h-[52px] sm:w-[52px]" />
+              <div className="min-w-0">
+                <h3 className="font-extrabold tracking-tight text-ink">{f.title}</h3>
+                <p className="mt-1 text-[0.84rem] leading-relaxed text-ink-2 sm:text-[0.9rem]">{f.blurb}</p>
+              </div>
+            </li>
+          ))}
+          <li className="col-span-2">
+            <Link href="/whats-new" className="rm-card lift group flex h-full min-h-[96px] items-center justify-between gap-4 p-5">
+              <span>
+                <span className="block font-extrabold text-ink">Everything in {LIVE_VERSION}</span>
+                <span className="block text-[0.9rem] text-ink-2">Full release notes and the version history</span>
+              </span>
+              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-accent text-accent-ink transition-transform duration-200 group-hover:translate-x-0.5">
+                <ArrowRight aria-hidden className="h-5 w-5" />
+              </span>
+            </Link>
+          </li>
+        </Reveal>
+      </Section>
+
+      {/* LEVELS + STREAK */}
+      <section id="levels" className="rm-wash scroll-mt-16 py-20 md:py-28">
+        <div className="container-rm">
+          <SectionHeader
+            center
+            eyebrow="Levels, streaks & badges"
+            title={
+              <>
+                From Sleepyhead to <span className="hl">Legend</span>.
+              </>
+            }
+            lead="Every completed wake-up earns XP. Keep the streak alive and it counts for more."
+          />
+          <Reveal stagger className="mx-auto mt-12 grid max-w-5xl gap-4 md:grid-cols-2">
+            <LevelCard />
+            <StreakCard />
+          </Reveal>
+          <div className="mx-auto mt-16 max-w-3xl text-center">
+            <h3 className="text-[1.6rem] font-extrabold tracking-tight">How long until Legend?</h3>
+            <p className="mt-2 text-ink-2">Slide to your routine. The ranks below update with the app&apos;s real XP rules.</p>
+          </div>
+        </div>
+        <div className="mt-6">
+          <RankLadder />
+        </div>
+
+        <div className="container-rm mt-16" id="badges">
+          <div className="mx-auto max-w-3xl text-center">
+            <h3 className="text-[1.6rem] font-extrabold tracking-tight">{ACHIEVEMENT_COUNT} badges to earn</h3>
+            <p className="mt-2 text-ink-2">Hover or tap a badge to see how to earn it.</p>
+          </div>
+        </div>
+        <Carousel label="Achievements" cardWidth="min(62%, 220px)" padTop="20px" className="mt-2">
+          {ACHIEVEMENTS.map((a) => (
+            <FlipBadge key={a.name} name={a.name} how={a.how} icon={a.icon3d} isNew={a.since === "1.6"} />
+          ))}
+        </Carousel>
+      </section>
+
+      {/* FOCUS TAB */}
+      <Section id="focus">
+        <div className="grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr]">
+          <div className="relative order-2 mx-auto lg:order-1">
+            <div aria-hidden className="absolute inset-[-10%] rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--accent)_22%,transparent),transparent)] blur-2xl" />
+            <div className="rm-parallax relative [--px:24px]">
+              <Phone src={focus.src} alt={focus.alt} sizes="(max-width: 1024px) 250px, 290px" className="w-[250px] lg:w-[290px]" />
+            </div>
+            <Icon3D name="3d-target" size={88} className="rm-parallax rm-float absolute -right-12 top-[18%] [--px:-36px]" />
+            <Icon3D name="3d-clock" size={80} className="rm-parallax rm-float-slow absolute -left-12 bottom-[16%] [--px:40px]" />
+          </div>
+          <div className="order-1 lg:order-2">
+            <SectionHeader icon="3d-bolt" eyebrow="The new Focus tab" title="Up early? Use the time." lead="A focus timer and Pomodoro that ring like an alarm, right next to your alarms." />
+            <Reveal stagger className="mt-8 grid grid-cols-3 gap-3">
+              {FOCUS_PRESETS.filter((p) => PRESET_HUES[p.minutes]).map((p) => (
+                <div key={p.minutes} className="rm-grad lift p-4" style={{ "--top": PRESET_HUES[p.minutes][0], "--deep": PRESET_HUES[p.minutes][1] } as CSSProperties}>
+                  <p className="t-rounded text-[1.9rem] font-extrabold leading-none">
+                    {p.minutes}
+                    <span className="ml-0.5 text-[0.85rem] font-bold">min</span>
+                  </p>
+                  <p className="mt-2 text-[0.9rem] font-bold">{p.label}</p>
+                </div>
+              ))}
+            </Reveal>
+            <Reveal as="ul" stagger className="mt-8 space-y-3">
+              {[
+                ["Timer", "Any length, with presets, pause and extra time."],
+                ["Pomodoro", "Focus, Break and Long Break cycles."],
+                ["Today's focus", "Minutes focused and sessions done, at a glance."],
+              ].map(([t, d]) => (
+                <li key={t} className="flex gap-3">
+                  <span aria-hidden className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-accent-soft text-accent">
+                    <Check className="h-3.5 w-3.5" strokeWidth={3} />
+                  </span>
+                  <p className="text-ink-2">
+                    <span className="font-extrabold text-ink">{t}.</span> {d}
+                  </p>
+                </li>
+              ))}
+            </Reveal>
+          </div>
+        </div>
+      </Section>
+
+      {/* SCREENS */}
+      <section id="screens" className="scroll-mt-16 overflow-hidden border-y border-line/70 bg-paper-2/60 py-20 md:py-28">
+        <div className="container-rm">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <SectionHeader eyebrow={`Rise Mission ${LIVE_VERSION}`} title="Every screen, redesigned." />
+            <Link href="/gallery" className="inline-flex min-h-11 items-center gap-1.5 font-bold text-ink hover:text-accent">
+              Screenshots &amp; videos <ArrowRight aria-hidden className="h-4 w-4" />
+            </Link>
+          </div>
+        </div>
+        <Carousel label="App screenshots" cardWidth="min(64%, 260px)" padTop="28px" autoplay={3800} className="mt-4">
+          {SCREENS.map((s) => (
+            <figure key={s.id} className="px-1">
+              <Phone src={s.src} alt={s.alt} sizes="(max-width: 640px) 64vw, 260px" />
+            </figure>
+          ))}
+        </Carousel>
+      </section>
+
+      {/* FAIR + PRIVATE */}
+      <Section id="fair">
+        <SectionHeader eyebrow="Reliable, fair and private" title="Tough, never a trap." lead="Honest about what an alarm app can and can't do." />
+        <Reveal stagger className="mt-12 grid gap-4 lg:grid-cols-3">
+          <FairCard icon="3d-bell" title="It rings for real">
+            {FACTS.ringsOnSilent} <span className="text-muted">{FACTS.poweredOff}</span>
+          </FairCard>
+          <FairCard icon="3d-shield" title="A way out, always">
+            {FACTS.backupChallenge} {FACTS.emergencyDismiss}
+          </FairCard>
+          <FairCard icon="3d-lock" title="Private by design" chips={PRIVACY_COPY.badges}>
+            {FACTS.onDevice} No account, and your alarms and history stay on your iPhone.
+          </FairCard>
+        </Reveal>
+        <Reveal className="rm-card mt-4 flex flex-col gap-4 p-6 sm:flex-row sm:items-center">
+          <Icon3D name="3d-clock" size={56} />
+          <p className="flex-1 text-ink-2">
+            <span className="font-extrabold text-ink">The honest part: </span>
+            {FACTS.systemStop}
+          </p>
+        </Reveal>
+        <ul className="mt-6 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-x-6">
+          {[
+            ["/rise-mission-vs-apple-clock", "Rise Mission vs the iPhone Clock app"],
+            ["/compatibility", "Which iPhones it runs on"],
+            ["/privacy", "Privacy policy"],
+          ].map(([href, label]) => (
+            <li key={href}>
+              <Link href={href} className="inline-flex min-h-11 items-center gap-1.5 font-bold text-accent hover:underline">
+                {label} <ArrowRight aria-hidden className="h-4 w-4" />
+              </Link>
+            </li>
+          ))}
+        </ul>
       </Section>
 
       {/* 30-SECOND REEL */}
@@ -148,7 +442,7 @@ export default function HomePage() {
             <p className="t-eyebrow justify-center">Watch</p>
             <h2 className="t-h2 mt-3">Rise Mission in 30 seconds</h2>
           </div>
-          <div className="mt-8 rounded-[24px] border border-line bg-card p-1.5 shadow-soft sm:p-2">
+          <div className="rm-card mt-8 p-1.5 sm:p-2">
             <video
               className="aspect-video w-full rounded-[18px] bg-paper-2"
               poster={REEL_16X9_VIDEO.poster}
@@ -165,130 +459,41 @@ export default function HomePage() {
               ))}
             </video>
           </div>
-          <p className="mt-5 text-center">
-            <Link href="/gallery" className="inline-flex items-center gap-1.5 font-semibold text-accent hover:underline">
-              More screenshots &amp; videos <ArrowRight aria-hidden className="h-4 w-4" />
-            </Link>
-          </p>
-        </Reveal>
-      </section>
-
-      {/* CHALLENGES */}
-      <Section id="challenges" tone="tint">
-        <SectionHeader
-          eyebrow={`${FACTS.challengeCount} wake-up challenges`}
-          title="Prove you're awake, your way."
-          lead="Body challenges get you out of bed. Brain challenges get your head online. Pair one of each, and the backup takes over if the camera can't see you."
-        />
-        <p className="mt-4">
-          <Link href="/blog/wake-up-challenges-explained" className="inline-flex items-center gap-1.5 font-semibold text-accent hover:underline">
-            Which challenge suits you? <ArrowRight aria-hidden className="h-4 w-4" />
-          </Link>
-        </p>
-        <Reveal as="ul" stagger className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-          {CHALLENGES.map((c) => (
-            <li key={c.slug} id={`challenge-${c.slug}`} className="lift flex scroll-mt-24 flex-col rounded-2xl border border-line bg-card p-5">
-              <div className="flex items-center justify-between">
-                <IconTile name={ICON[c.slug]} size="md" tone="accent" />
-                <span className={`rounded-full px-2 py-0.5 text-[0.72rem] font-medium ${c.kind === "physical" ? "bg-sun-soft text-ink-2" : "bg-paper-2 text-ink-2"}`}>{c.kind === "physical" ? "Body" : "Brain"}</span>
-              </div>
-              <h3 className="t-h3 mt-4">{c.name}</h3>
-              <p className="mt-1.5 text-[0.92rem] leading-relaxed text-ink-2">{c.how}</p>
-              {CHALLENGE_GUIDES[c.slug] && (
-                <Link href={CHALLENGE_GUIDES[c.slug]} className="mt-auto inline-flex items-center gap-1 pt-4 text-[0.85rem] font-semibold text-accent hover:underline">
-                  Read the guide <ArrowRight aria-hidden className="h-3.5 w-3.5" />
-                </Link>
-              )}
-            </li>
-          ))}
-        </Reveal>
-      </Section>
-
-      {/* FAIR BY DESIGN */}
-      <Section>
-        <div className="grid items-center gap-14 lg:grid-cols-2">
-          <Reveal className="order-2 mx-auto flex w-full max-w-md gap-5 lg:order-1">
-            <ShotCard src="/assets/screens/rise-mission-object-find-and-voice-challenge.jpg" alt="Object Find and Voice affirmation challenges" className="w-1/2" />
-            <ShotCard src="/assets/screens/rise-mission-wake-up-streak-statistics.jpg" alt="Wake-up history calendar and statistics with streaks" className="mt-14 w-1/2" />
-          </Reveal>
-          <div className="order-1 lg:order-2">
-            <SectionHeader eyebrow="Fair by design" title="Tough, never a trap." />
-            <Reveal as="dl" stagger className="mt-10 grid gap-x-8 gap-y-8 sm:grid-cols-2">
-              <Feature title="A backup for every body challenge">{FACTS.backupChallenge}</Feature>
-              <Feature title="Emergency dismiss, always">{FACTS.emergencyDismiss}</Feature>
-              <Feature title="Private by design">{FACTS.onDevice}</Feature>
-              <Feature title="Practice before tomorrow">{FACTS.testAlarm}</Feature>
-            </Reveal>
-            <ul className="mt-8 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-x-6">
-              <li>
-                <Link href="/rise-mission-vs-apple-clock" className="inline-flex min-h-6 items-center gap-1.5 font-semibold text-accent hover:underline">
-                  Rise Mission vs the iPhone Clock app <ArrowRight aria-hidden className="h-4 w-4" />
-                </Link>
-              </li>
-              <li>
-                <Link href="/compatibility" className="inline-flex min-h-6 items-center gap-1.5 font-semibold text-accent hover:underline">
-                  Which iPhones it runs on <ArrowRight aria-hidden className="h-4 w-4" />
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </Section>
-
-      {/* NEW IN 1.5 */}
-      <section id="whats-new" className="container-rm scroll-mt-24">
-        <Reveal className="relative isolate overflow-hidden rounded-[28px] bg-ink px-6 py-12 text-paper sm:px-12 sm:py-16">
-          <div aria-hidden className="pointer-events-none absolute -right-24 -top-32 -z-10 h-80 w-[36rem] rounded-full bg-gradient-to-l from-accent/35 via-coral/20 to-transparent blur-3xl" />
-          <div aria-hidden className="pointer-events-none absolute -bottom-40 -left-24 -z-10 h-72 w-96 rounded-full bg-sun/15 blur-3xl" />
-          <p className="t-eyebrow !text-paper/60">What&apos;s new
-          </p>
-          <h2 className="t-h2 mt-3 !text-paper">Version {LIVE_VERSION}</h2>
-          <ul className="mt-10 grid gap-x-10 gap-y-5 border-t border-paper/10 pt-8 sm:grid-cols-2 lg:grid-cols-3">
-            {FACTS.v15Features.map((f) => (
-              <li key={f} className="flex gap-3 leading-relaxed text-paper/85">
-                <span aria-hidden className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-paper/10">
-                  <Check className="h-3 w-3 text-sun" />
-                </span>
-                {f}
-              </li>
-            ))}
-          </ul>
         </Reveal>
       </section>
 
       {/* TOOLS + GUIDES (internal linking hub) */}
-      <Section>
+      <Section tone="tint">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <SectionHeader eyebrow="Free tools & guides" title="Wake up on the first alarm." />
-          <Link href="/blog" className="inline-flex items-center gap-1.5 font-semibold text-ink hover:text-accent">
+          <Link href="/blog" className="inline-flex min-h-11 items-center gap-1.5 font-bold text-ink hover:text-accent">
             All articles <ArrowRight aria-hidden className="h-4 w-4" />
           </Link>
         </div>
         <Reveal stagger className="mt-12 grid gap-4 lg:grid-cols-3">
-          <Link href="/sleep-calculator" className="lift group relative isolate flex flex-col justify-between overflow-hidden rounded-2xl bg-accent p-7 text-accent-ink lg:row-span-2">
-            <span aria-hidden className="pointer-events-none absolute -right-16 -top-16 -z-10 h-56 w-56 rounded-full bg-white/15 blur-2xl" />
+          <Link href="/sleep-calculator" className="rm-grad lift group flex flex-col justify-between p-7 lg:row-span-2" style={{ "--top": "#3B3F8F", "--deep": "#23265E" } as CSSProperties}>
             <div>
-              <IconTile name="moon" size="lg" tone="inverse" />
-              <h3 className="mt-6 text-2xl font-semibold tracking-tight">Sleep cycle calculator</h3>
-              <p className="mt-2 opacity-85">Find the bedtime that lines your alarm up with the end of a sleep cycle. Free, no sign-up.</p>
+              <Icon3D name="3d-moon" size={80} className="icon3d-hover -ml-1" />
+              <h3 className="mt-5 text-2xl font-extrabold tracking-tight">Sleep cycle calculator</h3>
+              <p className="mt-2 text-white/85">Find the bedtime that lines your alarm up with the end of a sleep cycle. Free, no sign-up.</p>
             </div>
-            <span className="mt-8 inline-flex items-center gap-1.5 font-semibold">
+            <span className="mt-8 inline-flex items-center gap-1.5 font-bold">
               Open the calculator <ArrowRight aria-hidden className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
             </span>
           </Link>
           {posts.map((p) => (
-            <Link key={p.slug} href={postPath(p.slug)} className="lift group rounded-2xl border border-line bg-card p-6">
-              <p className="text-[0.8rem] font-medium text-accent">{p.eyebrow}</p>
+            <Link key={p.slug} href={postPath(p.slug)} className="rm-card lift group p-6">
+              <p className="text-[0.75rem] font-extrabold uppercase tracking-[0.1em] text-accent">{p.eyebrow}</p>
               <h3 className="t-h3 mt-2 decoration-1 underline-offset-[3px] group-hover:underline">{p.title}</h3>
               <p className="mt-2 line-clamp-2 text-[0.92rem] text-ink-2">{p.description}</p>
             </Link>
           ))}
-          <div className="rounded-2xl border border-dashed border-line p-6">
-            <p className="text-[0.8rem] font-medium text-muted">Browse by topic</p>
+          <div className="rounded-[24px] border border-dashed border-line p-6">
+            <p className="text-[0.75rem] font-extrabold uppercase tracking-[0.1em] text-muted">Browse by topic</p>
             <ul className="mt-3 flex flex-wrap gap-2">
               {BLOG_TOPICS.map((t) => (
                 <li key={t.slug}>
-                  <Link href={`/blog/topic/${t.slug}`} className="inline-flex min-h-9 items-center rounded-full border border-line bg-card px-3.5 text-[0.88rem] text-ink-2 transition-colors duration-150 hover:border-ink/20 hover:text-ink">
+                  <Link href={`/blog/topic/${t.slug}`} className="inline-flex min-h-10 items-center rounded-full border border-line bg-card px-3.5 text-[0.88rem] font-semibold text-ink-2 transition-colors duration-150 hover:border-ink/20 hover:text-ink">
                     {t.name}
                   </Link>
                 </li>
@@ -300,27 +505,148 @@ export default function HomePage() {
 
       <Faq items={FAQ} />
 
-      {/* FINAL CTA */}
+      {/* FINAL CTA: the welcome scene (clay brand tile + icon orbit) */}
       <section className="container-rm">
-        <Reveal className="sunrise-glow dawn relative overflow-hidden rounded-[28px] border border-line bg-card px-6 py-16 text-center sm:py-24">
+        <Reveal className="rm-wash relative overflow-hidden rounded-[32px] border border-line px-6 pb-14 pt-6 text-center shadow-[inset_0_1px_0_var(--highlight)] sm:pb-20">
+          <div className="relative mx-auto h-[300px] max-w-[420px]">
+            <Orbit icons={["3d-dumbbell", "3d-calculator", "3d-clock", "3d-pencil", "3d-camera", "3d-puzzle"]} bubble={60} period={70} className="[--rx:135px] [--ry:100px] sm:[--rx:160px] sm:[--ry:104px]">
+              <div className="rm-float">
+                <ClayTile size={108} />
+              </div>
+            </Orbit>
+          </div>
           <h2 className="t-h2 mx-auto max-w-2xl">
-            Wake up without <span className="hl">negotiating</span> with yourself.
+            Wake up on your <span className="hl">terms</span>.
           </h2>
-          <p className="t-lead mx-auto mt-4 max-w-lg">Set it tonight, try the test alarm, and make tomorrow the first morning you don&apos;t snooze.</p>
+          <p className="t-lead mx-auto mt-4 max-w-lg">Prove you&apos;re actually up, then the alarm stops. Set it tonight, try the test alarm, and make tomorrow the first morning you don&apos;t snooze.</p>
           <div className="mt-8 flex justify-center">
             <AppStoreButton placement="home-final" size="lg" />
           </div>
+          <p className="mt-4 text-[0.85rem] font-semibold text-muted">{PRICING_COPY.short} · iOS 26 or later</p>
         </Reveal>
       </section>
+
+      <StickyCta />
     </>
   );
 }
 
-function Feature({ title, children }: { title: string; children: React.ReactNode }) {
+/** Statistics tab "Level" card (StatisticsView): rank, XP bar, ladder, how you earn XP. */
+function LevelCard() {
+  const xp = 96;
+  const next = RANKS[1];
   return (
-    <div>
-      <dt className="t-h3">{title}</dt>
-      <dd className="mt-1.5 text-ink-2">{children}</dd>
+    <article className="rm-card p-6" aria-label="Example level card from the app">
+      <div className="flex items-center gap-4">
+        <Icon3D name={RANKS[0].icon3d} size={88} />
+        <div>
+          <p className="t-eyebrow">Level 1</p>
+          <p className="mt-1 text-[1.7rem] font-extrabold leading-tight tracking-tight">{RANKS[0].name}</p>
+          <p className="text-[0.9rem] font-semibold text-muted">{xp} XP total</p>
+        </div>
+      </div>
+      <div className="rm-bar mt-5">
+        <span style={{ "--v": xp / next.xp } as CSSProperties} />
+      </div>
+      <p className="mt-2 flex justify-between text-[0.85rem] font-bold text-muted">
+        <span>
+          {next.xp - xp} XP to {next.name}
+        </span>
+        <span className="t-rounded">
+          {xp}/{next.xp}
+        </span>
+      </p>
+      <ul className="mt-5 flex justify-between gap-1" aria-label="Rank ladder">
+        {RANKS.map((r, i) => (
+          <li key={r.name} className="flex flex-col items-center gap-1">
+            <span className={`grid h-11 w-11 place-items-center rounded-full ${i === 0 ? "bg-accent-soft ring-2 ring-accent" : "bg-paper-2 grayscale"}`}>
+              <Icon3D name={r.icon3d} size={28} alt={r.name} className={i === 0 ? "" : "opacity-60"} />
+            </span>
+            <span className="t-rounded text-[0.72rem] font-bold text-muted">{r.xp.toLocaleString("en-US")}</span>
+          </li>
+        ))}
+      </ul>
+      <div className="mt-5 border-t border-line pt-4">
+        <p className="font-extrabold">How you earn XP</p>
+        <dl className="mt-2 space-y-1.5 text-[0.92rem]">
+          {[
+            ["Every wake-up", `+${XP_RULES.base}`],
+            ["On time, no snooze", `+${XP_RULES.onTimeBonus}`],
+            ["Morning routine done", `+${XP_RULES.routineBonus}`],
+            ["Streak bonus (3, 7, 14+ days)", "up to ×2"],
+          ].map(([k, v]) => (
+            <div key={k} className="flex justify-between gap-3">
+              <dt className="text-ink-2">{k}</dt>
+              <dd className="t-rounded font-extrabold text-ink">{v}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </article>
+  );
+}
+
+/** Home "streak" card: 3D fire, week dots, next-badge bar. */
+function StreakCard() {
+  const days = ["M", "T", "W", "T", "F", "S", "S"];
+  return (
+    <article className="rm-card flex flex-col p-6" aria-label="Example streak card from the app">
+      <div className="flex items-center gap-4">
+        <Icon3D name="3d-fire" size={80} />
+        <div>
+          <p className="text-[1.7rem] font-extrabold leading-tight tracking-tight">6 day streak</p>
+          <p className="font-semibold text-muted">Wake with a mission to keep it burning.</p>
+        </div>
+      </div>
+      <ol className="mt-6 flex justify-between" aria-label="This week">
+        {days.map((d, i) => (
+          <li
+            key={i}
+            aria-label={i < 6 ? "Done" : "Today"}
+            className={`grid h-10 w-10 place-items-center rounded-full text-[0.8rem] font-extrabold sm:h-11 sm:w-11 ${i < 6 ? "bg-good text-white" : "border-2 border-accent text-ink"}`}
+          >
+            {i < 6 ? <Check aria-hidden className="h-4 w-4" strokeWidth={3.5} /> : d}
+          </li>
+        ))}
+      </ol>
+      <div className="mt-6 border-t border-line pt-4">
+        <p className="flex items-center gap-2.5 text-[0.95rem]">
+          <Icon3D name="3d-calendar" size={30} />
+          <span className="flex-1 text-ink-2">
+            Next badge: <span className="font-extrabold text-ink">Week Warrior</span>
+          </span>
+          <span className="font-extrabold text-ink">in 1 day</span>
+        </p>
+        <div className="rm-bar mt-3">
+          <span style={{ "--v": 6 / 7, "--fill": "var(--sun)" } as CSSProperties} />
+        </div>
+      </div>
+      <div className="mt-auto flex items-center gap-3 rounded-2xl bg-paper-2/70 p-3 pt-3">
+        <Icon3D name="3d-rocket" size={44} />
+        <p className="text-[0.9rem] leading-snug">
+          <span className="block font-extrabold">7-Day Rise Challenge</span>
+          <span className="text-ink-2">Wake up with a mission 7 times in the next 10 days.</span>
+        </p>
+      </div>
+    </article>
+  );
+}
+
+function FairCard({ icon, title, chips, children }: { icon: Icon3DName; title: string; chips?: readonly string[]; children: React.ReactNode }) {
+  return (
+    <div className="rm-card lift group flex flex-col p-6">
+      <Icon3D name={icon} size={64} className="icon3d-hover -ml-1" />
+      <h3 className="mt-4 text-[1.2rem] font-extrabold tracking-tight">{title}</h3>
+      <p className="mt-2 text-[0.95rem] leading-relaxed text-ink-2">{children}</p>
+      {chips && (
+        <ul className="mt-4 flex flex-wrap gap-1.5">
+          {chips.map((c) => (
+            <li key={c} className="rm-chip">
+              <Check aria-hidden className="h-3 w-3 text-good" strokeWidth={3} /> {c}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
