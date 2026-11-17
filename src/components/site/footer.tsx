@@ -25,7 +25,7 @@ export function SiteFooter() {
           <a
             href={appStoreHref("footer")}
             data-cta="footer"
-            className="rm-btn-primary mt-5 inline-flex min-h-11 items-center rounded-full px-5 text-sm font-extrabold"
+            className="rm-btn-primary mt-5 inline-flex min-h-11 items-center rounded-[14px] px-4 py-2 text-sm font-extrabold leading-snug"
           >
             Download Rise Mission on the App Store
           </a>

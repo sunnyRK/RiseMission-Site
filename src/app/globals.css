@@ -1056,3 +1056,8 @@ dialog.rm-sheet::backdrop { background: rgb(11 13 16 / 0.5); -webkit-backdrop-fi
     .rm-foot-group > summary { pointer-events: none; cursor: default; }
   }
 }
+
+/* Roomier breadcrumb + topic-chip targets on touch screens. */
+@media (max-width: 767px) {
+  nav[aria-label="Breadcrumb"] a { min-height: 2.25rem; }
+}

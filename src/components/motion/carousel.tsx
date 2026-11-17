@@ -116,8 +116,18 @@ export function Carousel({
     const el = track.current;
     const first = el?.children[0] as HTMLElement | undefined;
     if (!el || !first || n < 2) return;
-    // Enough clones to fill the viewport after the last real card.
-    setClones(Math.min(n, Math.ceil(el.clientWidth / (first.offsetWidth + 14)) + 1));
+    // Enough clones to fill the viewport after the last real card. Built only
+    // when the carousel nears the screen, so it costs nothing at page load.
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (!e?.isIntersecting) return;
+        io.disconnect();
+        setClones(Math.min(n, Math.ceil(el.clientWidth / (first.offsetWidth + 14)) + 1));
+      },
+      { rootMargin: "300px 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
   }, [n]);
 
   // Track the centered slide; when scrolling settles on a clone, jump to the real slide.

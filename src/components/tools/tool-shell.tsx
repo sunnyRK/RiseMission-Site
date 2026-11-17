@@ -170,7 +170,7 @@ export function MoreTools({ current }: { current: string }) {
             </li>
           ))}
         </ul>
-        <Link href="/tools" className="mt-4 inline-flex items-center gap-1.5 text-[0.92rem] font-semibold text-accent">
+        <Link href="/tools" className="mt-3 inline-flex min-h-11 items-center gap-1.5 text-[0.92rem] font-bold text-accent">
           All free tools <ArrowRight aria-hidden className="h-4 w-4" />
         </Link>
       </div>

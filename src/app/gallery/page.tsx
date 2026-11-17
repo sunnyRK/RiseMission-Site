@@ -179,7 +179,7 @@ export default function GalleryPage() {
               <a
                 href={vertical.src}
                 download
-                className="mt-3 inline-flex items-center gap-1.5 text-[0.9rem] font-semibold text-accent hover:underline"
+                className="mt-3 inline-flex min-h-11 items-center gap-1.5 text-[0.9rem] font-semibold text-accent hover:underline"
               >
                 <Download aria-hidden className="h-4 w-4" /> Download MP4
               </a>
@@ -268,7 +268,7 @@ export default function GalleryPage() {
 function VideoTranscript({ lines }: { lines: string[] }) {
   return (
     <details className="mt-3 rounded-xl border border-line bg-card px-4 py-3 text-[0.92rem]">
-      <summary className="cursor-pointer font-semibold text-ink">What happens in this video</summary>
+      <summary className="flex min-h-11 cursor-pointer items-center font-semibold text-ink">What happens in this video</summary>
       <ol className="mt-2 list-decimal space-y-1 pl-5 text-ink-2">
         {lines.map((l) => (
           <li key={l}>{l}</li>
