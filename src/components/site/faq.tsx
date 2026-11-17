@@ -6,10 +6,11 @@ export function Faq({ items, heading = "Questions, answered" }: { items: QA[]; h
   return (
     <section aria-labelledby="faq" className="container-rm py-20 md:py-28">
       <div className="mx-auto max-w-3xl">
-        <h2 id="faq" className="t-h2 text-balance text-center">
+        <p className="t-eyebrow w-full justify-center">FAQ</p>
+        <h2 id="faq" className="t-h2 mt-3 text-balance text-center">
           {heading}
         </h2>
-        <div className="mt-10 divide-y divide-line overflow-hidden rounded-2xl border border-line bg-card">
+        <div className="rm-card mt-10 divide-y divide-line overflow-hidden">
           {items.map((f) => (
             <details key={f.q} className="group" open={false}>
               <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 text-ink transition-colors hover:bg-paper-2/60 focus-visible:bg-paper-2/60 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent sm:px-6 [&::-webkit-details-marker]:hidden">

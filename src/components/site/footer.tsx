@@ -37,6 +37,7 @@ export function SiteFooter() {
             { href: "/about", label: "About" },
             { href: "/privacy", label: "Privacy" },
             { href: "/terms", label: "Terms" },
+            { href: "/licenses", label: "Licenses" },
             { href: INSTAGRAM_URL, label: "Instagram" },
             { href: `mailto:${CONTACT_EMAIL}`, label: "Email" },
           ]}

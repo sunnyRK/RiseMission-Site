@@ -1,12 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
 import { Analytics } from "@/components/analytics/analytics";
 import { SiteFooter } from "@/components/site/footer";
 import { SiteHeader } from "@/components/site/header";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
-
-const sans = Inter({ subsets: ["latin"], variable: "--font-sans-face", display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -25,15 +22,22 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#fbfaf8" },
-    { media: "(prefers-color-scheme: dark)", color: "#0c0c10" },
+    { media: "(prefers-color-scheme: light)", color: "#f4f4f5" },
+    { media: "(prefers-color-scheme: dark)", color: "#0b0d10" },
   ],
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${sans.variable} antialiased`}>
+    <html lang="en" className="antialiased" suppressHydrationWarning>
       <body className="min-h-dvh flex flex-col">
+        {/* Time-of-day wash, like the app's Home header (RMTimeOfDay buckets).
+            Runs before first paint, colours only, so no flash and no CLS. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var h=new Date().getHours();document.documentElement.dataset.tod=h>=5&&h<12?"morning":h>=12&&h<17?"afternoon":h>=17&&h<21?"evening":"night"})()`,
+          }}
+        />
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-card focus:px-4 focus:py-2"

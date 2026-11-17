@@ -108,7 +108,7 @@ export function NavBar({ menus }: { menus: NavMenu[] }) {
           <a
             href={appStoreHref("header")}
             data-cta="header"
-            className="inline-flex h-11 items-center gap-2 rounded-xl bg-ink px-4 text-[0.9rem] font-semibold text-paper transition-opacity duration-150 hover:opacity-90 lg:h-10"
+            className="rm-btn-primary inline-flex h-11 items-center gap-2 rounded-full px-4 text-[0.9rem] font-bold transition-[filter,translate] duration-150 hover:brightness-110 active:translate-y-px lg:h-10"
           >
             <AppleLogo className="h-4 w-4" />
             <span className="hidden sm:inline">Get the app</span>
@@ -116,7 +116,7 @@ export function NavBar({ menus }: { menus: NavMenu[] }) {
           </a>
           <button
             type="button"
-            className="relative flex h-11 w-11 items-center justify-center rounded-xl bg-paper-2 text-ink transition-colors duration-150 active:bg-line lg:hidden"
+            className="relative flex h-11 w-11 items-center justify-center rounded-full bg-card text-ink shadow-[inset_0_1px_0_var(--highlight),0_1px_2px_rgb(20_23_28/0.08)] transition-colors duration-150 active:bg-line lg:hidden"
             aria-label={mobile ? "Close menu" : "Open menu"}
             aria-expanded={mobile}
             aria-controls="mobile-menu"
