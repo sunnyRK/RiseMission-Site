@@ -32,7 +32,7 @@ describe("blog registry", () => {
       const title = p.metaTitle ?? p.title;
       const desc = p.metaDescription ?? p.description;
       expect(title.length, `title too long: ${p.slug}`).toBeLessThanOrEqual(TITLE_MAX);
-      expect(desc.length, `description too long: ${p.slug}`).toBeLessThanOrEqual(DESCRIPTION_MAX + 10);
+      expect(desc.length, `description too long: ${p.slug}`).toBeLessThanOrEqual(DESCRIPTION_MAX);
       expect(titles.has(title)).toBe(false);
       expect(descs.has(desc)).toBe(false);
       titles.add(title);

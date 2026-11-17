@@ -5,8 +5,9 @@ import { Answer, H2, Limits, Sources, type Source } from "@/components/blog/pros
 import { AppStoreButton } from "@/components/site/app-store-button";
 import { Faq } from "@/components/site/faq";
 import { JsonLd } from "@/components/seo/json-ld";
+import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { GALLERY_SHOTS } from "@/lib/media";
-import { breadcrumbLd, faqPageLd, mobileApplicationLd, pageMetadata, type QA } from "@/lib/seo";
+import { faqPageLd, mobileApplicationLd, type QA, staticPageMetadata } from "@/lib/seo";
 import { ACHIEVEMENT_COUNT, CHALLENGES, FACTS, MIN_IOS, PRICING_COPY, PRIVACY_COPY } from "@/lib/site";
 
 /**
@@ -18,12 +19,7 @@ import { ACHIEVEMENT_COUNT, CHALLENGES, FACTS, MIN_IOS, PRICING_COPY, PRIVACY_CO
 const PATH = "/rise-mission-vs-apple-clock";
 const UPDATED = "2026-11-17";
 
-export const metadata = pageMetadata({
-  title: "Rise Mission vs iPhone Clock Alarm",
-  description:
-    "The iPhone Clock alarm is free and reliable. Rise Mission adds wake-up challenges. What each does, what it costs, and who should stay with Clock.",
-  path: PATH,
-});
+export const metadata = staticPageMetadata(PATH);
 
 const SRC_APPLE = {
   alarms: { label: "Apple Support. How to set and change alarms on your iPhone", href: "https://support.apple.com/en-us/118444" },
@@ -84,10 +80,6 @@ export default function VsAppleClockPage() {
     <>
       <JsonLd
         data={[
-          breadcrumbLd([
-            { name: "Home", path: "/" },
-            { name: "Rise Mission vs iPhone Clock", path: PATH },
-          ]),
           mobileApplicationLd(
             "Rise Mission is an iPhone alarm clock app (iOS 26+) where you stop the alarm by completing a wake-up challenge. Free to download; Rise Mission Pro unlocks the app.",
           ),
@@ -96,8 +88,9 @@ export default function VsAppleClockPage() {
       />
 
       <section className="sunrise-glow dawn">
-        <div className="container-rm pb-10 pt-12 md:pt-16">
+        <div className="container-rm pb-10 pt-8 md:pt-12">
           <div className="mx-auto max-w-3xl">
+            <Breadcrumbs path="/rise-mission-vs-apple-clock" bare className="mb-5" />
             <HeroIcon name="3d-clock" />
             <p className="t-eyebrow">
               Comparison · Updated <time dateTime={UPDATED}>November 17, 2026</time>

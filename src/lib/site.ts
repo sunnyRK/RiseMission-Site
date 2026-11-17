@@ -26,6 +26,14 @@ export const AUTHOR = {
   url: `${SITE_URL}/about`,
 } as const;
 
+/**
+ * The one-paragraph entity definition (≈ 50 words) answer engines should quote.
+ * Repeat it verbatim (llms.txt, Organization schema, hub intros) so every
+ * source agrees on what Rise Mission is. Honest: a commitment device, not a lock.
+ */
+export const ENTITY_DESCRIPTION =
+  "Rise Mission is an iOS alarm app for heavy sleepers that you stop by finishing a wake-up challenge, such as push-ups counted by the camera, a walk, a QR scan or math. It runs on iPhone with iOS 26 or later, is built on Apple's AlarmKit and rings on Silent.";
+
 /** Live App Store version. Bump on every release. */
 export const LIVE_VERSION = "1.6";
 export const MIN_IOS = "iOS 26";
@@ -95,6 +103,7 @@ export const CHALLENGES: ChallengeFact[] = [
 /** Challenge → its dedicated guide (internal linking). */
 export const CHALLENGE_GUIDES: Record<string, string> = {
   "push-ups": "/blog/push-up-alarm-clock",
+  squats: "/blog/squat-alarm-clock",
   "qr-code": "/blog/qr-code-alarm-clock",
   math: "/blog/math-alarm-clock",
   walk: "/blog/step-alarm-clock",

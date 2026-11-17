@@ -1,11 +1,7 @@
 import { DocPage } from "@/components/site/doc-page";
-import { pageMetadata } from "@/lib/seo";
+import { staticPageMetadata } from "@/lib/seo";
 
-export const metadata = pageMetadata({
-  title: "Licenses and credits",
-  description: "Third-party art and software credits for the Rise Mission website and iPhone app, including the CC0 3D icon set from 3dicons.",
-  path: "/licenses",
-});
+export const metadata = staticPageMetadata("/licenses");
 
 export default function Licenses() {
   return (

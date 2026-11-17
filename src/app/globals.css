@@ -1042,3 +1042,17 @@ dialog.rm-sheet::backdrop { background: rgb(11 13 16 / 0.5); -webkit-backdrop-fi
   background: radial-gradient(60% 60% at 15% 10%, color-mix(in oklab, var(--accent) 16%, transparent), transparent 70%), radial-gradient(60% 60% at 90% 95%, color-mix(in oklab, var(--sun) 22%, transparent), transparent 70%);
   filter: blur(14px);
 }
+
+/* Footer: soft wash, grouped collapsible link lists on phones. */
+.rm-footer {
+  border-top: 1px solid var(--line);
+  background:
+    radial-gradient(500px 220px at 90% 0%, color-mix(in oklab, var(--glow) 18%, transparent), transparent 70%),
+    linear-gradient(to bottom, var(--paper-2), var(--paper));
+}
+@supports selector(::details-content) {
+  @media (min-width: 640px) {
+    .rm-foot-group::details-content { content-visibility: visible; block-size: auto; }
+    .rm-foot-group > summary { pointer-events: none; cursor: default; }
+  }
+}

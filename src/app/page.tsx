@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { EntityAnswer } from "@/components/site/entity-answer";
 import type { CSSProperties } from "react";
 import { ArrowRight, Check, ChevronRight } from "lucide-react";
 import { AppStoreButton } from "@/components/site/app-store-button";
@@ -22,7 +23,7 @@ import { Reveal } from "@/components/motion/reveal";
 import { JsonLd } from "@/components/seo/json-ld";
 import { REEL_16X9_VIDEO } from "@/lib/perf/video-sources";
 import { BLOG_TOPICS, postPath, sortedPosts } from "@/lib/blog";
-import { faqPageLd, mobileApplicationLd, organizationLd, pageMetadata, reelVideoLd, webSiteLd, type QA } from "@/lib/seo";
+import { faqPageLd, mobileApplicationLd, organizationLd, reelVideoLd, webSiteLd, type QA, staticPageMetadata, V16_OG_IMAGE } from "@/lib/seo";
 import {
   ACHIEVEMENT_COUNT,
   ACHIEVEMENTS,
@@ -45,12 +46,7 @@ const SCREENS = SCREEN_IDS.map(v16Screen);
 const DESCRIPTION =
   "Rise Mission is the iPhone alarm clock for heavy sleepers. When it rings, you prove you're awake with a challenge: push-ups, a walk, a QR scan, math or your voice.";
 
-export const metadata = pageMetadata({
-  title: "Rise Mission: Alarm Clock App for Heavy Sleepers",
-  absoluteTitle: true,
-  description: "The iPhone alarm clock app for heavy sleepers: stop it with a wake-up challenge like push-ups, a walk, a QR scan or math. Rings on Silent. iOS 26+.",
-  path: "/",
-});
+export const metadata = staticPageMetadata("/", { ogImage: V16_OG_IMAGE.url, ogImageSize: { width: V16_OG_IMAGE.width, height: V16_OG_IMAGE.height } });
 
 const FAQ: QA[] = [
   {
@@ -220,6 +216,7 @@ export default function HomePage() {
             </div>
           ))}
         </Reveal>
+        <EntityAnswer className="mx-auto mt-4 max-w-5xl" />
       </section>
 
       {/* HOW IT WORKS */}

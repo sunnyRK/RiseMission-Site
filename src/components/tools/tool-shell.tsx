@@ -2,9 +2,11 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { ArrowRight } from "lucide-react";
 import { CtaBand } from "@/components/site/cta-band";
+import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { Icon3D, type Icon3DName } from "@/components/site/icon-3d";
 import { HeroIcon, TOOL_ICON3D } from "@/components/site/page-icons";
 import { flattenBlocks, wrapTables } from "@/components/blog/prose";
+import { RelatedGuides } from "@/components/seo/related-guides";
 import { liveTools, toolPath } from "@/lib/tools";
 import "@/app/content.css";
 
@@ -14,10 +16,11 @@ import "@/app/content.css";
  *   explanatory prose (children) → app CTA → more tools.
  * Keep tool UIs inside <ToolCard>; keep content inside the prose slot.
  */
-export function ToolHero({ title, lead, updated = "2026-11-15", icon }: { title: string; lead: string; updated?: string; icon?: Icon3DName }) {
+export function ToolHero({ title, lead, updated = "2026-11-15", icon, path }: { title: string; lead: string; updated?: string; icon?: Icon3DName; path?: string }) {
   return (
     <section className="sunrise-glow dawn">
-      <div className="container-rm pb-8 pt-12 text-center md:pt-16">
+      <div className="container-rm pb-8 pt-8 text-center md:pt-12">
+        {path && <Breadcrumbs path={path} bare className="mb-6 [&_ol]:justify-center" />}
         {icon && <HeroIcon name={icon} center />}
         <p className="t-eyebrow justify-center">Free tool · No sign-up</p>
         <h1 className="t-h1 mx-auto mt-3 max-w-3xl text-balance">{title}</h1>
@@ -144,8 +147,10 @@ export function ToolCta({ placement, title, body }: { placement: string; title: 
 
 export function MoreTools({ current }: { current: string }) {
   const others = liveTools().filter((t) => t.slug !== current);
-  if (!others.length) return null;
+  if (!others.length) return <RelatedGuides tool={current} />;
   return (
+    <>
+    <RelatedGuides tool={current} />
     <section className="container-rm mt-16">
       <div className="mx-auto max-w-3xl">
         <p className="text-[1.35rem] font-extrabold tracking-tight">More free tools</p>
@@ -170,5 +175,6 @@ export function MoreTools({ current }: { current: string }) {
         </Link>
       </div>
     </section>
+    </>
   );
 }

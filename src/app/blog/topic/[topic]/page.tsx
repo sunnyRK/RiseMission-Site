@@ -2,9 +2,11 @@ import Link from "next/link";
 import { HeroIcon, TOPIC_ICON3D } from "@/components/site/page-icons";
 import { notFound } from "next/navigation";
 import { PostCard } from "@/components/blog/post-card";
+import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { JsonLd } from "@/components/seo/json-ld";
 import { BLOG_TOPICS, getPost, getTopic, postPath } from "@/lib/blog";
-import { breadcrumbLd, collectionPageLd, pageMetadata } from "@/lib/seo";
+import { TOPIC_LINKS } from "@/lib/links";
+import { collectionPageLd, pageMetadata } from "@/lib/seo";
 
 export function generateStaticParams() {
   return BLOG_TOPICS.map((t) => ({ topic: t.slug }));
@@ -26,26 +28,27 @@ export default async function TopicPage({ params }: PageProps<"/blog/topic/[topi
     <>
       <JsonLd
         data={[
-          collectionPageLd({ name: t.title, description: t.description, path, urls: posts.map((p) => postPath(p.slug)) }),
-          breadcrumbLd([
-            { name: "Home", path: "/" },
-            { name: "Blog", path: "/blog" },
-            { name: t.name, path },
-          ]),
+          collectionPageLd({ name: t.title, description: t.description, path, items: posts.map((p) => ({ url: postPath(p.slug), name: p.title })) }),
         ]}
       />
       <section className="sunrise-glow dawn">
-        <div className="container-rm pb-12 pt-12 md:pt-16">
-          <nav aria-label="Breadcrumb" className="text-sm text-muted">
-            <Link href="/blog" className="hover:text-ink">
-              Blog
-            </Link>
-          </nav>
-          <div className="mt-4">
-            <HeroIcon name={TOPIC_ICON3D[t.slug] ?? "3d-sun"} />
-          </div>
+        <div className="container-rm pb-12 pt-8 md:pt-12">
+          <Breadcrumbs path={path} bare className="mb-5" />
+          <HeroIcon name={TOPIC_ICON3D[t.slug] ?? "3d-sun"} />
           <h1 className="t-h1">{t.title}</h1>
-          <p className="t-lead mt-4 max-w-2xl">{t.intro}</p>
+          <p className="t-lead mt-4 max-w-2xl">{t.answer}</p>
+          <p className="mt-3 max-w-2xl text-ink-2">{t.intro}</p>
+          {(TOPIC_LINKS[t.slug] ?? []).length > 0 && (
+            <ul aria-label="Related tools and pages" className="mt-6 flex flex-wrap gap-2 text-sm">
+              {TOPIC_LINKS[t.slug].map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className="lift inline-flex min-h-11 items-center rounded-full border border-line bg-card px-4 font-bold text-ink-2 shadow-[inset_0_1px_0_var(--highlight)] hover:text-ink">
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </section>
       <section className="container-rm">

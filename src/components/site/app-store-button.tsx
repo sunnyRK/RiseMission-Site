@@ -1,11 +1,11 @@
-import { APP_STORE_URL } from "@/lib/site";
+import { appStoreLink } from "@/lib/appstore";
 import { AppleLogo } from "./icons";
 
 export function appStoreHref(placement: string) {
   // App Store Connect campaign links need your provider token (`pt`). Set
   // NEXT_PUBLIC_APPSTORE_PT (ASC → App Analytics → Sources → Campaigns) to enable.
-  const pt = process.env.NEXT_PUBLIC_APPSTORE_PT;
-  return pt ? `${APP_STORE_URL}?pt=${pt}&ct=web-${encodeURIComponent(placement)}&mt=8` : APP_STORE_URL;
+  // `ct` is capped at Apple's 30-character limit in src/lib/appstore.ts.
+  return appStoreLink(placement, process.env.NEXT_PUBLIC_APPSTORE_PT);
 }
 
 /**

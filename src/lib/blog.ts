@@ -39,7 +39,7 @@ export const BLOG_POSTS: BlogPost[] = [
     description:
       "Why some people sleep through every alarm, and the specific, tested changes that get a heavy sleeper out of bed: alarm placement, light, sound, and making your brain do something.",
     metaDescription:
-      "Sleep through alarms? Why heavy sleepers miss them and 9 proven fixes: alarm placement, light, sound choice, and wake-up challenges that need a working brain.",
+      "Sleep through alarms? Why heavy sleepers miss them and 9 fixes: alarm placement, light, sound choice, and wake-up challenges that need a working brain.",
     eyebrow: "Heavy sleepers",
     date: "2026-11-15",
     readMinutes: 9,
@@ -51,7 +51,7 @@ export const BLOG_POSTS: BlogPost[] = [
     description:
       "What the research says about snoozing, why your half-asleep brain always wins the negotiation, and a step-by-step plan to break the snooze habit in two weeks.",
     metaDescription:
-      "Why you keep hitting snooze, what research says it does to your morning, and a 2-week plan to stop: one alarm, a reason to stand up, and a wake-up challenge.",
+      "Why you keep hitting snooze, what research says it does to mornings, and a 2-week plan to stop: one alarm, a reason to stand up, and a wake-up challenge.",
     eyebrow: "Snooze habit",
     date: "2026-11-15",
     readMinutes: 8,
@@ -136,6 +136,18 @@ export const BLOG_POSTS: BlogPost[] = [
     eyebrow: "Push-up alarm",
     date: "2026-11-15",
     readMinutes: 8,
+  },
+  {
+    slug: "squat-alarm-clock",
+    title: "Squat Alarm Clock: How Camera Rep Counting Works (and How to Set It Up)",
+    metaTitle: "Squat Alarm Clock: How It Counts Reps",
+    description:
+      "How a squat alarm counts real squats with the camera and on-device body-pose detection, the exact rules a rep has to pass, where to put the phone, and who should pick a different challenge.",
+    metaDescription:
+      "How a squat alarm counts real squats with on-device pose detection, the knee-angle rules a rep must pass, where to put your phone, and who should skip it.",
+    eyebrow: "Squat alarm",
+    date: "2026-11-17",
+    readMinutes: 9,
   },
   {
     slug: "qr-code-alarm-clock",
@@ -264,7 +276,7 @@ export const BLOG_POSTS: BlogPost[] = [
     description:
       "What habit research says about making a morning routine automatic, where streaks, XP and levels help or backfire, and a 7-day plan with slack built in for the bad mornings.",
     metaDescription:
-      "Make a morning routine automatic: what habit research says, when streaks and levels help or backfire, and a forgiving 7-day plan that survives bad mornings.",
+      "Make a morning routine automatic: what habit research says, when streaks and levels help or backfire, and a 7-day plan that survives bad mornings.",
     eyebrow: "Morning routine",
     date: "2026-11-17",
     readMinutes: 10,
@@ -279,6 +291,8 @@ export type BlogTopic = {
   metaTitle: string;
   description: string;
   intro: string;
+  /** Direct 40–60 word answer shown under the H1 (answer engines quote this). */
+  answer: string;
   posts: string[];
 };
 
@@ -293,7 +307,9 @@ export const BLOG_TOPICS: BlogTopic[] = [
       "Guides for people who sleep through alarms: why it happens, what helps, and how to build a wake-up you can't sleep through.",
     intro:
       "If you've ever slept through three alarms and woken up to a missed meeting, these guides are for you. They focus on what changes behaviour on a real morning, not generic sleep tips.",
-    posts: ["how-to-wake-up-as-a-heavy-sleeper", "how-to-stop-hitting-snooze", "sleep-inertia", "why-do-i-sleep-through-my-alarm", "does-iphone-alarm-ring-on-silent", "loudest-alarm-sound-iphone", "alarm-that-makes-you-get-out-of-bed"],
+    answer:
+      "Heavy sleepers usually miss alarms for a few reasons: too little sleep, waking from deep sleep, an alarm the brain has learned to ignore, or a setup that lets you switch it off without standing up. The guides below cover each cause with sourced fixes for placement, light, sound and wake-up challenges, and say when to see a doctor.",
+    posts: ["how-to-wake-up-as-a-heavy-sleeper", "how-to-stop-hitting-snooze", "sleep-inertia", "why-do-i-sleep-through-my-alarm", "does-iphone-alarm-ring-on-silent", "loudest-alarm-sound-iphone", "iphone-alarm-volume-low", "alarm-that-makes-you-get-out-of-bed"],
   },
   {
     slug: "snooze-habit",
@@ -304,6 +320,8 @@ export const BLOG_TOPICS: BlogTopic[] = [
       "What snoozing really does to your morning, what the research says, and practical two-week plans to stop hitting the snooze button for good.",
     intro:
       "Snoozing feels like a gift and acts like a trap. These guides explain the research and give you a plan that works with a half-asleep brain, not against it.",
+    answer:
+      "Snoozing breaks the last part of your night into short, fragmented naps, and research has not shown that it leaves you more rested. Breaking the habit usually takes one alarm instead of several, a reason to stand up when it rings, and enough sleep the night before. These guides explain the research and give a two-week plan.",
     posts: ["how-to-stop-hitting-snooze", "how-to-wake-up-as-a-heavy-sleeper", "sleep-inertia", "how-to-wake-up-at-5am", "alarm-that-makes-you-get-out-of-bed", "morning-routine-that-sticks"],
   },
   {
@@ -315,6 +333,8 @@ export const BLOG_TOPICS: BlogTopic[] = [
       "The honest benefits of waking up early, how to shift your wake time safely in 15-minute steps, and morning routines that actually stick.",
     intro:
       "Waking up early isn't magic, but a consistent, earlier morning gives you light, quiet time and room to exercise. Here's how to do it without wrecking your sleep.",
+    answer:
+      "Waking up early helps most when it makes your schedule consistent and gives you morning light, quiet time or room to exercise. It does not suit everyone: night owls who cut sleep to rise early tend to lose more than they gain. These guides cover the evidence, a plan that shifts your wake time in 15-minute steps, and lasting routines.",
     posts: ["morning-routine-that-sticks", "benefits-of-waking-up-early", "how-to-stop-hitting-snooze", "how-to-wake-up-at-5am", "alarm-app-for-adhd"],
   },
   {
@@ -326,6 +346,8 @@ export const BLOG_TOPICS: BlogTopic[] = [
       "Sleep inertia, sleep cycles and why some people sleep through alarms, explained with sources and honest about what the research doesn't show.",
     intro:
       "Why mornings feel the way they do: grogginess, deep sleep, body clocks and alarms. Every claim links to its source, and every guide says where the evidence runs out.",
+    answer:
+      "Mornings feel hard because of sleep inertia, the groggy spell after waking that can last from a few minutes to over an hour. It is worse after short sleep and when an alarm wakes you from deep sleep. These guides explain sleep inertia, sleep cycles and body clocks, cite every claim, and say where the evidence runs out.",
     posts: ["sleep-inertia", "why-do-i-sleep-through-my-alarm", "alarm-app-for-adhd"],
   },
   {
@@ -337,7 +359,9 @@ export const BLOG_TOPICS: BlogTopic[] = [
       "How alarm missions work and which one suits you: push-ups, QR codes, math, walking and more, with the research on what actually wakes you up.",
     intro:
       "A wake-up challenge keeps the alarm ringing until you've done something a sleeping brain can't. These guides explain each type, who it suits, and where it stops working.",
-    posts: ["wake-up-challenges-explained", "push-up-alarm-clock", "qr-code-alarm-clock", "math-alarm-clock", "step-alarm-clock", "alarm-that-makes-you-get-out-of-bed"],
+    answer:
+      "A wake-up challenge, or alarm mission, asks you to do a task before the alarm stops: push-ups or squats counted by the camera, a walk, scanning a QR code in another room, or math. A task needs a working brain or your feet on the floor, which a tap does not. These guides explain each type and who it suits.",
+    posts: ["wake-up-challenges-explained", "push-up-alarm-clock", "squat-alarm-clock", "qr-code-alarm-clock", "math-alarm-clock", "step-alarm-clock", "alarm-that-makes-you-get-out-of-bed"],
   },
   {
     slug: "iphone-alarms",
@@ -348,6 +372,8 @@ export const BLOG_TOPICS: BlogTopic[] = [
       "Why an iPhone alarm doesn't go off, rings too quietly or stays silent, and how to fix it, checked against Apple's own support pages for iOS 26 and iOS 27.",
     intro:
       "Every fix here is checked against Apple's support documentation, with the exact setting names, and we say plainly when Apple doesn't document something.",
+    answer:
+      "Most iPhone alarm problems come down to a few settings: an alarm sound set to None, the ringer-linked volume slider, Attention Aware Features, headphones, or a sleep schedule alarm with its own volume. The iPhone Clock alarm does ring on Silent and in Focus. These guides walk through each fix using Apple's own support pages.",
     posts: ["iphone-alarm-not-going-off", "loudest-alarm-sound-iphone", "iphone-alarm-volume-low", "does-iphone-alarm-ring-on-silent"],
   },
   {
@@ -359,6 +385,8 @@ export const BLOG_TOPICS: BlogTopic[] = [
       "Honest comparisons of iPhone alarm apps for heavy sleepers, using each app's own App Store listing: missions, size, ratings and paid tiers.",
     intro:
       "We make Rise Mission, so we hold these comparisons to a simple rule: every fact comes from each app's own App Store listing, dated, and every app is described by what it's genuinely good at.",
+    answer:
+      "The best alarm app depends on why you oversleep. Mission alarms such as Alarmy, Erly and Rise Mission make you complete a task before the alarm stops, while sleep-tracking apps try to wake you in light sleep. We make Rise Mission, so every comparison here uses each app's own App Store listing, dated, and says where other apps are stronger.",
     posts: ["best-alarm-apps-for-heavy-sleepers", "alarmy-alternatives", "rise-mission-vs-alarmy", "rise-mission-vs-erly", "iphone-alarm-not-going-off", "alarm-app-for-adhd"],
   },
 ];

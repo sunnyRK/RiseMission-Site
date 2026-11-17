@@ -4,12 +4,14 @@ import { isValidElement, type ReactElement, type ReactNode } from "react";
 import { AppStoreButton } from "@/components/site/app-store-button";
 import { CtaBand } from "@/components/site/cta-band";
 import { Icon3D } from "@/components/site/icon-3d";
-import { HeroIcon, TOPIC_ICON3D } from "@/components/site/page-icons";
+import { HeroIcon, TOOL_ICON3D, TOPIC_ICON3D } from "@/components/site/page-icons";
 import { Faq } from "@/components/site/faq";
+import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { JsonLd } from "@/components/seo/json-ld";
-import { postCover, postPath, relatedPosts, topicsForPost, type BlogPost } from "@/lib/blog";
-import { articleLd, breadcrumbLd, faqPageLd, type QA } from "@/lib/seo";
-import { AUTHOR, PRICING_COPY } from "@/lib/site";
+import { postCover, postPath, topicsForPost, type BlogPost } from "@/lib/blog";
+import { postLinks } from "@/lib/links";
+import { articleLd, faqPageLd, type QA } from "@/lib/seo";
+import { AUTHOR, LIVE_VERSION, PRICING_COPY } from "@/lib/site";
 import { ArrowRight, ArrowUp, ChevronDown, ChevronRight, ListOrdered } from "lucide-react";
 import { ReadingProgress, TocList } from "./article-chrome";
 import { H2, flattenBlocks, slugify, textOf, wrapTables } from "./prose";
@@ -50,10 +52,10 @@ export function BlogLayout({ post, faq, children }: { post: BlogPost; faq?: QA[]
   const toc = collectToc(blocks);
   const body = wrapTables(injectMidCta(blocks));
   const topics = topicsForPost(post.slug);
-  const related = relatedPosts(post.slug);
+  const links = postLinks(post.slug);
+  const related = links.siblings;
   const path = postPath(post.slug);
   const cover = postCover(post);
-  const hub = topics[0];
 
   const ld: object[] = [
     articleLd({
@@ -64,12 +66,6 @@ export function BlogLayout({ post, faq, children }: { post: BlogPost; faq?: QA[]
       datePublished: post.date,
       dateModified: post.updated,
     }),
-    breadcrumbLd([
-      { name: "Home", path: "/" },
-      { name: "Blog", path: "/blog" },
-      ...(hub ? [{ name: hub.name, path: `/blog/topic/${hub.slug}` }] : []),
-      { name: post.title, path },
-    ]),
   ];
   if (faq?.length) ld.push(faqPageLd(faq));
 
@@ -80,29 +76,9 @@ export function BlogLayout({ post, faq, children }: { post: BlogPost; faq?: QA[]
       <div className="sunrise-glow dawn">
         <div className="container-rm grid grid-cols-[minmax(0,1fr)] gap-x-14 lg:grid-cols-[minmax(0,1fr)_15rem]">
           <header className="mx-auto w-full max-w-[42.5rem] pb-10 pt-10 md:pt-16">
-            <nav aria-label="Breadcrumb" className="text-[0.875rem] text-muted">
-              <ol className="flex flex-wrap items-center gap-x-1.5 gap-y-1">
-                <li>
-                  <Link href="/blog" className="rm-focus rounded hover:text-ink">
-                    Blog
-                  </Link>
-                </li>
-                {hub && (
-                  <>
-                    <li aria-hidden>
-                      <ChevronRight className="h-3.5 w-3.5 opacity-60" />
-                    </li>
-                    <li>
-                      <Link href={`/blog/topic/${hub.slug}`} className="rm-focus rounded hover:text-ink">
-                        {hub.name}
-                      </Link>
-                    </li>
-                  </>
-                )}
-              </ol>
-            </nav>
+            <Breadcrumbs path={path} bare />
             <div className="mt-5">
-              <HeroIcon name={(hub && TOPIC_ICON3D[hub.slug]) || "3d-sun"} size={64} />
+              <HeroIcon name={(topics[0] && TOPIC_ICON3D[topics[0].slug]) || "3d-sun"} size={64} />
             </div>
             <h1 className="t-h1 text-balance">{post.title}</h1>
             <p className="t-lead mt-4 text-pretty">{post.description}</p>
@@ -221,20 +197,53 @@ export function BlogLayout({ post, faq, children }: { post: BlogPost; faq?: QA[]
             title="Make tomorrow the morning you don't snooze"
             body={<>Rise Mission makes you prove you&apos;re awake before your morning starts. iPhone · iOS 26+ · {PRICING_COPY.short}.</>}
           />
+          <ul className="mt-4 flex flex-wrap justify-center gap-2 text-[0.875rem]">
+            {[
+              ["/compatibility", "iPhone and iOS 26 requirements"],
+              ["/whats-new", `What's new in ${LIVE_VERSION}`],
+              ["/gallery", "Screenshots and videos"],
+            ].map(([href, label]) => (
+              <li key={href}>
+                <Link href={href} className="rm-focus lift inline-flex min-h-11 items-center gap-1 rounded-full border border-line bg-card px-4 font-bold text-ink-2 shadow-[inset_0_1px_0_var(--highlight)] hover:text-ink">
+                  {label} <ChevronRight aria-hidden className="h-3.5 w-3.5" />
+                </Link>
+              </li>
+            ))}
+          </ul>
 
-          {!topics.some((t) => t.slug === "alarm-apps") && (
+          <aside aria-labelledby="try-tool" className="mt-10">
+            <p id="try-tool" className="t-eyebrow">
+              Free tool
+            </p>
+            <Link
+              href={links.tool.href}
+              className="rm-grad lift rm-focus group mt-3 flex items-center gap-4 p-4 sm:p-5"
+              style={{ ["--top" as string]: "#3B3F8F", ["--deep" as string]: "#23265E" }}
+            >
+              <Icon3D name={TOOL_ICON3D[links.tool.href.replace(/^\//, "")] ?? "3d-clock"} size={64} className="icon3d-hover h-14 w-14 shrink-0 sm:h-16 sm:w-16" />
+              <span className="min-w-0 flex-1">
+                <span className="block text-[1.08rem] font-extrabold">{links.tool.label}</span>
+                <span className="mt-0.5 block text-[0.9375rem] text-white/85">{links.tool.pitch}</span>
+              </span>
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white/20 transition-transform group-hover:translate-x-0.5 motion-reduce:transition-none">
+                <ArrowRight aria-hidden className="h-4 w-4" />
+              </span>
+            </Link>
+          </aside>
+
+          {links.compare.length > 0 && (
             <aside aria-labelledby="choose-app" className="mt-10">
-              <p id="choose-app" className="text-[0.8125rem] font-semibold text-ink">
+              <p id="choose-app" className="t-eyebrow">
                 Choosing an alarm app?
               </p>
               <ul className="mt-3 grid gap-2 sm:grid-cols-3">
-                {CHOOSE_LINKS.map((l) => (
+                {links.compare.map((l) => (
                   <li key={l.href}>
                     <Link
                       href={l.href}
                       className="rm-card lift rm-focus group flex h-full min-h-14 items-center justify-between gap-3 !rounded-[18px] px-4 py-3 text-[0.9375rem] font-bold leading-snug text-ink"
                     >
-                      <span>{l.text}</span>
+                      <span>{l.label}</span>
                       <ArrowRight aria-hidden className="h-4 w-4 shrink-0 text-muted transition group-hover:translate-x-0.5 group-hover:text-ink motion-reduce:transition-none" />
                     </Link>
                   </li>
@@ -248,13 +257,13 @@ export function BlogLayout({ post, faq, children }: { post: BlogPost; faq?: QA[]
               <p id="keep-reading" className="t-h2 !text-[1.5rem]">
                 Keep reading
               </p>
-              <ul className="mt-5 divide-y divide-line border-y border-line">
+              <ul className="rm-card mt-5 divide-y divide-line overflow-hidden !rounded-[22px]">
                 {related.map((r) => (
                   <li key={r.slug}>
-                    <Link href={postPath(r.slug)} className="rm-focus group flex items-start gap-4 rounded py-5">
+                    <Link href={postPath(r.slug)} className="rm-focus group flex items-start gap-4 px-5 py-5 transition-colors hover:bg-paper-2/50">
                       <span className="min-w-0 flex-1">
-                        <span className="block text-[0.8125rem] font-medium text-accent">{r.eyebrow}</span>
-                        <span className="mt-1 block text-[1.0625rem] font-semibold leading-snug tracking-[-0.01em] text-ink group-hover:underline group-hover:decoration-line group-hover:underline-offset-4">
+                        <span className="block text-[0.72rem] font-extrabold uppercase tracking-[0.1em] text-accent">{r.eyebrow}</span>
+                        <span className="mt-1 block text-[1.0625rem] font-extrabold leading-snug tracking-[-0.01em] text-ink group-hover:underline group-hover:decoration-line group-hover:underline-offset-4">
                           {r.title}
                         </span>
                         <span className="mt-1.5 line-clamp-2 block text-[0.9375rem] leading-relaxed text-ink-2">{r.description}</span>
@@ -272,12 +281,6 @@ export function BlogLayout({ post, faq, children }: { post: BlogPost; faq?: QA[]
     </article>
   );
 }
-
-const CHOOSE_LINKS = [
-  { href: "/blog/best-alarm-apps-for-heavy-sleepers", text: "Best alarm apps for heavy sleepers" },
-  { href: "/blog/rise-mission-vs-alarmy", text: "Rise Mission vs Alarmy" },
-  { href: "/blog/alarmy-alternatives", text: "Alarmy alternatives" },
-];
 
 const initials = (name: string) =>
   name

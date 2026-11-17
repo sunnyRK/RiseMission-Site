@@ -1,24 +1,21 @@
 import Image from "next/image";
+import { EntityAnswer } from "@/components/site/entity-answer";
 import { HeroIcon } from "@/components/site/page-icons";
 import Link from "next/link";
 import { ArrowRight, Download } from "lucide-react";
 import { AppStoreButton } from "@/components/site/app-store-button";
 import { JsonLd } from "@/components/seo/json-ld";
+import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { GALLERY_SHOTS, GALLERY_VIDEOS, abs } from "@/lib/media";
 import { optimisedVideo } from "@/lib/perf/video-sources";
-import { breadcrumbLd, pageMetadata, publisherRef } from "@/lib/seo";
+import { appId, publisherRef, staticPageMetadata, V16_OG_IMAGE } from "@/lib/seo";
+import { getPage } from "@/lib/links";
 import { Icon3d } from "@/components/content/icon-3d";
 import { APP_NAME_FULL, CHALLENGES, LIVE_VERSION, V16_FEATURES } from "@/lib/site";
 
-const DESCRIPTION =
-  `Screenshots and videos of Rise Mission ${LIVE_VERSION}, the iPhone alarm that makes you prove you're awake: the ringing screen, challenges, levels, streaks and a demo.`;
+const DESCRIPTION = getPage("/gallery").description;
 
-export const metadata = pageMetadata({
-  title: "Rise Mission Screenshots & Videos",
-  description: DESCRIPTION,
-  path: "/gallery",
-  ogImage: "/assets/reel/rise-mission-reel-16x9-poster.jpg",
-});
+export const metadata = staticPageMetadata("/gallery", { ogImage: V16_OG_IMAGE.url, ogImageSize: { width: V16_OG_IMAGE.width, height: V16_OG_IMAGE.height } });
 
 const iso = (s: number) => `PT${s}S`;
 
@@ -37,7 +34,7 @@ export default function GalleryPage() {
             name: "Rise Mission screenshots and videos",
             description: DESCRIPTION,
             url: abs("/gallery"),
-            about: { "@type": "MobileApplication", name: APP_NAME_FULL },
+            about: { "@type": "MobileApplication", "@id": appId, name: APP_NAME_FULL },
             associatedMedia: GALLERY_SHOTS.map((s) => ({
               "@type": "ImageObject",
               contentUrl: abs(s.src),
@@ -63,15 +60,12 @@ export default function GalleryPage() {
             height: v.height,
             publisher: publisherRef(),
           })),
-          breadcrumbLd([
-            { name: "Home", path: "/" },
-            { name: "Gallery", path: "/gallery" },
-          ]),
         ]}
       />
 
       <section className="sunrise-glow dawn">
-        <div className="container-rm pb-10 pt-12 text-center md:pt-16">
+        <div className="container-rm pb-10 pt-8 text-center md:pt-12">
+          <Breadcrumbs path="/gallery" bare className="mb-5 [&_ol]:justify-center" />
           <HeroIcon name="3d-camera" center />
           <p className="t-eyebrow justify-center">Gallery · Version {LIVE_VERSION}</p>
           <h1 className="t-h1 mx-auto mt-3 max-w-3xl">Rise Mission screenshots &amp; videos</h1>
@@ -79,6 +73,7 @@ export default function GalleryPage() {
             See exactly what happens when the alarm rings: the ringing screen, the {CHALLENGES.length} wake-up challenges, camera-counted
             push-ups, and the levels and streak that keep you going in version {LIVE_VERSION}.
           </p>
+          <EntityAnswer className="mx-auto mt-8 max-w-2xl" />
           <ul className="mx-auto mt-8 flex max-w-3xl flex-wrap justify-center gap-2" aria-label={`New in ${LIVE_VERSION}`}>
             {V16_FEATURES.slice(0, 4).map((f) => (
               <li key={f.id}>

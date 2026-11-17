@@ -1,20 +1,19 @@
 import Link from "next/link";
+import { EntityAnswer } from "@/components/site/entity-answer";
 import type { CSSProperties } from "react";
 import { HeroIcon, TOOL_ICON3D } from "@/components/site/page-icons";
 import { Icon3D } from "@/components/site/icon-3d";
 import { ArrowRight } from "lucide-react";
 import { JsonLd } from "@/components/seo/json-ld";
+import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { ToolCta } from "@/components/tools/tool-shell";
-import { breadcrumbLd, collectionPageLd, pageMetadata } from "@/lib/seo";
+import { collectionPageLd, staticPageMetadata } from "@/lib/seo";
+import { getPage } from "@/lib/links";
 import { liveTools, toolPath } from "@/lib/tools";
 
-const DESCRIPTION = "Free sleep and alarm tools: a sleep cycle calculator, nap calculator, online alarm clock and more. They run in your browser with no sign-up.";
+const DESCRIPTION = getPage("/tools").description;
 
-export const metadata = pageMetadata({
-  title: "Free Sleep & Alarm Tools",
-  description: DESCRIPTION,
-  path: "/tools",
-});
+export const metadata = staticPageMetadata("/tools");
 
 export default function ToolsHub() {
   const tools = liveTools();
@@ -22,20 +21,18 @@ export default function ToolsHub() {
     <>
       <JsonLd
         data={[
-          collectionPageLd({ name: "Free sleep & alarm tools", description: DESCRIPTION, path: "/tools", urls: tools.map((t) => toolPath(t.slug)) }),
-          breadcrumbLd([
-            { name: "Home", path: "/" },
-            { name: "Free tools", path: "/tools" },
-          ]),
+          collectionPageLd({ name: "Free sleep & alarm tools", description: DESCRIPTION, path: "/tools", items: tools.map((t) => ({ url: toolPath(t.slug), name: t.name })) }),
         ]}
       />
       <section className="sunrise-glow dawn">
-        <div className="container-rm pb-12 pt-12 text-center md:pt-16">
+        <div className="container-rm pb-12 pt-8 text-center md:pt-12">
+          <Breadcrumbs path="/tools" bare className="mb-5 [&_ol]:justify-center" />
           <HeroIcon name="3d-calculator" center />
           <p className="t-eyebrow justify-center">Free · No sign-up · Works in your browser
           </p>
           <h1 className="t-h1 mx-auto mt-3 max-w-2xl">Free tools for better mornings</h1>
           <p className="t-lead mx-auto mt-4 max-w-2xl">Work out when to sleep, when to nap and what snoozing really costs you, then set an alarm you can&apos;t ignore.</p>
+          <EntityAnswer className="mx-auto mt-8 max-w-2xl" />
         </div>
       </section>
       <div className="container-rm">

@@ -6,17 +6,12 @@ import { NapCalculator } from "@/components/tools/nap-calculator";
 import { MoreTools, ToolCard, ToolCta, ToolHero } from "@/components/tools/tool-shell";
 import { TOOL_ICON3D } from "@/components/site/page-icons";
 import { DEFAULT_BUFFER_MIN, napPlan } from "@/lib/nap";
-import { breadcrumbLd, faqPageLd, pageMetadata, type QA } from "@/lib/seo";
+import { faqPageLd, type QA, staticPageMetadata } from "@/lib/seo";
 import { SITE_URL } from "@/lib/site";
 import { fmtTime } from "@/lib/sleep";
 import { SRC } from "@/lib/sources";
 
-export const metadata = pageMetadata({
-  title: "Nap Calculator: Power Nap or Full Cycle",
-  description:
-    "Free nap calculator. Pick a power nap, recovery nap or full 90-minute cycle and get the exact alarm time, plus the deep-sleep window to avoid waking in.",
-  path: "/nap-calculator",
-});
+export const metadata = staticPageMetadata("/nap-calculator");
 
 /** Page-local sources. DOIs resolved on Crossref and abstracts read on PubMed, 2026-11-15. */
 const NAP_SRC: Record<string, Source> = {
@@ -86,14 +81,11 @@ export default function NapCalculatorPage() {
             operatingSystem: "Any (web browser)",
             offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
           },
-          breadcrumbLd([
-            { name: "Home", path: "/" },
-            { name: "Nap calculator", path: "/nap-calculator" },
-          ]),
           faqPageLd(FAQ),
         ]}
       />
       <ToolHero
+        path="/nap-calculator"
         icon={TOOL_ICON3D["nap-calculator"]}
         title="Nap calculator"
         lead="Pick a power nap, a recovery nap or a full sleep cycle and get the exact time to set your alarm, plus the window where waking up would leave you groggy."
