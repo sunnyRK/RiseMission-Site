@@ -2,7 +2,7 @@
 
 # CLAUDE.md: risemission.app
 
-Marketing + SEO/AEO site for **Rise Mission** (iOS alarm app, App Store id 6791305078, live v1.5).
+Marketing + SEO/AEO site for **Rise Mission** (iOS alarm app, App Store id 6791305078, v1.6 once this branch merges after App Review approval).
 Next.js 16 App Router (Cache Components on), Tailwind 4, pnpm, deployed on Vercel. All pages are static.
 Strategy, calendar and indexing protocol: `docs/SEO_PLAYBOOK.md`. Pattern source: pagedrop
 (`~/Blockchain/Experiment/SunnyOS/projects/webapps/pagedrop`, see its `docs/revamp/RESEARCH-seo.md`).
@@ -23,7 +23,8 @@ pnpm typecheck && pnpm build
 - **Never say the app is "free"** without "Pro unlocks the app" — v1.2+ has a hard paywall for new installs. Use `PRICING_COPY`.
 - **Never say "no tracking" / "no data collected"** — the app ships Firebase Analytics + RevenueCat. Use `PRIVACY_COPY`.
 - **No prices** on the site (storefront-dependent, they change). Link to the App Store.
-- Only describe features in the **live** App Store build, not v1.6 WIP.
+- Only describe features in the **live** App Store build (v1.6 facts live in `site.ts`; set `RELEASES[0].date` to the App Store release day when 1.6 goes live).
+- Never mention a free trial, intro offer or discount anywhere. No em dashes in user-facing text.
 - Every sleep/health claim links a source from `SRC`; say what research does *not* show; every post has a `<Limits>` box.
 - `updated` only on real content changes. Sitemap dates are hand-set, never `new Date()`.
 

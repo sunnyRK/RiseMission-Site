@@ -83,7 +83,7 @@ export const COMPETITORS: Competitor[] = [
       alarmKit: "Rise Mission uses Apple’s AlarmKit for a reliable system alarm experience.",
       weather: "see today’s weather, your first calendar event, your wake-up streak, and fresh motivation",
       widgets: "Home Screen and Lock Screen widgets, plus a Live Activity on the Lock Screen and Dynamic Island.",
-      subscription: "Choose a Weekly or Yearly auto-renewable subscription, or unlock Pro permanently with a one-time Lifetime purchase.",
+      subscription: "Choose an auto-renewable subscription or a one-time Lifetime purchase.",
     },
     notes:
       "Our app. Facts cross-checked with src/lib/site.ts. Free to download; Pro is required after onboarding (hard paywall). sleepTracking and music are false from our own product knowledge (no sleep tracking; bundled alarm sounds only), not from the listing. Uses anonymous Firebase analytics; camera, voice and motion are processed on-device. Requires iOS 26 (AlarmKit), which is a real limitation versus apps that support iOS 13-17.",
