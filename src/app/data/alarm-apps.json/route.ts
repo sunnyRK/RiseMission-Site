@@ -7,7 +7,7 @@ export function GET() {
     title: "iPhone alarm app sizes and ratings",
     snapshotDate: SNAPSHOT_DATE,
     source: SNAPSHOT_SOURCE,
-    license: "CC BY 4.0 — credit Rise Mission (risemission.app) with a link",
+    license: "CC BY 4.0. Credit Rise Mission (risemission.app) with a link",
     page: `${SITE_URL}/alarm-app-size-comparison`,
     apps: COMPETITORS.map((c) => ({
       name: c.name,

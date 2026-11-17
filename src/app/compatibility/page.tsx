@@ -15,7 +15,7 @@ import { CHALLENGES, FACTS, LIVE_VERSION, MIN_IOS, PRICING_COPY } from "@/lib/si
  */
 
 const PATH = "/compatibility";
-const UPDATED = "2026-11-15";
+const UPDATED = "2026-11-17";
 
 export const metadata = pageMetadata({
   title: "Which iPhones Run Rise Mission? (iOS 26)",
@@ -71,7 +71,8 @@ const FAQ: QA[] = [
 ];
 
 export default function CompatibilityPage() {
-  const editor = GALLERY_SHOTS[3];
+  // Prefer the challenge-picker shot; fall back to the first screenshot if the media registry changes.
+  const editor = GALLERY_SHOTS.find((s) => /choose|challenge-picker|editor/.test(s.src)) ?? GALLERY_SHOTS[0];
   return (
     <>
       <JsonLd
@@ -91,7 +92,7 @@ export default function CompatibilityPage() {
         <div className="container-rm pb-10 pt-12 md:pt-16">
           <div className="mx-auto max-w-3xl">
             <p className="t-eyebrow">
-              Requirements · Version {LIVE_VERSION} · Updated <time dateTime={UPDATED}>November 15, 2026</time>
+              Requirements · Version {LIVE_VERSION} · Updated <time dateTime={UPDATED}>November 17, 2026</time>
             </p>
             <h1 className="t-h1 mt-3">Rise Mission requirements: iPhone and iOS 26</h1>
             <p className="t-lead mt-4">
@@ -194,7 +195,8 @@ export default function CompatibilityPage() {
             </table>
           </div>
           <p>
-            {FACTS.backupChallenge} {FACTS.onDevice} For help choosing, read{" "}
+            {FACTS.backupChallenge} {FACTS.onDevice} Notifications are optional too: they power the bedtime nudge, the
+            comeback reminders and the focus reminder, and each one can be turned off in Settings. For help choosing, read{" "}
             <Link href="/blog/wake-up-challenges-explained">wake-up challenges explained</Link>.
           </p>
         </div>

@@ -48,7 +48,7 @@ const ROWS: [string, string, string][] = [
   ["US ratings", "None yet", `${er.rating!.toFixed(2)} from ${er.ratingCount.toLocaleString("en-US")}`],
   ["Minimum iOS", "iOS 26", `iOS ${er.minIOS}`],
   ["Missions", `${CHALLENGES.length}: ${CHALLENGES.map((c) => c.name).join(", ")}`, "Push-ups, math, Bible verses, sky photos, item searches, make your bed, touch grass, affirmations (per erly.co)"],
-  ["Streaks", "Yes, with Streak Shields", "Yes (current, best, daily wins)"],
+  ["Streaks", "Yes, with Streak Shields, levels and XP, and a 7-Day Rise Challenge", "Yes (current, best, daily wins)"],
   ["Locked commitment", "No", "Goal locks within 4 hours of wake-up"],
   ["Bedtime app limits", "No", "Yes (per erly.co)"],
   ["Backup if the camera can't see you", "Yes, automatic mental backup", "Not stated"],

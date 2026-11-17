@@ -1,6 +1,24 @@
 import { BLOG_POSTS, BLOG_TOPICS, postPath } from "@/lib/blog";
 import { liveTools, toolPath } from "@/lib/tools";
-import { CHALLENGES, FACTS, LIVE_VERSION, PRICING_COPY, PRIVACY_COPY, SITE_URL, APP_STORE_URL } from "@/lib/site";
+import { PRODUCT_FAQ } from "@/lib/faq";
+import {
+  ACHIEVEMENT_COUNT,
+  APP_STORE_URL,
+  BEDTIME_NUDGE,
+  CHALLENGES,
+  FACTS,
+  LIVE_VERSION,
+  MORNING_ROUTINE,
+  PRICING_COPY,
+  PRIVACY_COPY,
+  RANKS,
+  RELEASES,
+  RISE_CHALLENGE,
+  SITE_URL,
+  SOUNDS,
+  V16_FEATURES,
+  XP_RULES,
+} from "@/lib/site";
 
 /**
  * llms.txt — curated summary for AI assistants. Generated from the same
@@ -20,9 +38,22 @@ export function GET() {
 - ${FACTS.systemStop}
 - ${FACTS.snooze}
 - ${FACTS.minIOS}
+- ${FACTS.streakShields}
+- Levels: every completed wake-up day earns XP (${XP_RULES.base} base, +${XP_RULES.onTimeBonus} on time with no snooze, +${XP_RULES.routineBonus} for the morning routine, times a streak multiplier up to ×2). Six ranks: ${RANKS.map((r) => `${r.name} (${r.xp} XP)`).join(", ")}.
+- ${RISE_CHALLENGE.name}: ${RISE_CHALLENGE.goal} wake-ups within ${RISE_CHALLENGE.windowDays} days, started on a new user's first wake-up.
+- Morning routine: ${MORNING_ROUTINE.join(", ")}. Optional bedtime nudge ${BEDTIME_NUDGE.leadMinutes} minutes before a bedtime worked out from the next alarm and a ${BEDTIME_NUDGE.sleepGoalHours[0]} to ${BEDTIME_NUDGE.sleepGoalHours.at(-1)} hour sleep goal.
+- ${ACHIEVEMENT_COUNT} achievements. ${SOUNDS.caveat}
 - Privacy: ${PRIVACY_COPY.long}
 - Pricing: ${PRICING_COPY.long}
 - App Store: ${APP_STORE_URL}
+
+## What's new in ${LIVE_VERSION}
+Full release notes and changelog: ${SITE_URL}/whats-new
+${V16_FEATURES.map((f) => `- ${f.title}: ${f.blurb}`).join("\n")}
+Earlier versions: ${RELEASES.slice(1).map((r) => `${r.version} (${r.date})`).join(", ")}.
+
+## Common questions
+${PRODUCT_FAQ.map((f) => `### ${f.q}\n${f.a}`).join("\n\n")}
 
 ## Free tools
 ${liveTools().map((t) => `- [${t.name}](${SITE_URL}${toolPath(t.slug)}): ${t.description}`).join("\n")}

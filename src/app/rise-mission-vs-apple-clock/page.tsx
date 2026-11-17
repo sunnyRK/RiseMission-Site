@@ -6,7 +6,7 @@ import { Faq } from "@/components/site/faq";
 import { JsonLd } from "@/components/seo/json-ld";
 import { GALLERY_SHOTS } from "@/lib/media";
 import { breadcrumbLd, faqPageLd, mobileApplicationLd, pageMetadata, type QA } from "@/lib/seo";
-import { CHALLENGES, FACTS, MIN_IOS, PRICING_COPY, PRIVACY_COPY } from "@/lib/site";
+import { ACHIEVEMENT_COUNT, CHALLENGES, FACTS, MIN_IOS, PRICING_COPY, PRIVACY_COPY } from "@/lib/site";
 
 /**
  * Commercial comparison: "alarm app vs iPhone Clock", "is an alarm app worth it",
@@ -15,7 +15,7 @@ import { CHALLENGES, FACTS, MIN_IOS, PRICING_COPY, PRIVACY_COPY } from "@/lib/si
  */
 
 const PATH = "/rise-mission-vs-apple-clock";
-const UPDATED = "2026-11-15";
+const UPDATED = "2026-11-17";
 
 export const metadata = pageMetadata({
   title: "Rise Mission vs iPhone Clock Alarm",
@@ -45,7 +45,7 @@ const ROWS: { label: string; clock: string; rm: string }[] = [
   { label: "Rings on Silent / Do Not Disturb", clock: "Yes, per Apple", rm: "Yes, AlarmKit alarms break through Silent and Focus" },
   { label: "Set by Siri", clock: "Yes", rm: "No, set it in the app" },
   { label: "Wake-up challenges", clock: "None", rm: `${FACTS.challengeCount}, from push-ups to math` },
-  { label: "Wake-up history & streaks", clock: "No", rm: "Yes: streaks, completion rate, snoozes per wake-up" },
+  { label: "Wake-up history & streaks", clock: "No", rm: `Yes: streaks, levels and XP, ${ACHIEVEMENT_COUNT} achievements, completion rate, snoozes per wake-up` },
   { label: "Account / ads", clock: "No account, no ads", rm: "No account, no ads (usage analytics, not linked to you)" },
 ];
 
@@ -98,7 +98,7 @@ export default function VsAppleClockPage() {
         <div className="container-rm pb-10 pt-12 md:pt-16">
           <div className="mx-auto max-w-3xl">
             <p className="t-eyebrow">
-              Comparison · Updated <time dateTime={UPDATED}>November 15, 2026</time>
+              Comparison · Updated <time dateTime={UPDATED}>November 17, 2026</time>
             </p>
             <h1 className="t-h1 mt-3">Rise Mission vs the iPhone Clock app: when the built-in alarm isn&apos;t enough</h1>
             <p className="t-lead mt-4">

@@ -8,7 +8,11 @@ import {
   MIN_IOS,
   SITE_NAME,
   SITE_URL,
+  CHALLENGES,
+  RELEASES,
+  V16_FEATURES,
 } from "./site";
+import { GALLERY_SHOTS } from "./media";
 
 /**
  * Metadata + JSON-LD helpers. Every page goes through `pageMetadata()` and
@@ -121,7 +125,8 @@ export function personLd() {
  * The app itself. Offer price "0" is the true download price; the description
  * states Pro is required, so the structured data is not misleading.
  */
-export function mobileApplicationLd(description: string) {
+export function mobileApplicationLd(description: string, opts: { releaseNotesUrl?: string } = {}) {
+  const live = RELEASES[0];
   return {
     "@context": "https://schema.org",
     "@type": "MobileApplication",
@@ -136,7 +141,15 @@ export function mobileApplicationLd(description: string) {
     url: SITE_URL,
     installUrl: APP_STORE_URL,
     image: abs("/assets/rise-mission-app-icon.png"),
-    screenshot: [abs("/assets/screens/rise-mission-alarm-ringing-screen.jpg"), abs("/assets/screens/rise-mission-push-up-alarm-camera-counts-reps.jpg")],
+    ...(live.date ? { dateModified: live.date } : {}),
+    datePublished: RELEASES.at(-1)!.date,
+    ...(opts.releaseNotesUrl ? { releaseNotes: abs(opts.releaseNotesUrl) } : {}),
+    featureList: [
+      `${CHALLENGES.length} wake-up challenges: ${CHALLENGES.map((c) => c.name).join(", ")}`,
+      ...V16_FEATURES.map((f) => f.title),
+    ],
+    // Current App Store screenshots, read from the gallery registry so they never go stale.
+    screenshot: GALLERY_SHOTS.slice(0, 6).map((s) => abs(s.src)),
     offers: {
       "@type": "Offer",
       price: "0",

@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { PRODUCT_FAQ, wordCount } from "../faq";
 import {
   ACHIEVEMENT_COUNT,
   ACHIEVEMENTS,
@@ -70,5 +71,19 @@ describe("v1.6 product facts", () => {
     expect(text).not.toMatch(/trial/i);
     expect(text).not.toMatch(/no tracking/i);
     expect(text).not.toMatch(/\$\d/);
+  });
+});
+
+describe("answer-engine FAQ", () => {
+  it("every answer is a direct 40–60 word answer", () => {
+    for (const f of PRODUCT_FAQ) {
+      const n = wordCount(f.a);
+      expect(n, `${f.q} (${n} words)`).toBeGreaterThanOrEqual(40);
+      expect(n, `${f.q} (${n} words)`).toBeLessThanOrEqual(60);
+    }
+  });
+  it("no em dash, trial, prices or 'no tracking'", () => {
+    const t = JSON.stringify(PRODUCT_FAQ);
+    expect(t).not.toMatch(/—|trial|no tracking|\$\d/i);
   });
 });

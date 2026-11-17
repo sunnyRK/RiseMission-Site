@@ -6,10 +6,11 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { GALLERY_SHOTS, GALLERY_VIDEOS, abs } from "@/lib/media";
 import { optimisedVideo } from "@/lib/perf/video-sources";
 import { breadcrumbLd, pageMetadata, publisherRef } from "@/lib/seo";
-import { APP_NAME_FULL, CHALLENGES, LIVE_VERSION } from "@/lib/site";
+import { Icon3d } from "@/components/content/icon-3d";
+import { APP_NAME_FULL, CHALLENGES, LIVE_VERSION, V16_FEATURES } from "@/lib/site";
 
 const DESCRIPTION =
-  "Screenshots and videos of Rise Mission, the iPhone alarm that makes you prove you're awake: the ringing screen, camera-counted push-ups, challenges, streaks and a 30-second demo.";
+  `Screenshots and videos of Rise Mission ${LIVE_VERSION}, the iPhone alarm that makes you prove you're awake: the ringing screen, challenges, levels, streaks and a demo.`;
 
 export const metadata = pageMetadata({
   title: "Rise Mission Screenshots & Videos",
@@ -21,7 +22,10 @@ export const metadata = pageMetadata({
 const iso = (s: number) => `PT${s}S`;
 
 export default function GalleryPage() {
-  const [hero, demo, vertical] = GALLERY_VIDEOS;
+  // Order-independent: pick by shape so the media registry can add or reorder videos.
+  const vertical = GALLERY_VIDEOS.find((v) => v.height > v.width);
+  const landscape = GALLERY_VIDEOS.filter((v) => v !== vertical);
+  const [hero, demo] = landscape;
   return (
     <>
       <JsonLd
@@ -71,8 +75,26 @@ export default function GalleryPage() {
           <h1 className="t-h1 mx-auto mt-3 max-w-3xl">Rise Mission screenshots &amp; videos</h1>
           <p className="t-lead mx-auto mt-4 max-w-2xl">
             See exactly what happens when the alarm rings: the ringing screen, the {CHALLENGES.length} wake-up challenges, camera-counted
-            push-ups and the streak that keeps you going.
+            push-ups, and the levels and streak that keep you going in version {LIVE_VERSION}.
           </p>
+          <ul className="mx-auto mt-8 flex max-w-3xl flex-wrap justify-center gap-2" aria-label={`New in ${LIVE_VERSION}`}>
+            {V16_FEATURES.slice(0, 4).map((f) => (
+              <li key={f.id}>
+                <Link
+                  href={`/whats-new#${f.id}`}
+                  className="inline-flex items-center gap-2 rounded-full border border-line bg-card py-1.5 pl-1.5 pr-3.5 text-[0.9rem] font-semibold text-ink hover:text-accent"
+                >
+                  <Icon3d name={f.icon3d} size={26} />
+                  {f.title}
+                </Link>
+              </li>
+            ))}
+            <li>
+              <Link href="/whats-new" className="inline-flex min-h-[38px] items-center gap-1 px-2 text-[0.9rem] font-semibold text-accent hover:underline">
+                All of {LIVE_VERSION} <ArrowRight aria-hidden className="h-4 w-4" />
+              </Link>
+            </li>
+          </ul>
         </div>
       </section>
 
@@ -80,6 +102,7 @@ export default function GalleryPage() {
       <section aria-labelledby="videos" className="container-rm">
         <h2 id="videos" className="t-h2">Videos</h2>
 
+        {hero && (
         <figure className="mt-8">
           <div className="rounded-[24px] border border-line bg-card p-1.5 shadow-soft sm:p-2">
             <video
@@ -104,8 +127,10 @@ export default function GalleryPage() {
             <VideoTranscript lines={hero.transcript} />
           </figcaption>
         </figure>
+        )}
 
         <div className="mt-14 grid gap-10 lg:grid-cols-[1.6fr_1fr]">
+          {demo && (
           <figure>
             <div className="rounded-[24px] border border-line bg-card p-1.5 shadow-soft sm:p-2">
               <video
@@ -130,7 +155,9 @@ export default function GalleryPage() {
               <VideoTranscript lines={demo.transcript} />
             </figcaption>
           </figure>
+          )}
 
+          {vertical && (
           <figure className="mx-auto w-full max-w-[320px]">
             <div className="rounded-[28px] border border-line bg-card p-1.5 shadow-soft">
               <video
@@ -161,6 +188,7 @@ export default function GalleryPage() {
               </a>
             </figcaption>
           </figure>
+          )}
         </div>
       </section>
 
@@ -168,7 +196,10 @@ export default function GalleryPage() {
       <section aria-labelledby="screenshots" className="container-rm mt-20 md:mt-28">
         <div className="max-w-2xl">
           <h2 id="screenshots" className="t-h2">Screenshots</h2>
-          <p className="t-lead mt-3">The App Store screenshots for the current version. Tap any image to open it full size.</p>
+          <p className="t-lead mt-3">
+            The App Store screenshots for version {LIVE_VERSION}. Tap any image to open it full size, or read{" "}
+            <Link href="/whats-new" className="font-semibold text-accent hover:underline">what&apos;s new in {LIVE_VERSION}</Link>.
+          </p>
         </div>
         <ul className="mt-10 grid grid-cols-2 gap-x-4 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
           {GALLERY_SHOTS.map((s, i) => (

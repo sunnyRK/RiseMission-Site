@@ -114,6 +114,7 @@ export const BLOG_POSTS: BlogPost[] = [
       "Rise Mission vs Erly compared: missions, streaks, locked goals, bedtime app limits, App Store size and paid plans, with where each app is better.",
     eyebrow: "Head to head",
     date: "2026-11-15",
+    updated: "2026-11-17",
     readMinutes: 6,
   },
   {
@@ -256,6 +257,18 @@ export const BLOG_POSTS: BlogPost[] = [
     date: "2026-11-15",
     readMinutes: 8,
   },
+  {
+    slug: "morning-routine-that-sticks",
+    title: "How to Build a Morning Routine That Sticks: Streaks, Levels and the 7-Day Challenge",
+    metaTitle: "How to Build a Morning Routine That Sticks",
+    description:
+      "What habit research says about making a morning routine automatic, where streaks, XP and levels help or backfire, and a 7-day plan with slack built in for the bad mornings.",
+    metaDescription:
+      "Make a morning routine automatic: what habit research says, when streaks and levels help or backfire, and a forgiving 7-day plan that survives bad mornings.",
+    eyebrow: "Morning routine",
+    date: "2026-11-17",
+    readMinutes: 10,
+  },
 ];
 
 export type BlogTopic = {
@@ -291,7 +304,7 @@ export const BLOG_TOPICS: BlogTopic[] = [
       "What snoozing really does to your morning, what the research says, and practical two-week plans to stop hitting the snooze button for good.",
     intro:
       "Snoozing feels like a gift and acts like a trap. These guides explain the research and give you a plan that works with a half-asleep brain, not against it.",
-    posts: ["how-to-stop-hitting-snooze", "how-to-wake-up-as-a-heavy-sleeper", "sleep-inertia", "how-to-wake-up-at-5am", "alarm-that-makes-you-get-out-of-bed"],
+    posts: ["how-to-stop-hitting-snooze", "how-to-wake-up-as-a-heavy-sleeper", "sleep-inertia", "how-to-wake-up-at-5am", "alarm-that-makes-you-get-out-of-bed", "morning-routine-that-sticks"],
   },
   {
     slug: "waking-up-early",
@@ -302,7 +315,7 @@ export const BLOG_TOPICS: BlogTopic[] = [
       "The honest benefits of waking up early, how to shift your wake time safely in 15-minute steps, and morning routines that actually stick.",
     intro:
       "Waking up early isn't magic, but a consistent, earlier morning gives you light, quiet time and room to exercise. Here's how to do it without wrecking your sleep.",
-    posts: ["benefits-of-waking-up-early", "how-to-stop-hitting-snooze", "how-to-wake-up-at-5am", "alarm-app-for-adhd"],
+    posts: ["morning-routine-that-sticks", "benefits-of-waking-up-early", "how-to-stop-hitting-snooze", "how-to-wake-up-at-5am", "alarm-app-for-adhd"],
   },
   {
     slug: "sleep-science",

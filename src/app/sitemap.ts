@@ -13,11 +13,12 @@ const PAGES: { path: string; lastModified: string; priority: number }[] = [
   { path: "/", lastModified: "2026-11-15", priority: 1 },
   { path: "/tools", lastModified: "2026-11-15", priority: 0.8 },
   { path: "/alarm-app-size-comparison", lastModified: "2026-11-15", priority: 0.8 },
-  { path: "/rise-mission-vs-apple-clock", lastModified: "2026-11-15", priority: 0.8 },
-  { path: "/compatibility", lastModified: "2026-11-15", priority: 0.6 },
+  { path: "/rise-mission-vs-apple-clock", lastModified: "2026-11-17", priority: 0.8 },
+  { path: "/whats-new", lastModified: "2026-11-17", priority: 0.7 },
+  { path: "/compatibility", lastModified: "2026-11-17", priority: 0.6 },
   { path: "/blog", lastModified: "2026-11-15", priority: 0.7 },
   { path: "/about", lastModified: "2026-11-15", priority: 0.4 },
-  { path: "/support", lastModified: "2026-11-15", priority: 0.3 },
+  { path: "/support", lastModified: "2026-11-17", priority: 0.3 },
   { path: "/privacy", lastModified: "2026-11-15", priority: 0.2 },
   { path: "/terms", lastModified: "2026-08-21", priority: 0.2 },
 ];
@@ -66,7 +67,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
     {
       url: `${SITE_URL}/gallery`,
-      lastModified: "2026-11-15",
+      lastModified: "2026-11-17",
       priority: 0.7,
       images: GALLERY_SHOTS.map((s) => `${SITE_URL}${s.src}`),
       videos: GALLERY_VIDEOS.map((v) => ({
