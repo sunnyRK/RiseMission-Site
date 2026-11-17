@@ -3,6 +3,7 @@ import { Answer, H2, Limits, Sources } from "@/components/blog/prose";
 import { Faq } from "@/components/site/faq";
 import { JsonLd } from "@/components/seo/json-ld";
 import { MoreTools, ToolCard, ToolCta, ToolHero } from "@/components/tools/tool-shell";
+import { TOOL_ICON3D } from "@/components/site/page-icons";
 import { SnoozeCalculator } from "@/components/tools/snooze-calculator";
 import { breadcrumbLd, faqPageLd, pageMetadata, type QA } from "@/lib/seo";
 import { SITE_URL } from "@/lib/site";
@@ -67,6 +68,7 @@ export default function SnoozeCalculatorPage() {
         ]}
       />
       <ToolHero
+        icon={TOOL_ICON3D["snooze-calculator"]}
         title="Snooze cost calculator"
         lead="How many hours a year does your snooze button take? Enter your habit and see it in minutes, hours and full nights of sleep."
       />

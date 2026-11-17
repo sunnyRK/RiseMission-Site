@@ -4,6 +4,7 @@ import { Faq } from "@/components/site/faq";
 import { JsonLd } from "@/components/seo/json-ld";
 import { SleepDebtCalculator } from "@/components/tools/sleep-debt-calculator";
 import { MoreTools, ToolCard, ToolCta, ToolHero } from "@/components/tools/tool-shell";
+import { TOOL_ICON3D } from "@/components/site/page-icons";
 import { breadcrumbLd, faqPageLd, pageMetadata, type QA } from "@/lib/seo";
 import { SITE_URL } from "@/lib/site";
 import { DEFAULT_NEED, DEFAULT_NIGHTS, fmtHours, sleepDebt } from "@/lib/sleep-debt";
@@ -94,6 +95,7 @@ export default function SleepDebtCalculatorPage() {
         ]}
       />
       <ToolHero
+        icon={TOOL_ICON3D["sleep-debt-calculator"]}
         title="Sleep debt calculator"
         lead="Enter how much sleep you need and how long you actually slept on each of the last 7 nights. See your weekly sleep debt and a gentle way to pay it back."
       />

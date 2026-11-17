@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { HeroIcon } from "@/components/site/page-icons";
 import Link from "next/link";
 import { ArrowRight, Download } from "lucide-react";
 import { AppStoreButton } from "@/components/site/app-store-button";
@@ -71,6 +72,7 @@ export default function GalleryPage() {
 
       <section className="sunrise-glow dawn">
         <div className="container-rm pb-10 pt-12 text-center md:pt-16">
+          <HeroIcon name="3d-camera" center />
           <p className="t-eyebrow justify-center">Gallery · Version {LIVE_VERSION}</p>
           <h1 className="t-h1 mx-auto mt-3 max-w-3xl">Rise Mission screenshots &amp; videos</h1>
           <p className="t-lead mx-auto mt-4 max-w-2xl">

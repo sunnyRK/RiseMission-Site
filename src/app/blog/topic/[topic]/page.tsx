@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { HeroIcon, TOPIC_ICON3D } from "@/components/site/page-icons";
 import { notFound } from "next/navigation";
 import { PostCard } from "@/components/blog/post-card";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -40,7 +41,10 @@ export default async function TopicPage({ params }: PageProps<"/blog/topic/[topi
               Blog
             </Link>
           </nav>
-          <h1 className="t-h1 mt-3">{t.title}</h1>
+          <div className="mt-4">
+            <HeroIcon name={TOPIC_ICON3D[t.slug] ?? "3d-sun"} />
+          </div>
+          <h1 className="t-h1">{t.title}</h1>
           <p className="t-lead mt-4 max-w-2xl">{t.intro}</p>
         </div>
       </section>

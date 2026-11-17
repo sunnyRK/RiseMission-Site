@@ -3,6 +3,8 @@ import type { CSSProperties } from "react";
 import { ArrowRight, Check, ChevronRight } from "lucide-react";
 import { AppStoreButton } from "@/components/site/app-store-button";
 import { ClayTile } from "@/components/site/clay-tile";
+import { CtaBand } from "@/components/site/cta-band";
+import { CountUp } from "@/components/motion/count-up";
 import { Faq } from "@/components/site/faq";
 import { Icon3D, type Icon3DName } from "@/components/site/icon-3d";
 import { Phone } from "@/components/site/phone";
@@ -79,6 +81,15 @@ const STEPS: { icon: Icon3DName; t: string; d: string }[] = [
   { icon: "3d-tick", t: "Prove you're up", d: "Finish the challenge to stop it. Your streak grows, you earn XP and your brain is already online." },
 ];
 
+const STATS: { icon: Icon3DName; value: number; prefix?: string; label: string }[] = [
+  { icon: "3d-dumbbell", value: CHALLENGES.length, label: "wake-up challenges" },
+  { icon: "3d-trophy", value: RANKS.length, label: "ranks to climb" },
+  { icon: "3d-medal", value: ACHIEVEMENT_COUNT, label: "badges to earn" },
+  { icon: "3d-star", value: XP_RULES.base, prefix: "+", label: "XP every wake-up" },
+];
+
+const STEP_TINTS = ["#F5A623", "#FF7A59", "#2F5BFF"];
+
 const ORBIT_ICONS: Icon3DName[] = ["3d-dumbbell", "3d-calculator", "3d-fire", "3d-pencil", "3d-camera", "3d-puzzle", "3d-trophy"];
 
 /** Focus preset tiles in the app's colours (teal / blue / violet). */
@@ -87,6 +98,12 @@ const PRESET_HUES: Record<number, [string, string]> = {
   25: ["#4F7BFF", "#1E3FD9"],
   45: ["#B57BFF", "#6D3FD6"],
 };
+
+/** Morning routine (amber) and bedtime nudge (indigo) tiles. */
+const TINT_HUES: [string, string][] = [
+  ["#F59E0B", "#C2410C"],
+  ["#4F46E5", "#2E2A8F"],
+];
 
 /** Gradient hues for the two lead feature cards (RMGradientHue). */
 const LEAD_HUES: [string, string][] = [
@@ -100,7 +117,8 @@ export default function HomePage() {
   const challengesShot = v16Screen("challenges");
   const focus = v16Screen("focus");
   const lead = V16_FEATURES.slice(0, 2);
-  const restFeatures = V16_FEATURES.slice(2);
+  const tinted = V16_FEATURES.slice(2, 4);
+  const restFeatures = V16_FEATURES.slice(4);
 
   return (
     <>
@@ -187,15 +205,35 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* AT A GLANCE: animated counters */}
+      <section aria-label="Rise Mission at a glance" className="container-rm relative z-[1] -mt-4 lg:-mt-8">
+        <Reveal stagger className="rm-card mx-auto grid max-w-5xl grid-cols-2 gap-px overflow-hidden !rounded-[28px] bg-line p-0 sm:grid-cols-4">
+          {STATS.map((st) => (
+            <div key={st.label} className="flex items-center gap-3 bg-card px-4 py-4 sm:flex-col sm:items-start sm:gap-2 sm:px-6 sm:py-5 lg:flex-row lg:items-center lg:gap-3">
+              <Icon3D name={st.icon} size={48} className="h-10 w-10 shrink-0 sm:h-12 sm:w-12" />
+              <p className="leading-tight">
+                <span className="t-rounded block text-[1.75rem] font-extrabold tracking-tight text-ink sm:text-[2rem]">
+                  <CountUp value={st.value} prefix={st.prefix} />
+                </span>
+                <span className="block text-[0.82rem] font-bold text-muted">{st.label}</span>
+              </p>
+            </div>
+          ))}
+        </Reveal>
+      </section>
+
       {/* HOW IT WORKS */}
       <Section id="how-it-works">
         <SectionHeader eyebrow="How it works" title="Three steps to a morning you don't negotiate with." />
-        <Reveal as="ol" stagger className="mt-12 grid gap-4 md:grid-cols-3">
+        <Reveal as="ol" stagger className="relative mt-12 grid gap-4 md:grid-cols-3">
+          <span aria-hidden className="absolute left-[16%] right-[16%] top-[60px] hidden h-0.5 rounded-full bg-[linear-gradient(90deg,var(--sun),var(--coral),var(--accent))] opacity-50 md:block" />
           {STEPS.map((s, i) => (
             <li key={s.t} className="rm-card lift group relative p-6 sm:p-7">
               <div className="flex items-start justify-between">
-                <Icon3D name={s.icon} size={72} className="icon3d-hover -ml-1 -mt-1" />
-                <span className="t-rounded text-[0.95rem] font-extrabold text-muted">0{i + 1}</span>
+                <span className="rm-icon-tile h-[84px] w-[84px] !rounded-[22px]" style={{ "--tint": STEP_TINTS[i] } as CSSProperties}>
+                  <Icon3D name={s.icon} size={64} className="icon3d-hover" />
+                </span>
+                <span className="t-rounded grid h-9 w-9 place-items-center rounded-full bg-[linear-gradient(135deg,#4a72ff,var(--accent-deep))] text-[0.9rem] font-extrabold text-white shadow-[0_6px_14px_-6px_var(--accent)]">{i + 1}</span>
               </div>
               <h3 className="t-h3 mt-4 text-[1.25rem]">{s.t}</h3>
               <p className="mt-2 text-ink-2">{s.d}</p>
@@ -213,7 +251,7 @@ export default function HomePage() {
             lead="Swipe through the missions and tap Try it for a 20-second web demo. Body challenges get you out of bed, brain challenges get your head online, and the backup takes over if the camera can't see you."
           />
         </div>
-        <Carousel label="Wake-up challenges" cardWidth="min(80vw, 340px)" padTop="56px" dotColors={CHALLENGES.map((c) => CHALLENGE_STYLE[c.slug].top)} className="mt-6">
+        <Carousel label="Wake-up challenges" cardWidth="min(76vw, 340px)" padTop="56px" autoplay={3000} perView={4} dotColors={CHALLENGES.map((c) => CHALLENGE_STYLE[c.slug].top)} className="mt-6">
           {CHALLENGES.map((c, i) => (
             <MissionCard key={c.slug} c={c} index={i} total={CHALLENGES.length} />
           ))}
@@ -236,27 +274,34 @@ export default function HomePage() {
               Which challenge suits you? <ArrowRight aria-hidden className="h-4 w-4" />
             </Link>
           </div>
-          <Reveal as="ul" stagger className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-5">
+          <Reveal as="ul" stagger className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
             {CHALLENGES.map((c) => {
               const st = CHALLENGE_STYLE[c.slug];
               return (
-                <li key={c.slug} id={`challenge-${c.slug}`} className="rm-card lift group flex scroll-mt-24 flex-col p-3.5 sm:p-4" style={{ "--tint": st.top, "--chip": st.ink } as CSSProperties}>
-                  <span className="rm-icon-tile h-14 w-14 sm:h-16 sm:w-16">
-                    <Icon3D name={c.icon3d} size={46} className="icon3d-hover h-10 w-10 sm:h-[46px] sm:w-[46px]" />
+                <li
+                  key={c.slug}
+                  id={`challenge-${c.slug}`}
+                  className="rm-card lift group flex scroll-mt-24 gap-4 p-4 sm:flex-col sm:gap-0"
+                  style={{ "--tint": st.top, "--chip": st.ink } as CSSProperties}
+                >
+                  <span className="rm-icon-tile h-[72px] w-[72px] sm:h-16 sm:w-16">
+                    <Icon3D name={c.icon3d} size={56} className="icon3d-hover h-14 w-14 sm:h-[46px] sm:w-[46px]" />
                   </span>
-                  <h4 className="mt-3 text-[1.1rem] font-extrabold tracking-tight text-ink">{c.name}</h4>
-                  <p className="text-[0.88rem] font-semibold text-ink-2">{c.tagline}</p>
-                  <p className="mt-2">
-                    <span className="rm-chip dark:[--chip:var(--ink-2)]">
-                      {st.time} · {st.effort}
-                    </span>
-                  </p>
-                  <p className="mt-3 line-clamp-4 text-[0.84rem] leading-relaxed text-ink-2 sm:line-clamp-none sm:text-[0.88rem]">{c.how}</p>
-                  {CHALLENGE_GUIDES[c.slug] && (
-                    <Link href={CHALLENGE_GUIDES[c.slug]} className="mt-auto inline-flex min-h-11 items-center gap-1 pt-2 text-[0.85rem] font-bold text-accent hover:underline">
-                      Read the guide <ChevronRight aria-hidden className="h-4 w-4" />
-                    </Link>
-                  )}
+                  <div className="flex min-w-0 flex-1 flex-col">
+                    <h4 className="text-[1.2rem] font-extrabold leading-tight tracking-tight text-ink sm:mt-3 sm:text-[1.1rem]">{c.name}</h4>
+                    <p className="mt-0.5 text-[0.95rem] font-semibold text-ink-2 sm:text-[0.88rem]">{c.tagline}</p>
+                    <p className="mt-2">
+                      <span className="rm-chip dark:[--chip:var(--ink-2)]">
+                        {st.time} · {st.effort}
+                      </span>
+                    </p>
+                    <p className="mt-2.5 text-[0.92rem] leading-relaxed text-ink-2 sm:mt-3 sm:text-[0.88rem]">{c.how}</p>
+                    {CHALLENGE_GUIDES[c.slug] && (
+                      <Link href={CHALLENGE_GUIDES[c.slug]} className="mt-auto inline-flex min-h-11 items-center gap-1 pt-1 text-[0.9rem] font-bold text-accent hover:underline sm:pt-2 sm:text-[0.85rem]">
+                        Read the guide <ChevronRight aria-hidden className="h-4 w-4" />
+                      </Link>
+                    )}
+                  </div>
                 </li>
               );
             })}
@@ -267,36 +312,64 @@ export default function HomePage() {
       {/* NEW IN 1.6 */}
       <Section id="whats-new">
         <SectionHeader eyebrow={`New in ${LIVE_VERSION}`} title="The biggest update yet." lead="A fresh look and new reasons to win every morning." />
-        <Reveal as="ul" stagger className="mt-10 grid grid-cols-2 gap-3 lg:grid-cols-4">
-          {lead.map((f, i) => (
-            <li key={f.id} className="rm-grad lift group col-span-2 flex min-h-[190px] flex-col justify-between p-6 sm:col-span-1 lg:col-span-2" style={{ "--top": LEAD_HUES[i][0], "--deep": LEAD_HUES[i][1] } as CSSProperties}>
-              <Icon3D name={f.icon3d} size={88} className="icon3d-hover -ml-1 -mt-1" />
-              <div className="mt-6">
-                <h3 className="text-[1.45rem] font-extrabold tracking-tight">{f.title}</h3>
-                <p className="mt-1 max-w-sm font-medium text-white/90">{f.blurb}</p>
+        <Reveal stagger className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:gap-4">
+          {/* Bento: Levels is the big tile, Rise Challenge the wide one, then two tinted tiles. */}
+          <div className="rm-grad lift group relative flex min-h-[240px] flex-col justify-between p-6 sm:col-span-2 lg:row-span-2 lg:min-h-[420px] lg:p-8" style={{ "--top": LEAD_HUES[0][0], "--deep": LEAD_HUES[0][1] } as CSSProperties}>
+            <Icon3D name={lead[0].icon3d} size={128} className="icon3d-hover -ml-2 -mt-2 h-24 w-24 lg:h-32 lg:w-32" />
+            <div className="mt-6">
+              <p className="text-[0.75rem] font-extrabold uppercase tracking-[0.12em] text-white/80">The big one</p>
+              <h3 className="mt-1 text-[1.6rem] font-extrabold leading-tight tracking-tight lg:text-[2.1rem]">{lead[0].title}</h3>
+              <p className="mt-2 max-w-md text-[1.02rem] font-medium text-white/90">{lead[0].blurb}</p>
+              <ul aria-label="Ranks" className="mt-5 flex flex-wrap gap-1.5">
+                {RANKS.map((r) => (
+                  <li key={r.name} className="inline-flex items-center gap-1 rounded-full bg-white/15 py-1 pl-1 pr-2.5 text-[0.78rem] font-bold">
+                    <Icon3D name={r.icon3d} size={22} />
+                    {r.name}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <div className="rm-grad lift group flex min-h-[180px] items-center gap-5 p-6 sm:col-span-2" style={{ "--top": LEAD_HUES[1][0], "--deep": LEAD_HUES[1][1] } as CSSProperties}>
+            <Icon3D name={lead[1].icon3d} size={96} className="icon3d-hover h-20 w-20 shrink-0 sm:h-24 sm:w-24" />
+            <div>
+              <h3 className="text-[1.4rem] font-extrabold leading-tight tracking-tight">{lead[1].title}</h3>
+              <p className="mt-1.5 font-medium text-white/90">{lead[1].blurb}</p>
+            </div>
+          </div>
+          {tinted.map((f, i) => (
+            <div key={f.id} className="rm-grad lift group flex items-center gap-4 p-5 sm:min-h-[170px] sm:flex-col sm:items-start sm:justify-between" style={{ "--top": TINT_HUES[i][0], "--deep": TINT_HUES[i][1] } as CSSProperties}>
+              <Icon3D name={f.icon3d} size={64} className="icon3d-hover h-14 w-14 shrink-0 sm:-ml-1 sm:h-16 sm:w-16" />
+              <div>
+                <h3 className="text-[1.15rem] font-extrabold tracking-tight">{f.title}</h3>
+                <p className="mt-1 text-[0.92rem] font-medium leading-snug text-white/90">{f.blurb}</p>
               </div>
-            </li>
+            </div>
           ))}
-          {restFeatures.map((f) => (
-            <li key={f.id} className="rm-card lift group flex flex-col gap-2 p-4 sm:flex-row sm:gap-3.5 sm:p-5">
-              <Icon3D name={f.icon3d} size={52} className="icon3d-hover h-11 w-11 shrink-0 sm:h-[52px] sm:w-[52px]" />
-              <div className="min-w-0">
-                <h3 className="font-extrabold tracking-tight text-ink">{f.title}</h3>
-                <p className="mt-1 text-[0.84rem] leading-relaxed text-ink-2 sm:text-[0.9rem]">{f.blurb}</p>
-              </div>
+          <ul className="rm-group sm:col-span-2 lg:col-span-4">
+            {restFeatures.map((f, i) => (
+              <li key={f.id} className="lift group flex items-center gap-4 p-4 sm:flex-col sm:items-start sm:gap-3 sm:p-5" style={{ "--j": i } as CSSProperties}>
+                <span className="rm-icon-tile h-14 w-14 sm:h-auto sm:w-auto sm:bg-none sm:shadow-none" style={{ "--tint": "#2F5BFF" } as CSSProperties}>
+                  <Icon3D name={f.icon3d} size={52} className="icon3d-hover h-10 w-10 sm:h-[52px] sm:w-[52px]" />
+                </span>
+                <div className="min-w-0">
+                  <h3 className="text-[1.05rem] font-extrabold tracking-tight text-ink">{f.title}</h3>
+                  <p className="mt-0.5 text-[0.9rem] leading-relaxed text-ink-2">{f.blurb}</p>
+                </div>
+              </li>
+            ))}
+            <li className="sm:col-span-2 sm:!border-0 sm:!bg-none sm:!shadow-none">
+              <Link href="/whats-new" className="rm-btn-primary group flex h-full min-h-[88px] items-center justify-between gap-4 p-5 sm:rounded-[24px]">
+                <span>
+                  <span className="block text-[1.1rem] font-extrabold">Everything in {LIVE_VERSION}</span>
+                  <span className="block text-[0.9rem] text-white/85">Full release notes and the version history</span>
+                </span>
+                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-white/20 transition-transform duration-200 group-hover:translate-x-0.5">
+                  <ArrowRight aria-hidden className="h-5 w-5" />
+                </span>
+              </Link>
             </li>
-          ))}
-          <li className="col-span-2">
-            <Link href="/whats-new" className="rm-card lift group flex h-full min-h-[96px] items-center justify-between gap-4 p-5">
-              <span>
-                <span className="block font-extrabold text-ink">Everything in {LIVE_VERSION}</span>
-                <span className="block text-[0.9rem] text-ink-2">Full release notes and the version history</span>
-              </span>
-              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-accent text-accent-ink transition-transform duration-200 group-hover:translate-x-0.5">
-                <ArrowRight aria-hidden className="h-5 w-5" />
-              </span>
-            </Link>
-          </li>
+          </ul>
         </Reveal>
       </Section>
 
@@ -332,7 +405,7 @@ export default function HomePage() {
             <p className="mt-2 text-ink-2">Hover or tap a badge to see how to earn it.</p>
           </div>
         </div>
-        <Carousel label="Achievements" cardWidth="min(56vw, 220px)" padTop="20px" className="mt-2">
+        <Carousel label="Achievements" cardWidth="min(56vw, 220px)" padTop="20px" autoplay={2600} perView={6} className="mt-2">
           {ACHIEVEMENTS.map((a) => (
             <FlipBadge key={a.name} name={a.name} how={a.how} icon={a.icon3d} isNew={a.since === "1.6"} />
           ))}
@@ -393,7 +466,7 @@ export default function HomePage() {
             </Link>
           </div>
         </div>
-        <Carousel label="App screenshots" cardWidth="min(60vw, 260px)" padTop="28px" autoplay={3800} className="mt-4">
+        <Carousel label="App screenshots" cardWidth="min(60vw, 260px)" padTop="28px" autoplay={3000} perView={5} className="mt-4">
           {SCREENS.map((s) => (
             <figure key={s.id} className="px-1">
               <Phone src={s.src} alt={s.alt} sizes="(max-width: 640px) 64vw, 260px" />
@@ -402,17 +475,19 @@ export default function HomePage() {
         </Carousel>
       </section>
 
+      <div aria-hidden className="rm-divider mt-0" />
+
       {/* FAIR + PRIVATE */}
       <Section id="fair">
         <SectionHeader eyebrow="Reliable, fair and private" title="Tough, never a trap." lead="Honest about what an alarm app can and can't do." />
         <Reveal stagger className="mt-12 grid gap-4 lg:grid-cols-3">
-          <FairCard icon="3d-bell" title="It rings for real">
+          <FairCard icon="3d-bell" tint="#F5A623" title="It rings for real">
             {FACTS.ringsOnSilent} <span className="text-muted">{FACTS.poweredOff}</span>
           </FairCard>
-          <FairCard icon="3d-shield" title="A way out, always">
+          <FairCard icon="3d-shield" tint="#00B865" title="A way out, always">
             {FACTS.backupChallenge} {FACTS.emergencyDismiss}
           </FairCard>
-          <FairCard icon="3d-lock" title="Private by design" chips={PRIVACY_COPY.badges}>
+          <FairCard icon="3d-lock" tint="#2F5BFF" title="Private by design" chips={PRIVACY_COPY.badges}>
             {FACTS.onDevice} No account, and your alarms and history stay on your iPhone.
           </FairCard>
         </Reveal>
@@ -500,25 +575,24 @@ export default function HomePage() {
 
       <Faq items={FAQ} />
 
-      {/* FINAL CTA: the welcome scene (clay brand tile + icon orbit) */}
-      <section className="container-rm">
-        <Reveal className="rm-wash relative overflow-hidden rounded-[32px] border border-line px-6 pb-14 pt-6 text-center shadow-[inset_0_1px_0_var(--highlight)] sm:pb-20">
-          <div className="relative mx-auto h-[300px] max-w-[420px]">
-            <Orbit icons={["3d-dumbbell", "3d-calculator", "3d-clock", "3d-pencil", "3d-camera", "3d-puzzle"]} bubble={60} period={70} className="[--rx:135px] [--ry:100px] sm:[--rx:160px] sm:[--ry:104px]">
+      {/* FINAL CTA: the welcome scene (clay brand tile + icon orbit) on the app's blue band */}
+      <section className="container-rm pb-4">
+        <CtaBand
+          placement="home-final"
+          title="Wake up on your terms."
+          body="Prove you're actually up, then the alarm stops. Set it tonight, try the test alarm, and make tomorrow the first morning you don't snooze."
+          note={`${PRICING_COPY.short} · iOS 26 or later`}
+          className="!pt-4"
+          heading
+        >
+          <div className="relative mx-auto h-[260px] max-w-[420px] sm:h-[300px]">
+            <Orbit icons={["3d-dumbbell", "3d-calculator", "3d-clock", "3d-pencil", "3d-camera", "3d-puzzle"]} bubble={60} period={70} className="[--rx:125px] [--ry:92px] sm:[--rx:160px] sm:[--ry:104px]">
               <div className="rm-float">
                 <ClayTile size={108} />
               </div>
             </Orbit>
           </div>
-          <h2 className="t-h2 mx-auto max-w-2xl">
-            Wake up on your <span className="hl">terms</span>.
-          </h2>
-          <p className="t-lead mx-auto mt-4 max-w-lg">Prove you&apos;re actually up, then the alarm stops. Set it tonight, try the test alarm, and make tomorrow the first morning you don&apos;t snooze.</p>
-          <div className="mt-8 flex justify-center">
-            <AppStoreButton placement="home-final" size="lg" />
-          </div>
-          <p className="mt-4 text-[0.85rem] font-semibold text-muted">{PRICING_COPY.short} · iOS 26 or later</p>
-        </Reveal>
+        </CtaBand>
       </section>
 
       <StickyCta />
@@ -627,10 +701,12 @@ function StreakCard() {
   );
 }
 
-function FairCard({ icon, title, chips, children }: { icon: Icon3DName; title: string; chips?: readonly string[]; children: React.ReactNode }) {
+function FairCard({ icon, title, tint, chips, children }: { icon: Icon3DName; title: string; tint: string; chips?: readonly string[]; children: React.ReactNode }) {
   return (
-    <div className="rm-card lift group flex flex-col p-6">
-      <Icon3D name={icon} size={64} className="icon3d-hover -ml-1" />
+    <div className="rm-card rm-tint-card lift group flex flex-col p-6" style={{ "--tint": tint } as CSSProperties}>
+      <span className="rm-icon-tile h-[76px] w-[76px] !rounded-[20px]">
+        <Icon3D name={icon} size={60} className="icon3d-hover" />
+      </span>
       <h3 className="mt-4 text-[1.2rem] font-extrabold tracking-tight">{title}</h3>
       <p className="mt-2 text-[0.95rem] leading-relaxed text-ink-2">{children}</p>
       {chips && (

@@ -1,6 +1,8 @@
 import Link from "next/link";
+import type { CSSProperties } from "react";
+import { HeroIcon, TOOL_ICON3D } from "@/components/site/page-icons";
+import { Icon3D } from "@/components/site/icon-3d";
 import { ArrowRight } from "lucide-react";
-import { IconTile } from "@/components/site/icons";
 import { JsonLd } from "@/components/seo/json-ld";
 import { ToolCta } from "@/components/tools/tool-shell";
 import { breadcrumbLd, collectionPageLd, pageMetadata } from "@/lib/seo";
@@ -29,6 +31,7 @@ export default function ToolsHub() {
       />
       <section className="sunrise-glow dawn">
         <div className="container-rm pb-12 pt-12 text-center md:pt-16">
+          <HeroIcon name="3d-calculator" center />
           <p className="t-eyebrow justify-center">Free · No sign-up · Works in your browser
           </p>
           <h1 className="t-h1 mx-auto mt-3 max-w-2xl">Free tools for better mornings</h1>
@@ -41,11 +44,14 @@ export default function ToolsHub() {
             <li key={t.slug}>
               <Link
                 href={toolPath(t.slug)}
-                className={`group flex h-full flex-col justify-between rounded-[24px] border p-7 transition hover:-translate-y-0.5 hover:shadow-soft ${i === 0 ? "border-accent bg-accent text-accent-ink" : "border-line bg-card"}`}
+                className={`lift group flex h-full flex-col justify-between p-7 ${i === 0 ? "rm-grad" : "rm-card"}`}
+                style={i === 0 ? ({ "--top": "#3B3F8F", "--deep": "#23265E" } as CSSProperties) : undefined}
               >
                 <div>
-                  <IconTile name={t.icon} size="lg" tone={i === 0 ? "inverse" : "accent"} />
-                  <h2 className="mt-6 text-[1.35rem] font-semibold tracking-tight">{t.name}</h2>
+                  <span className={i === 0 ? "" : "rm-icon-tile h-[76px] w-[76px] !rounded-[20px]"} style={i === 0 ? undefined : ({ "--tint": "#2F5BFF" } as CSSProperties)}>
+                    <Icon3D name={TOOL_ICON3D[t.slug] ?? "3d-clock"} size={i === 0 ? 80 : 60} className="icon3d-hover" />
+                  </span>
+                  <h2 className="mt-5 text-[1.35rem] font-extrabold tracking-tight">{t.name}</h2>
                   <p className={`mt-2 ${i === 0 ? "opacity-85" : "text-ink-2"}`}>{t.description}</p>
                 </div>
                 <span className="mt-8 inline-flex items-center gap-1.5 font-semibold">

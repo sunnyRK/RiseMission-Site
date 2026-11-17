@@ -11,7 +11,7 @@ export const metadata = pageMetadata({
 
 export default function Terms() {
   return (
-    <DocPage title="Rise Mission Terms of Use" path="/terms" updated="August 21, 2026">
+    <DocPage icon="3d-pencil" title="Rise Mission Terms of Use" path="/terms" updated="August 21, 2026">
       <p>
         These Terms of Use (&quot;Terms&quot;) govern your use of the Rise Mission app (&quot;the app&quot;). By
         downloading or using the app you agree to these Terms and to Apple&apos;s Licensed Application End User License

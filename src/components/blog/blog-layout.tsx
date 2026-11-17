@@ -2,6 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { isValidElement, type ReactElement, type ReactNode } from "react";
 import { AppStoreButton } from "@/components/site/app-store-button";
+import { CtaBand } from "@/components/site/cta-band";
+import { Icon3D } from "@/components/site/icon-3d";
+import { HeroIcon, TOPIC_ICON3D } from "@/components/site/page-icons";
 import { Faq } from "@/components/site/faq";
 import { JsonLd } from "@/components/seo/json-ld";
 import { postCover, postPath, relatedPosts, topicsForPost, type BlogPost } from "@/lib/blog";
@@ -98,7 +101,10 @@ export function BlogLayout({ post, faq, children }: { post: BlogPost; faq?: QA[]
                 )}
               </ol>
             </nav>
-            <h1 className="t-h1 mt-4 text-balance">{post.title}</h1>
+            <div className="mt-5">
+              <HeroIcon name={(hub && TOPIC_ICON3D[hub.slug]) || "3d-sun"} size={64} />
+            </div>
+            <h1 className="t-h1 text-balance">{post.title}</h1>
             <p className="t-lead mt-4 text-pretty">{post.description}</p>
 
             <div className="mt-7 flex items-center gap-3 border-t border-line pt-5">
@@ -140,8 +146,9 @@ export function BlogLayout({ post, faq, children }: { post: BlogPost; faq?: QA[]
                   <li key={t.slug}>
                     <Link
                       href={`/blog/topic/${t.slug}`}
-                      className="rm-focus inline-flex min-h-8 items-center rounded-full border border-line bg-card px-3 font-medium text-ink-2 transition-colors hover:border-ink/20 hover:text-ink"
+                      className="rm-focus inline-flex min-h-9 items-center gap-1.5 rounded-full border border-line bg-card py-0.5 pl-1 pr-3 font-bold text-ink-2 shadow-[inset_0_1px_0_var(--highlight)] transition-colors hover:border-ink/20 hover:text-ink"
                     >
+                      <Icon3D name={TOPIC_ICON3D[t.slug] ?? "3d-sun"} size={24} />
                       {t.name}
                     </Link>
                   </li>
@@ -163,11 +170,11 @@ export function BlogLayout({ post, faq, children }: { post: BlogPost; faq?: QA[]
             preload
             unoptimized={cover.startsWith("/og")}
           sizes="(max-width: 768px) 100vw, 768px"
-            className="h-auto w-full rounded-2xl border border-line"
+            className="h-auto w-full rounded-[24px] border border-line shadow-[var(--shadow)]"
           />
           {toc.length >= 2 && (
             <nav aria-label="On this page" className="mt-6 lg:hidden">
-              <details className="rm-toc-mobile group rounded-2xl border border-line bg-card">
+              <details className="rm-toc-mobile rm-card group !rounded-[20px]">
                 <summary className="rm-focus flex min-h-12 cursor-pointer items-center justify-between gap-3 rounded-2xl px-4 text-[0.9375rem] font-semibold text-ink">
                   <span className="flex items-center gap-2">
                     <ListOrdered aria-hidden className="h-4 w-4 text-muted" /> On this page
@@ -209,18 +216,11 @@ export function BlogLayout({ post, faq, children }: { post: BlogPost; faq?: QA[]
 
       <div className="container-rm">
         <div className="mx-auto max-w-[42.5rem]">
-          <div className="relative overflow-hidden rounded-3xl border border-line bg-card px-6 py-9 text-center shadow-soft sm:px-10">
-            <div aria-hidden className="sunrise-glow pointer-events-none absolute inset-0 opacity-80" />
-            <div className="relative">
-              <p className="t-h2 !text-[1.6rem] text-balance">Make tomorrow the morning you don&apos;t snooze</p>
-              <p className="mx-auto mt-3 max-w-md text-pretty text-ink-2">
-                Rise Mission makes you prove you&apos;re awake before your morning starts. iPhone · iOS 26+ · {PRICING_COPY.short}.
-              </p>
-              <div className="mt-6 flex justify-center">
-                <AppStoreButton placement={`blog-end-${post.slug}`} />
-              </div>
-            </div>
-          </div>
+          <CtaBand
+            placement={`blog-end-${post.slug}`}
+            title="Make tomorrow the morning you don't snooze"
+            body={<>Rise Mission makes you prove you&apos;re awake before your morning starts. iPhone · iOS 26+ · {PRICING_COPY.short}.</>}
+          />
 
           {!topics.some((t) => t.slug === "alarm-apps") && (
             <aside aria-labelledby="choose-app" className="mt-10">
@@ -232,7 +232,7 @@ export function BlogLayout({ post, faq, children }: { post: BlogPost; faq?: QA[]
                   <li key={l.href}>
                     <Link
                       href={l.href}
-                      className="rm-focus group flex h-full min-h-14 items-center justify-between gap-3 rounded-2xl border border-line bg-card px-4 py-3 text-[0.9375rem] font-semibold leading-snug text-ink transition hover:border-ink/20 hover:shadow-soft"
+                      className="rm-card lift rm-focus group flex h-full min-h-14 items-center justify-between gap-3 !rounded-[18px] px-4 py-3 text-[0.9375rem] font-bold leading-snug text-ink"
                     >
                       <span>{l.text}</span>
                       <ArrowRight aria-hidden className="h-4 w-4 shrink-0 text-muted transition group-hover:translate-x-0.5 group-hover:text-ink motion-reduce:transition-none" />
@@ -291,10 +291,12 @@ function MidCta() {
   return (
     <aside
       aria-label="Rise Mission app"
-      className="not-prose !my-12 flex flex-col items-start gap-4 rounded-2xl border border-line bg-card p-5 shadow-soft sm:flex-row sm:items-center sm:justify-between sm:p-6"
+      className="not-prose rm-card rm-tint-card !my-12 flex flex-col items-start gap-4 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6"
+      style={{ ["--tint" as string]: "#2F5BFF" }}
     >
-      <div className="text-[1rem] leading-snug">
-        <p className="font-semibold text-ink">An alarm that checks you&apos;re actually up</p>
+      <Icon3D name="3d-bell" size={56} className="hidden shrink-0 sm:block" />
+      <div className="flex-1 text-[1rem] leading-snug">
+        <p className="font-extrabold text-ink">An alarm that checks you&apos;re actually up</p>
         <p className="mt-1.5 text-[0.9375rem] text-ink-2">Push-ups, a walk, a QR scan or math. Snoozing stops being an option.</p>
       </div>
       <AppStoreButton placement="blog-mid" className="shrink-0" />

@@ -4,6 +4,7 @@ import { Faq } from "@/components/site/faq";
 import { JsonLd } from "@/components/seo/json-ld";
 import { NapCalculator } from "@/components/tools/nap-calculator";
 import { MoreTools, ToolCard, ToolCta, ToolHero } from "@/components/tools/tool-shell";
+import { TOOL_ICON3D } from "@/components/site/page-icons";
 import { DEFAULT_BUFFER_MIN, napPlan } from "@/lib/nap";
 import { breadcrumbLd, faqPageLd, pageMetadata, type QA } from "@/lib/seo";
 import { SITE_URL } from "@/lib/site";
@@ -93,6 +94,7 @@ export default function NapCalculatorPage() {
         ]}
       />
       <ToolHero
+        icon={TOOL_ICON3D["nap-calculator"]}
         title="Nap calculator"
         lead="Pick a power nap, a recovery nap or a full sleep cycle and get the exact time to set your alarm, plus the window where waking up would leave you groggy."
       />

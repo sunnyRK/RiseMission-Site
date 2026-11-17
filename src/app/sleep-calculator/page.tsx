@@ -4,6 +4,7 @@ import { Faq } from "@/components/site/faq";
 import { JsonLd } from "@/components/seo/json-ld";
 import { SleepCalculator } from "@/components/tools/sleep-calculator";
 import { MoreTools, ToolCard, ToolCta, ToolHero } from "@/components/tools/tool-shell";
+import { TOOL_ICON3D } from "@/components/site/page-icons";
 import { bedtimesFor, fmtTime } from "@/lib/sleep";
 import { breadcrumbLd, faqPageLd, pageMetadata, type QA } from "@/lib/seo";
 import { SITE_URL } from "@/lib/site";
@@ -58,6 +59,7 @@ export default function SleepCalculatorPage() {
         ]}
       />
       <ToolHero
+        icon={TOOL_ICON3D["sleep-calculator"]}
         title="Sleep cycle calculator"
         lead="Find the best time to go to bed or wake up, so your alarm lands at the end of a sleep cycle instead of in the middle of deep sleep."
       />

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { HeroIcon } from "@/components/site/page-icons";
 import { Answer, H2, H3, Limits } from "@/components/blog/prose";
 import { Icon3d } from "@/components/content/icon-3d";
 import { AppStoreButton } from "@/components/site/app-store-button";
@@ -71,6 +72,7 @@ export default function WhatsNewPage() {
       <section className="sunrise-glow dawn">
         <div className="container-rm pb-10 pt-12 md:pt-16">
           <div className="mx-auto max-w-3xl">
+            <HeroIcon name="3d-gift" />
             <p className="t-eyebrow">
               Release notes · Version {LIVE_VERSION}
               {live.date ? (

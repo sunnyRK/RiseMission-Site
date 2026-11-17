@@ -12,7 +12,7 @@ export const metadata = pageMetadata({
 
 export default function About() {
   return (
-    <DocPage title="About Rise Mission" path="/about">
+    <DocPage icon="3d-heart" title="About Rise Mission" path="/about">
       <JsonLd data={[personLd(), organizationLd()]} />
       <p>
         Rise Mission is an independent iPhone app, now on version {LIVE_VERSION}. It exists for one reason: a normal alarm

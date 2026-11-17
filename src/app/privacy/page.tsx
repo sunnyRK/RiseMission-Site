@@ -11,7 +11,7 @@ export const metadata = pageMetadata({
 
 export default function Privacy() {
   return (
-    <DocPage title="Rise Mission Privacy Policy" path="/privacy" updated="November 15, 2026">
+    <DocPage icon="3d-lock" title="Rise Mission Privacy Policy" path="/privacy" updated="November 15, 2026">
       <h2>The short version</h2>
       <p>
         Everything personal the app knows (your alarms, wake-up history, streaks, and settings) is stored only on your

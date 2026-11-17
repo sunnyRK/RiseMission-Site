@@ -4,6 +4,7 @@ import { Faq } from "@/components/site/faq";
 import { JsonLd } from "@/components/seo/json-ld";
 import { ChronotypeQuiz } from "@/components/tools/chronotype-quiz";
 import { MoreTools, ToolCard, ToolCta, ToolHero } from "@/components/tools/tool-shell";
+import { TOOL_ICON3D } from "@/components/site/page-icons";
 import { CHRONOTYPES, EARLY_TO, MAX_SCORE, MIN_SCORE, OWL_FROM, QUESTIONS } from "@/lib/chronotype";
 import { breadcrumbLd, faqPageLd, pageMetadata, type QA } from "@/lib/seo";
 import { SITE_URL } from "@/lib/site";
@@ -91,6 +92,7 @@ export default function ChronotypeQuizPage() {
         ]}
       />
       <ToolHero
+        icon={TOOL_ICON3D["chronotype-quiz"]}
         title="Chronotype quiz"
         lead={`Are you an early bird, a night owl or in between? Answer ${QUESTIONS.length} quick questions about your natural sleep and energy, then get wake-time advice that fits your type.`}
       />

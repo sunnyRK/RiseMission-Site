@@ -11,7 +11,7 @@ export const metadata = pageMetadata({
 
 export default function Support() {
   return (
-    <DocPage title="Rise Mission Support" path="/support">
+    <DocPage icon="3d-shield" title="Rise Mission Support" path="/support">
       <h2>Getting started</h2>
       <p>
         Create an alarm with the + button, pick a challenge ({CHALLENGES.map((c) => c.name).join(", ")}) and a backup,

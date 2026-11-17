@@ -53,7 +53,7 @@ export function RankLadder() {
         </p>
       </div>
 
-      <Carousel label="Rank ladder" cardWidth="min(74vw, 290px)" padTop="28px" className="mt-2">
+      <Carousel label="Rank ladder" cardWidth="min(74vw, 290px)" padTop="28px" autoplay={3200} perView={4} className="mt-2">
         {RANKS.map((r, i) => (
           <article key={r.name} className="rm-card group flex h-full flex-col p-5">
             <div className="flex items-start justify-between">

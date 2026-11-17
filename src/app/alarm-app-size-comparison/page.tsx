@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { HeroIcon } from "@/components/site/page-icons";
 import { AppSizeTable, sizeRatio } from "@/components/compare/app-table";
 import { Answer, H2, Limits } from "@/components/blog/prose";
 import { AppStoreButton } from "@/components/site/app-store-button";
@@ -74,6 +75,7 @@ export default function SizeComparisonPage() {
       <section className="sunrise-glow dawn">
         <div className="container-rm pb-10 pt-12 md:pt-16">
           <div className="mx-auto max-w-3xl">
+            <HeroIcon name="3d-flask" />
             <p className="t-eyebrow">Data · Updated <time dateTime={SNAPSHOT_DATE}>{dateLabel}</time>
             </p>
             <h1 className="t-h1 mt-3">How big are iPhone alarm apps?</h1>

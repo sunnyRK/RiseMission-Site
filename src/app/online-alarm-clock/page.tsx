@@ -4,6 +4,7 @@ import { Faq } from "@/components/site/faq";
 import { JsonLd } from "@/components/seo/json-ld";
 import { OnlineAlarmClock } from "@/components/tools/online-alarm-clock";
 import { MoreTools, ToolCard, ToolCta, ToolHero } from "@/components/tools/tool-shell";
+import { TOOL_ICON3D } from "@/components/site/page-icons";
 import { PROBLEMS_TO_STOP } from "@/lib/alarm-clock";
 import { breadcrumbLd, faqPageLd, pageMetadata, type QA } from "@/lib/seo";
 import { FACTS, SITE_URL } from "@/lib/site";
@@ -87,6 +88,7 @@ export default function OnlineAlarmClockPage() {
         ]}
       />
       <ToolHero
+        icon={TOOL_ICON3D["online-alarm-clock"]}
         title="Online alarm clock you stop with math"
         lead="Set an alarm in your browser for a time or a countdown. When it rings, it keeps going until you solve three quick sums, so you can't switch it off half-asleep."
       />

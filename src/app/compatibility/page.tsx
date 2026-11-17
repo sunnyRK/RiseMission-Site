@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { HeroIcon } from "@/components/site/page-icons";
 import Link from "next/link";
 import { Answer, H2, Limits, Sources, type Source } from "@/components/blog/prose";
 import { AppStoreButton } from "@/components/site/app-store-button";
@@ -91,6 +92,7 @@ export default function CompatibilityPage() {
       <section className="sunrise-glow dawn">
         <div className="container-rm pb-10 pt-12 md:pt-16">
           <div className="mx-auto max-w-3xl">
+            <HeroIcon name="3d-phone" />
             <p className="t-eyebrow">
               Requirements · Version {LIVE_VERSION} · Updated <time dateTime={UPDATED}>November 17, 2026</time>
             </p>

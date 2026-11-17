@@ -7,7 +7,7 @@ export function PostCard({ post }: { post: BlogPost }) {
   return (
     <Link
       href={postPath(post.slug)}
-      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-card transition duration-200 hover:-translate-y-0.5 hover:border-ink/15 hover:shadow-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+      className="rm-card lift group flex h-full flex-col overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
     >
       <Image
         src={cover}
@@ -19,10 +19,12 @@ export function PostCard({ post }: { post: BlogPost }) {
         className="aspect-[1200/630] h-auto w-full border-b border-line object-cover"
       />
       <div className="flex flex-1 flex-col p-5">
-        <p className="text-[0.8125rem] font-medium text-accent">{post.eyebrow}</p>
-        <h3 className="t-h3 mt-2 text-balance decoration-line underline-offset-4 group-hover:underline">{post.title}</h3>
+        <p className="text-[0.72rem] font-extrabold uppercase tracking-[0.1em] text-accent">{post.eyebrow}</p>
+        <h3 className="mt-2 text-[1.15rem] font-extrabold leading-snug tracking-tight text-ink text-balance decoration-line underline-offset-4 group-hover:underline">{post.title}</h3>
         <p className="mt-2 line-clamp-3 text-[0.9375rem] leading-relaxed text-ink-2">{post.description}</p>
-        <p className="mt-auto pt-4 text-[0.8125rem] text-muted">{post.readMinutes} min read</p>
+        <p className="mt-auto pt-4">
+          <span className="rm-chip">{post.readMinutes} min read</span>
+        </p>
       </div>
     </Link>
   );

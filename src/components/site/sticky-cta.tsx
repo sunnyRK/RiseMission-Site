@@ -34,6 +34,9 @@ export function StickyCta() {
     };
   }, []);
   return (
+    <>
+    {/* Room for the floating bar so it never sits on top of the last content on phones. */}
+    <div aria-hidden className="h-24 lg:hidden" />
     <div className="rm-sticky-cta pointer-events-none fixed inset-x-0 bottom-0 z-40 px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] lg:hidden" data-show={show} aria-hidden={!show}>
       <div className="rm-glass pointer-events-auto mx-auto flex max-w-md items-center gap-3 rounded-[26px] p-2 pl-3">
         <Image src="/assets/icon.png" alt="" width={36} height={36} className="rounded-[9px]" />
@@ -51,5 +54,6 @@ export function StickyCta() {
         </a>
       </div>
     </div>
+    </>
   );
 }

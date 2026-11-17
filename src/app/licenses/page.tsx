@@ -9,7 +9,7 @@ export const metadata = pageMetadata({
 
 export default function Licenses() {
   return (
-    <DocPage title="Licenses and credits" path="/licenses" updated="November 17, 2026">
+    <DocPage icon="3d-medal" title="Licenses and credits" path="/licenses" updated="November 17, 2026">
       <h2>3D icons</h2>
       <p>
         The soft 3D icons on this website and in the Rise Mission app come from{" "}

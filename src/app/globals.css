@@ -248,28 +248,18 @@ dd {
   padding-bottom: 0.04em;
 }
 
-/* Sunrise glow used behind hero sections. Pure CSS, 0 KB of images. */
+/* Page-header wash on every inner page: the app's time-of-day sky
+   (RMTimeOfDayWash, same tokens as .rm-wash), a warm corner glow, and a soft
+   fade into the canvas. Pure CSS, 0 KB of images. */
 .sunrise-glow {
   background:
-    radial-gradient(60% 70% at 85% 0%, color-mix(in oklab, var(--accent) 14%, transparent) 0%, transparent 70%),
-    radial-gradient(55% 65% at 10% 10%, color-mix(in oklab, var(--coral) 12%, transparent) 0%, transparent 70%),
-    radial-gradient(70% 50% at 50% 0%, color-mix(in oklab, var(--sun) 14%, transparent) 0%, transparent 75%);
+    radial-gradient(360px 300px at calc(100% - 40px) -40px, color-mix(in oklab, var(--glow) 34%, transparent), transparent 70%),
+    radial-gradient(420px 260px at 0% 0%, color-mix(in oklab, var(--lavender) 18%, transparent), transparent 70%),
+    linear-gradient(to bottom, var(--wash-top), var(--wash-mid) 52%, var(--paper));
 }
-/* Faint dot grid (premium texture), fades out downward. */
 .dawn {
   position: relative;
   isolation: isolate;
-}
-.dawn::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background-image: radial-gradient(color-mix(in oklab, var(--ink) 9%, transparent) 1px, transparent 1px);
-  background-size: 22px 22px;
-  mask-image: linear-gradient(to bottom, black, transparent 85%);
-  -webkit-mask-image: linear-gradient(to bottom, black, transparent 85%);
-  pointer-events: none;
 }
 
 /* ---------- Long-form prose (blog + legal) ---------- */
@@ -657,16 +647,16 @@ dd {
 
 /* ---------- Carousel (shared, see components/motion/carousel.tsx) ---------- */
 .rm-track {
-  --card-w: min(80vw, 360px);
+  position: relative; /* slides measure offsetLeft from the track itself */
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: var(--card-w);
+  grid-auto-columns: var(--card-w, min(80vw, 360px));
   gap: 14px;
   overflow-x: auto;
   overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory;
-  padding: var(--pad-top, 36px) calc((100% - var(--card-w)) / 2) 36px;
-  scroll-padding-inline: calc((100% - var(--card-w)) / 2);
+  padding: var(--pad-top, 36px) calc((100% - var(--card-w, min(80vw, 360px))) / 2) 36px;
+  scroll-padding-inline: calc((100% - var(--card-w, min(80vw, 360px))) / 2);
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
 }
@@ -675,15 +665,63 @@ dd {
 .rm-track[data-dragging] * { pointer-events: none; }
 @media (pointer: fine) { .rm-track { cursor: grab; } }
 .rm-slide { scroll-snap-align: center; scroll-snap-stop: always; min-width: 0; }
-/* Wide screens show several cards: start-align them on the page gutter
-   (like a row in the App Store) instead of centering the first one. */
+/* Wide screens: the track sits inside the content gutter and shows a whole
+   number of cards (--pv), start-aligned, so no card is ever cut in half at
+   the viewport edge. Tablets and phones keep the centered card + peeks. */
+.rm-frame { position: relative; }
 @media (min-width: 1024px) {
+  .rm-frame {
+    max-width: 1320px;
+    margin-inline: auto;
+    padding-inline: 2.5rem;
+  }
   .rm-track {
-    --gutter: max(2.5rem, calc((100% - 1320px) / 2 + 2.5rem));
-    padding-inline: var(--gutter);
-    scroll-padding-inline: var(--gutter);
+    --gap: 16px;
+    gap: var(--gap);
+    grid-auto-columns: calc((100% - (var(--pv-now) - 1) * var(--gap)) / var(--pv-now));
+    padding-inline: 0;
+    scroll-padding-inline: 0;
+    --pv-now: max(1, calc(var(--pv, 4) - 1));
   }
   .rm-slide { scroll-snap-align: start; scroll-snap-stop: normal; }
+}
+@media (min-width: 1280px) {
+  .rm-track { --pv-now: var(--pv, 4); }
+}
+
+/* Carousel arrows: round glass buttons centred on the cards, over the edges. */
+.rm-arrow {
+  position: absolute;
+  z-index: 3;
+  top: calc(var(--pad-top, 36px) + (100% - var(--pad-top, 36px) - 36px) / 2);
+  translate: 0 -50%;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  color: var(--ink);
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--glass-line);
+  box-shadow: 0 1px 2px rgb(20 23 28 / 0.1), 0 10px 24px -8px rgb(20 23 28 / 0.35);
+  transition: scale var(--dur-1) ease, background-color var(--dur-1) ease;
+}
+.rm-arrow:hover { background: var(--card); }
+.rm-arrow:active { scale: 0.94; }
+.rm-arrow-l { left: 4px; }
+.rm-arrow-r { right: 4px; }
+@media (max-width: 639px) {
+  .rm-arrow { width: 44px; height: 44px; }
+}
+@media (min-width: 640px) {
+  .rm-arrow-l { left: 16px; }
+  .rm-arrow-r { right: 16px; }
+}
+@media (min-width: 1024px) {
+  .rm-arrow-l { left: calc(2.5rem - 36px); }
+  .rm-arrow-r { right: calc(2.5rem - 36px); }
 }
 
 /* Side cards ease down in scale/opacity with a whisper of 3D turn (≤ 6°),
@@ -727,6 +765,8 @@ dd {
   transition: width var(--dur-2) var(--ease-out), background-color var(--dur-2);
 }
 .rm-dot[aria-current="true"] > span { width: 18px; background: var(--dot, var(--accent)); }
+.rm-pip { display: block; width: 6px; height: 6px; border-radius: 999px; background: color-mix(in oklab, var(--ink) 18%, transparent); transition: width var(--dur-2) var(--ease-out), background-color var(--dur-2); }
+.rm-pip[data-on="true"] { width: 16px; background: var(--dot, var(--accent)); }
 
 /* ---------- Challenge mission card (ChallengeCarousel card) ---------- */
 .rm-mission {
@@ -870,4 +910,135 @@ dialog.rm-sheet::backdrop { background: rgb(11 13 16 / 0.5); -webkit-backdrop-fi
   border: 2px solid var(--accent);
   box-shadow: 0 2px 8px rgb(20 23 28 / 0.25);
 }
+}
+
+/* ==========================================================================
+ * v1.6 polish: shared page chrome (hero icon, wash divider, CTA band,
+ * grouped rows, bento, FAQ, counters).
+ * ======================================================================== */
+.rm-hero-icon {
+  position: relative;
+  display: block;
+  margin-bottom: 0.9rem;
+}
+.rm-hero-icon::before {
+  content: "";
+  position: absolute;
+  inset: 12%;
+  z-index: -1;
+  border-radius: 999px;
+  background: radial-gradient(closest-side, color-mix(in oklab, var(--glow) 70%, transparent), transparent);
+  filter: blur(10px);
+}
+
+/* Sunrise wash divider between sections: a soft glow band with a hairline. */
+.rm-divider {
+  position: relative;
+  height: 1px;
+  max-width: 1240px;
+  margin-inline: auto;
+  background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--sun) 55%, transparent) 25%, color-mix(in oklab, var(--coral) 55%, transparent) 50%, color-mix(in oklab, var(--accent) 45%, transparent) 75%, transparent);
+}
+.rm-divider::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(70%, 640px);
+  height: 90px;
+  translate: -50% -50%;
+  background: radial-gradient(closest-side, color-mix(in oklab, var(--glow) 38%, transparent), transparent);
+  pointer-events: none;
+}
+
+/* Strong CTA band: the app's deep blue gradient card, white text. */
+.rm-cta-band {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: #fff;
+  border-radius: 32px;
+  background:
+    radial-gradient(60% 80% at 100% 0%, rgb(255 196 138 / 0.45), transparent 60%),
+    radial-gradient(50% 70% at 0% 100%, rgb(181 123 255 / 0.45), transparent 60%),
+    linear-gradient(135deg, #3a63ff, #1e3fd9 55%, #2a1f8f);
+  box-shadow: 0 2px 4px rgb(30 63 217 / 0.2), 0 30px 60px -24px rgb(30 63 217 / 0.55);
+}
+.rm-cta-band::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(to bottom, rgb(255 255 255 / 0.45), rgb(255 255 255 / 0.05));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+.rm-cta-band .rm-ring {
+  position: absolute;
+  z-index: -1;
+  border-radius: 999px;
+  border: 28px solid rgb(255 255 255 / 0.08);
+}
+
+/* Grouped list (RMGroupedList) on phones; on wider screens each row becomes
+   its own tile in the parent grid (display: contents). */
+.rm-group {
+  border-radius: 24px;
+  overflow: hidden;
+  background: linear-gradient(to bottom, var(--card), var(--card-2));
+  border: 1px solid color-mix(in oklab, var(--ink) 6%, transparent);
+  box-shadow: inset 0 1px 0 var(--highlight), var(--shadow);
+}
+.rm-group > li + li { border-top: 1px solid var(--line); }
+@media (min-width: 640px) {
+  .rm-group { display: contents; }
+  .rm-group > li + li { border-top: 0; }
+  .rm-group > li {
+    position: relative;
+    background: linear-gradient(to bottom, var(--card), var(--card-2));
+    border: 1px solid color-mix(in oklab, var(--ink) 6%, transparent);
+    border-radius: 24px;
+    box-shadow: inset 0 1px 0 var(--highlight), var(--shadow);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal="in"] .rm-group > li { animation: rm-rise var(--dur-3) var(--ease-out) backwards; animation-delay: calc(180ms + var(--j, 0) * 50ms); }
+}
+
+/* FAQ accordion: separate rounded rows, accent ring when open, smooth height. */
+:root { interpolate-size: allow-keywords; }
+.rm-faq { transition: box-shadow var(--dur-2) var(--ease-out), border-color var(--dur-2); }
+.rm-faq[open] { border-color: color-mix(in oklab, var(--accent) 35%, var(--line)); box-shadow: inset 0 1px 0 var(--highlight), 0 0 0 3px color-mix(in oklab, var(--accent) 12%, transparent), var(--shadow); }
+.rm-faq::details-content { block-size: 0; overflow: hidden; transition: block-size 320ms var(--ease-out), content-visibility 320ms allow-discrete; }
+.rm-faq[open]::details-content { block-size: auto; }
+.rm-faq .rm-faq-plus > i { position: absolute; left: 50%; top: 50%; width: 12px; height: 2px; border-radius: 2px; background: currentColor; translate: -50% -50%; transition: rotate var(--dur-2) var(--ease-out); }
+.rm-faq .rm-faq-plus > i + i { rotate: 90deg; }
+.rm-faq[open] .rm-faq-plus > i + i { rotate: 0deg; }
+@media (prefers-reduced-motion: reduce) {
+  .rm-faq::details-content { transition: none; }
+}
+
+/* Stat tiles (animated counters). */
+.rm-stat-num { font-variant-numeric: tabular-nums; }
+
+/* Soft tinted card (the app's tinted rows): set --tint. */
+.rm-tint-card {
+  background:
+    radial-gradient(120% 80% at 0% 0%, color-mix(in oklab, var(--tint) 14%, transparent), transparent 60%),
+    linear-gradient(to bottom, var(--card), var(--card-2));
+}
+
+/* Tool frame: a soft sunrise halo behind the tool card. */
+.rm-tool-frame { position: relative; isolation: isolate; }
+.rm-tool-frame::before {
+  content: "";
+  position: absolute;
+  inset: -18px -10px;
+  z-index: -1;
+  border-radius: 40px;
+  background: radial-gradient(60% 60% at 15% 10%, color-mix(in oklab, var(--accent) 16%, transparent), transparent 70%), radial-gradient(60% 60% at 90% 95%, color-mix(in oklab, var(--sun) 22%, transparent), transparent 70%);
+  filter: blur(14px);
 }
