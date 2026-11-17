@@ -21,6 +21,7 @@ const PAGES: { path: string; lastModified: string; priority: number }[] = [
   { path: "/support", lastModified: "2026-11-17", priority: 0.3 },
   { path: "/privacy", lastModified: "2026-11-15", priority: 0.2 },
   { path: "/terms", lastModified: "2026-08-21", priority: 0.2 },
+  { path: "/licenses", lastModified: "2026-11-17", priority: 0.2 },
 ];
 
 const videoEntry = (v: GalleryVideo) => ({
