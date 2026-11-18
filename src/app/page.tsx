@@ -85,7 +85,20 @@ const STATS: { icon: Icon3DName; value: number; prefix?: string; label: string }
 
 const STEP_TINTS = ["#F5A623", "#FF7A59", "#2F5BFF"];
 
-const ORBIT_ICONS: Icon3DName[] = ["3d-dumbbell", "3d-calculator", "3d-fire", "3d-pencil", "3d-camera", "3d-puzzle", "3d-trophy"];
+/**
+ * Hero clay bubbles: parked in the free space around the phones (not orbiting
+ * through them), positioned relative to the main phone so they never cover the
+ * phone screens, the floating cards or the hero text at any width. Each one
+ * only bobs a few px. Tops are % of the phone height.
+ */
+const HERO_BUBBLES: { icon: Icon3DName; pos: string; bob: string }[] = [
+  { icon: "3d-dumbbell", pos: "top-[-5%] right-[calc(100%+12px)] sm:right-[calc(100%+56px)]", bob: "0s" },
+  { icon: "3d-calculator", pos: "top-[16%] left-[calc(100%+10px)] sm:left-[calc(100%+24px)]", bob: "-1.3s" },
+  { icon: "3d-camera", pos: "top-[41%] left-[calc(100%+10px)] sm:left-[calc(100%+40px)]", bob: "-2.6s" },
+  { icon: "3d-pencil", pos: "top-[65%] left-[calc(100%+10px)] sm:left-[calc(100%+24px)]", bob: "-3.9s" },
+  { icon: "3d-trophy", pos: "top-[88%] left-[calc(100%+10px)] sm:left-[calc(100%+44px)]", bob: "-5.2s" },
+  { icon: "3d-puzzle", pos: "top-[93%] right-[calc(100%+12px)] sm:right-[calc(100%+56px)]", bob: "-0.7s" },
+];
 
 /** Focus preset tiles in the app's colours (teal / blue / violet). */
 const PRESET_HUES: Record<number, [string, string]> = {
@@ -122,7 +135,7 @@ export default function HomePage() {
       {/* HERO: the app's time-of-day header wash, the pitch, and the real v1.6
           Home screen in a device frame with the welcome-scene icon orbit. */}
       <section className="rm-wash -mt-[var(--header-h)] overflow-hidden pt-[var(--header-h)]">
-        <div className="container-rm grid items-center gap-6 pb-10 pt-8 md:pt-12 lg:grid-cols-[1.02fr_1fr] lg:gap-8 lg:pb-16">
+        <div className="container-rm grid items-center gap-6 pb-10 pt-8 md:pt-12 lg:pt-6 lg:grid-cols-[1.02fr_1fr] lg:gap-8 lg:pb-16">
           <div className="fade-up-group text-center lg:text-left">
             <Link
               href="#whats-new"
@@ -168,7 +181,7 @@ export default function HomePage() {
           {/* Stage */}
           <div className="fade-in-late relative mx-auto h-[500px] w-full max-w-[560px] sm:h-[560px] lg:h-[640px]">
             <div aria-hidden className="absolute left-1/2 top-1/2 h-[70%] w-[80%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--glow)_55%,transparent),transparent)] blur-2xl" />
-            <Orbit icons={ORBIT_ICONS} bubble={58} className="[--rx:150px] [--ry:205px] sm:[--rx:205px] sm:[--ry:235px] lg:[--rx:235px] lg:[--ry:270px]">
+            <div className="absolute inset-0 grid place-items-center">
               <div className="relative">
                 <Phone
                   src={challengesShot.src}
@@ -194,8 +207,17 @@ export default function HomePage() {
                     <span className="block text-[0.68rem] font-bold text-muted">+15 XP this morning</span>
                   </span>
                 </div>
+                {HERO_BUBBLES.map((b) => (
+                  <div key={b.icon} aria-hidden className={`rm-hero-bubble absolute ${b.pos}`}>
+                    <div className="rm-orbit-bob" style={{ "--b": b.bob } as CSSProperties}>
+                      <span className="rm-bubble">
+                        <Icon3D name={b.icon} size={42} className="h-8 w-8 sm:h-[42px] sm:w-[42px]" />
+                      </span>
+                    </div>
+                  </div>
+                  ))}
               </div>
-            </Orbit>
+            </div>
           </div>
         </div>
       </section>

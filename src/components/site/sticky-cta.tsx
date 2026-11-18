@@ -23,13 +23,15 @@ function readDismissed() {
  * - Desktop (lg+): a wide dark "get the app" card centered at the bottom.
  * - Back-to-top button at the bottom right, after ~800px of scroll.
  *
- * The CTA appears once the hero has scrolled away, hides while any other App
- * Store button (or the footer) is on screen, so there is never a duplicate CTA
- * in view, and can be closed for the session.
+ * The CTA slides in shortly after load on every page and stays while
+ * scrolling. It hides only while the footer is on screen (so it never covers
+ * it) or after the visitor closes it (remembered for the session). The bottom
+ * spacer keeps it off the last content on every width.
  */
 export function StickyCta() {
   const pathname = usePathname();
-  const [show, setShow] = useState(false);
+  const [ready, setReady] = useState(false);
+  const [nearFooter, setNearFooter] = useState(false);
   const [toTop, setToTop] = useState(false);
   const [dismissed, setDismissed] = useState(false);
 
@@ -40,22 +42,15 @@ export function StickyCta() {
   }, []);
 
   useEffect(() => {
-    const ctas = Array.from(document.querySelectorAll<HTMLElement>("[data-cta]:not([data-cta='sticky']):not([data-cta='header']):not([data-cta='mobile-menu'])"));
-    const seen = new Set<Element>();
-    const update = () => {
-      const y = window.scrollY;
-      setShow(seen.size === 0 && y > Math.min(560, window.innerHeight * 0.6));
-      setToTop(y > 800);
-    };
-    const io = new IntersectionObserver((entries) => {
-      for (const e of entries) {
-        if (e.isIntersecting) seen.add(e.target);
-        else seen.delete(e.target);
-      }
-      update();
-    });
-    ctas.forEach((c) => io.observe(c));
+    // Short delay so the CTA slides in after first paint (no CLS: it's fixed).
+    const t = setTimeout(() => setReady(true), 600);
+    return () => clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    const update = () => setToTop(window.scrollY > 800);
     const footer = document.querySelector("footer");
+    const io = new IntersectionObserver(([e]) => setNearFooter(e.isIntersecting));
     if (footer) io.observe(footer);
     update();
     window.addEventListener("scroll", update, { passive: true });
@@ -65,7 +60,7 @@ export function StickyCta() {
     };
   }, [pathname]);
 
-  const visible = show && !dismissed;
+  const visible = ready && !dismissed && !nearFooter;
   const close = () => {
     setDismissed(true);
     try {
@@ -81,8 +76,8 @@ export function StickyCta() {
 
   return (
     <>
-      {/* Room for the floating bar so it never sits on top of the last content on phones. */}
-      <div aria-hidden className="h-24 lg:hidden" />
+      {/* Room for the floating bar/card so it never sits on top of the last content. */}
+      <div aria-hidden className="h-24 lg:h-28" />
 
       {/* Phone bar */}
       <div
@@ -118,20 +113,20 @@ export function StickyCta() {
           back-to-top button its own lane on the right at every width. */}
       <aside
         aria-label="Get Rise Mission"
-        className="rm-sticky-cta pointer-events-none fixed inset-x-0 bottom-5 z-40 mx-auto hidden w-[min(880px,calc(100vw-10rem))] lg:block"
+        className="rm-sticky-cta pointer-events-none fixed inset-x-0 bottom-4 z-40 mx-auto hidden w-[min(880px,calc(100vw-10rem))] lg:block"
         data-show={visible}
         inert={!visible}
       >
-        <div className="rm-getapp pointer-events-auto flex items-center gap-5 rounded-[26px] py-3.5 pl-3.5 pr-3">
-          <Image src="/assets/icon.png" alt="" width={56} height={56} className="h-14 w-14 shrink-0 rounded-[15px] shadow-[0_8px_18px_-8px_rgb(47_91_255/0.8)]" />
+        <div className="rm-getapp pointer-events-auto flex items-center gap-4 rounded-[24px] py-2.5 pl-2.5 pr-2.5">
+          <Image src="/assets/icon.png" alt="" width={48} height={48} className="h-12 w-12 shrink-0 rounded-[13px] shadow-[0_8px_18px_-8px_rgb(47_91_255/0.8)]" />
           <div className="min-w-0 flex-1">
-            <p className="font-display text-[1.2rem] font-extrabold leading-tight tracking-[-0.02em]">Wake up on the first alarm.</p>
-            <p className="rm-getapp-sub mt-0.5 truncate text-[0.92rem]">Rise Mission rings on Silent and won&apos;t stop until you finish a quick challenge.</p>
+            <p className="font-display text-[1.12rem] font-extrabold leading-tight tracking-[-0.02em]">Wake up on the first alarm.</p>
+            <p className="rm-getapp-sub truncate text-[0.88rem]">Rise Mission rings on Silent and won&apos;t stop until you finish a quick challenge.</p>
           </div>
           <a
             href={appStoreHref("sticky")}
             data-cta="sticky"
-            className="rm-btn-primary group inline-flex h-12 shrink-0 items-center gap-2 rounded-full px-6 text-[0.98rem] font-extrabold transition-[filter] duration-150 hover:brightness-110"
+            className="rm-btn-primary group inline-flex h-11 shrink-0 items-center gap-2 rounded-full px-5 text-[0.95rem] font-extrabold transition-[filter] duration-150 hover:brightness-110"
           >
             Get the app <ArrowRight aria-hidden className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
           </a>
@@ -153,7 +148,7 @@ export function StickyCta() {
         aria-label="Back to top"
         data-show={toTop}
         inert={!toTop}
-        className={`rm-totop fixed right-4 z-40 flex h-11 w-11 items-center justify-center rounded-full lg:right-6 lg:bottom-6 ${visible ? "bottom-[calc(max(0.75rem,env(safe-area-inset-bottom))+4.75rem)]" : "bottom-[max(1rem,env(safe-area-inset-bottom))]"}`}
+        className={`rm-totop fixed right-4 z-40 flex h-11 w-11 items-center justify-center rounded-full lg:right-6 lg:bottom-[22px] ${visible ? "bottom-[calc(max(0.75rem,env(safe-area-inset-bottom))+4.75rem)]" : "bottom-[max(1rem,env(safe-area-inset-bottom))]"}`}
       >
         <ArrowUp aria-hidden className="h-5 w-5" />
       </button>

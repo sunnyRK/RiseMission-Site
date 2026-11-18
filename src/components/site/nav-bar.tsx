@@ -105,18 +105,19 @@ export function NavBar({ menus }: { menus: NavMenu[] }) {
   };
 
   const solid = scrolled || open !== null || mobile;
+  const current = currentMenu(menus, pathname);
 
   return (
     <>
       <header className="pointer-events-none sticky top-0 z-50 h-[var(--header-h)] px-3 pt-2.5 sm:px-4">
-        <div ref={navRef} className="pointer-events-auto relative mx-auto max-w-[1240px]" onPointerLeave={leave}>
+        <div ref={navRef} className="pointer-events-auto relative mx-auto max-w-[1288px]" onPointerLeave={leave}>
           <div
             data-solid={solid}
-            className={`rm-pill flex items-center justify-between gap-2 rounded-[22px] pl-2 pr-2 transition-[height] duration-300 ease-[var(--ease-out)] motion-reduce:transition-none sm:pl-2.5 ${scrolled ? "h-[54px]" : "h-[58px]"}`}
+            className={`rm-pill flex items-center gap-2 rounded-[22px] pl-2 pr-2 transition-[height] duration-300 ease-[var(--ease-out)] motion-reduce:transition-none sm:pl-2.5 ${scrolled ? "h-[54px]" : "h-[58px]"}`}
           >
             <Link
               href="/"
-              className="flex min-h-11 min-w-0 shrink items-center gap-2.5 rounded-[14px] px-1 text-ink"
+              className="mr-auto flex min-h-11 min-w-0 shrink items-center gap-2.5 rounded-[14px] px-1 text-ink lg:mr-0"
               aria-label="Rise Mission home"
               onPointerEnter={(e) => e.pointerType === "mouse" && setOpen(null)}
             >
@@ -127,7 +128,7 @@ export function NavBar({ menus }: { menus: NavMenu[] }) {
               </span>
             </Link>
 
-            <nav aria-label="Main" className="hidden items-center gap-0.5 lg:flex">
+            <nav aria-label="Main" className="mr-auto hidden items-center gap-1 lg:ml-8 lg:flex xl:ml-12">
               {menus.map((m, i) => (
                 <div key={m.label} onPointerEnter={enter(i)} onBlur={blur(i)}>
                   <button
@@ -137,11 +138,12 @@ export function NavBar({ menus }: { menus: NavMenu[] }) {
                     type="button"
                     aria-expanded={open === i}
                     aria-controls={`menu-${i}`}
+                    aria-current={current === i ? "true" : undefined}
                     onClick={toggle(i)}
-                    className={`flex h-10 items-center gap-1 rounded-xl px-3 text-[0.92rem] font-semibold transition-colors duration-150 ${open === i ? "bg-ink/[0.06] text-ink dark:bg-white/10" : "text-ink-2 hover:bg-ink/[0.045] hover:text-ink dark:hover:bg-white/[0.07]"}`}
+                    className={`flex h-10 items-center gap-1 rounded-full px-3.5 text-[0.95rem] font-semibold tracking-[-0.005em] transition-colors duration-150 ${open === i ? "bg-accent/[0.12] text-ink" : current === i ? "bg-accent/[0.07] text-accent-deep hover:bg-accent/[0.11] dark:text-accent" : "text-ink-2 hover:bg-accent/[0.08] hover:text-ink"}`}
                   >
                     {m.label}
-                    <ChevronDown aria-hidden className={`h-3.5 w-3.5 opacity-60 transition-transform duration-200 ease-[var(--ease-out)] ${open === i ? "rotate-180" : ""}`} />
+                    <ChevronDown aria-hidden className={`h-3 w-3 opacity-55 transition-transform duration-200 ease-[var(--ease-out)] ${open === i ? "rotate-180" : ""}`} strokeWidth={2.5} />
                   </button>
                   <MenuPanel id={`menu-${i}`} label={m.label} menu={m} visible={open === i} />
                 </div>
@@ -173,6 +175,16 @@ export function NavBar({ menus }: { menus: NavMenu[] }) {
   );
 }
 
+/** Which menu holds the current page (exact path match; any other post → Learn). */
+function currentMenu(menus: NavMenu[], pathname: string): number | null {
+  if (pathname === "/") return null;
+  const hrefs = (m: NavMenu) => [...m.featured.links, ...m.groups.flatMap((g) => g.links), m.footer].map((l) => l.href.split("#")[0]);
+  const hit = menus.findIndex((m) => hrefs(m).includes(pathname));
+  if (hit >= 0) return hit;
+  if (pathname.startsWith("/blog")) return menus.findIndex((m) => m.label === "Learn");
+  return null;
+}
+
 function MenuPanel({ id, label, menu, visible }: { id: string; label: string; menu: NavMenu; visible: boolean }) {
   const hasGroups = menu.groups.length > 0;
   return (
@@ -180,7 +192,7 @@ function MenuPanel({ id, label, menu, visible }: { id: string; label: string; me
       id={id}
       role="region"
       aria-label={`${label} menu`}
-      className={`absolute inset-x-0 top-full mx-auto w-fit max-w-[calc(100vw-2rem)] pt-2.5 transition-[opacity,translate,visibility] motion-reduce:transition-none ${visible ? "visible translate-y-0 opacity-100 duration-200 ease-[var(--ease-out)]" : "invisible -translate-y-1.5 opacity-0 duration-150 ease-in"}`}
+      className={`absolute left-0 top-full w-fit max-w-[calc(100vw-2rem)] pt-2.5 transition-[opacity,translate,visibility] motion-reduce:transition-none ${visible ? "visible translate-y-0 opacity-100 duration-200 ease-[var(--ease-out)]" : "invisible -translate-y-1.5 opacity-0 duration-150 ease-in"}`}
     >
       <div className="overflow-hidden rounded-[22px] border border-line bg-card shadow-[0_28px_70px_-24px_rgb(22_20_31/0.35)]">
         <div className={hasGroups ? "grid grid-cols-[17.5rem_auto]" : ""}>
