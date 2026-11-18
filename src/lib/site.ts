@@ -290,7 +290,7 @@ export type Release = {
 export const RELEASES: Release[] = [
   {
     version: "1.6",
-    date: null,
+    date: "2026-11-18",
     summary: "The biggest update yet: levels, a first-week challenge, a morning routine and a fresh look across the app.",
     items: V16_FEATURES.map((f) => `${f.title}: ${f.blurb}`),
   },
