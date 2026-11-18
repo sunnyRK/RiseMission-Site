@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
-import { appStoreHref } from "@/components/site/app-store-button";
+import { AppStoreButton } from "@/components/site/app-store-button";
 import { FOOTER_GROUPS, FOOTER_LEGAL, type SimpleLink } from "@/lib/links";
 import { CONTACT_EMAIL, INSTAGRAM_URL, MIN_IOS } from "@/lib/site";
 
@@ -22,13 +22,7 @@ export function SiteFooter() {
           <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted">
             The iPhone alarm clock for heavy sleepers: stop it by finishing a wake-up challenge. Requires {MIN_IOS} or later.
           </p>
-          <a
-            href={appStoreHref("footer")}
-            data-cta="footer"
-            className="rm-btn-primary mt-5 inline-flex min-h-11 items-center rounded-[14px] px-4 py-2 text-sm font-extrabold leading-snug"
-          >
-            Download Rise Mission on the App Store
-          </a>
+          <AppStoreButton placement="footer" className="mt-5" />
         </div>
         {FOOTER_GROUPS.map((g) => (
           <FooterCol key={g.title} title={g.title} links={g.links} />
