@@ -39,7 +39,7 @@ export function RankLadder() {
               onChange={(e) => setPerWeek(Number(e.target.value))}
               aria-valuetext={`${perWeek} mornings per week`}
               className="rm-range mt-3 w-full"
-              style={{ "--v": `${((perWeek - 1) / 6) * 100}%` } as CSSProperties}
+              style={{ "--v": `${((perWeek - 1) / 6) * 100}%`, "--rm-fill": `${((perWeek - 1) / 6) * 100}%` } as CSSProperties}
             />
           </div>
           <div className="flex flex-wrap gap-2">
