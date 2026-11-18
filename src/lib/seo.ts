@@ -6,6 +6,7 @@ import {
   INSTAGRAM_URL,
   LIVE_VERSION,
   MIN_IOS,
+  PRICING_COPY,
   SITE_NAME,
   SITE_URL,
   CHALLENGES,
@@ -153,7 +154,7 @@ export function mobileApplicationLd(description: string, opts: { releaseNotesUrl
     applicationCategory: "HealthApplication",
     softwareVersion: LIVE_VERSION,
     applicationSubCategory: "Alarm clock",
-    operatingSystem: MIN_IOS,
+    operatingSystem: `${MIN_IOS}.0 or later`,
     description,
     url: SITE_URL,
     installUrl: APP_STORE_URL,
@@ -170,11 +171,14 @@ export function mobileApplicationLd(description: string, opts: { releaseNotesUrl
     ],
     // Current App Store screenshots, read from the gallery registry so they never go stale.
     screenshot: GALLERY_SHOTS.slice(0, 6).map((s) => abs(s.src)),
+    // No price: Pro plans and prices are storefront-dependent and shown in the app, and
+    // "0" would read as "free" (v1.2+ has a hard paywall). The Offer points to the
+    // App Store listing, where the real prices live (PRICING_COPY is the wording).
     offers: {
       "@type": "Offer",
-      price: "0",
-      priceCurrency: "USD",
-      description: "Free download. Rise Mission Pro (subscription or lifetime) unlocks the full app.",
+      url: APP_STORE_URL,
+      availability: "https://schema.org/InStock",
+      description: PRICING_COPY.long,
     },
     publisher: publisherRef(),
   };

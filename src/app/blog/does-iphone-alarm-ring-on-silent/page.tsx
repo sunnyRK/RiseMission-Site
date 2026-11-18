@@ -224,7 +224,11 @@ export default function Page() {
         AlarmKit alarm fires, &ldquo;the alert breaks through the silent mode and the current focus&rdquo; (
         <a href={EXTRA.wwdcAlarmKit.href}>WWDC25</a>).
       </p>
-      <p>A few other details from Apple that are useful to know:</p>
+      <p>
+        A few other details from Apple that are useful to know (our explainer on{" "}
+        <Link href="/blog/iphone-alarm-apps-alarmkit">how Apple AlarmKit fixes third-party iPhone alarms</Link> covers
+        the rest):
+      </p>
       <ul>
         <li>
           <strong>You have to allow it.</strong> People opt in to alarm functionality for each app, and the app asks for

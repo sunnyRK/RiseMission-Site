@@ -47,7 +47,7 @@ const FAQ: QA[] = [
   },
   {
     q: "How does the math challenge stop the alarm?",
-    a: `When the alarm rings it shows an arithmetic problem. Answer ${PROBLEMS_TO_STOP} correctly and the sound stops. A wrong answer swaps in a new problem, so you can't guess your way out. Turn the challenge off for a plain Stop button.`,
+    a: `You answer ${PROBLEMS_TO_STOP} arithmetic problems correctly, then the sound stops. The problems appear on screen when the alarm rings. A wrong answer swaps in a new problem, so you can't guess your way out. Turn the challenge off for a plain Stop button.`,
   },
 ];
 

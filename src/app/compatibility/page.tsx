@@ -148,7 +148,9 @@ export default function CompatibilityPage() {
             Before AlarmKit, that was the catch with alarm apps: most woke you with a scheduled notification, which a muted
             phone could swallow. We chose to support only iOS 26 rather than ship an alarm that might stay silent on older
             phones. The full background is in{" "}
-            <Link href="/blog/does-iphone-alarm-ring-on-silent">does the iPhone alarm ring on Silent?</Link>
+            <Link href="/blog/does-iphone-alarm-ring-on-silent">does the iPhone alarm ring on Silent?</Link>, and{" "}
+            <Link href="/blog/iphone-alarm-apps-alarmkit">how AlarmKit fixes third-party iPhone alarms</Link> explains
+            the framework itself.
           </p>
           <p>
             One thing AlarmKit doesn&apos;t change: {FACTS.poweredOff} {FACTS.systemStop}

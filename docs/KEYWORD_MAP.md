@@ -27,6 +27,7 @@ has fewer than 3 in-content inlinks.
 | online alarm clock | `/online-alarm-clock` | `/tools` | |
 | set alarm, how to set an alarm on iPhone, alarm set | `/blog/how-to-set-an-alarm-on-iphone` | `/blog/iphone-alarm-not-going-off`, `/blog/does-iphone-alarm-ring-on-silent` | Added 2026-11-18 (Google Trends 2026: "set alarm clock" +70%). Steps first; troubleshooting links out to the fix posts. |
 | sunrise alarm clock (vs app) | `/blog/sunrise-alarm-clock-vs-alarm-app` | `/blog/how-to-wake-up-as-a-heavy-sleeper`, `/blog/alarm-that-makes-you-get-out-of-bed` | Added 2026-11-18 (Trends: +40%). Comparison intent only; Rise Mission has no light feature, never imply it does. |
+| AlarmKit, alarm apps that ring on Silent, which alarm apps use AlarmKit | `/blog/iphone-alarm-apps-alarmkit` | `/blog/does-iphone-alarm-ring-on-silent`, `/blog/iphone-alarm-not-going-off`, `/compatibility` | Added 2026-11-18 (AEO magnet). `does-iphone-alarm-ring-on-silent` keeps the Clock-app "ring on Silent" query; this page owns the third-party/AlarmKit angle. Never list other AlarmKit apps; explain how to test instead. |
 
 ## 2. App Store keyword set (spillover into web search)
 

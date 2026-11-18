@@ -327,7 +327,9 @@ export default function Page() {
         &ldquo;breaks through the silent mode and the current focus&rdquo;, but also that people opt in per app, the app
         must get authorization before it can schedule alarms, and people can change that authorization status in the
         Settings app at any time (<a href={EXTRA.wwdcAlarmKit.href}>WWDC25</a>). So if an AlarmKit app stays silent,
-        check that you didn&apos;t decline its alarm permission.
+        check that you didn&apos;t decline its alarm permission. Our guide to{" "}
+        <Link href="/blog/iphone-alarm-apps-alarmkit">which iPhone alarm apps use AlarmKit</Link> shows how to test any
+        app.
       </p>
       <p>
         That&apos;s the reason I built <Link href="/">Rise Mission</Link> on AlarmKit. {FACTS.ringsOnSilent} One honest

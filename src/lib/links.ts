@@ -284,6 +284,7 @@ export const POST_TOOL: Record<string, string> = {
   "morning-routine-that-sticks": "chronotype-quiz",
   "how-to-set-an-alarm-on-iphone": "online-alarm-clock",
   "sunrise-alarm-clock-vs-alarm-app": "sleep-calculator",
+  "iphone-alarm-apps-alarmkit": "online-alarm-clock",
 };
 
 /** Anchor + one-line pitch for the post → tool card. */

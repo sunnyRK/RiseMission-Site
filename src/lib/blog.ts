@@ -304,6 +304,17 @@ export const BLOG_POSTS: BlogPost[] = [
     eyebrow: "Heavy sleepers",
     date: "2026-11-18",
     readMinutes: 8,
+  },  {
+    slug: "iphone-alarm-apps-alarmkit",
+    title: "How Apple AlarmKit Fixes Third-Party iPhone Alarms",
+    metaTitle: "How Apple AlarmKit Fixes iPhone Alarm Apps",
+    description:
+      "Why third-party iPhone alarm apps used to miss Silent mode, what Apple's AlarmKit changed in iOS 26, the old way vs AlarmKit compared, and how to tell if an alarm app uses it.",
+    metaDescription:
+      "Why alarm apps missed Silent mode before iOS 26, how Apple's AlarmKit lets them ring like Clock alarms, and how to check if an app uses AlarmKit.",
+    eyebrow: "iPhone alarms",
+    date: "2026-11-18",
+    readMinutes: 7,
   },
 ];
 
@@ -398,7 +409,7 @@ export const BLOG_TOPICS: BlogTopic[] = [
       "Every fix here is checked against Apple's support documentation, with the exact setting names, and we say plainly when Apple doesn't document something.",
     answer:
       "Most iPhone alarm problems come down to a few settings: an alarm sound set to None, the ringer-linked volume slider, Attention Aware Features, headphones, or a sleep schedule alarm with its own volume. The iPhone Clock alarm does ring on Silent and in Focus. These guides walk through each fix using Apple's own support pages.",
-    posts: ["how-to-set-an-alarm-on-iphone", "iphone-alarm-not-going-off", "loudest-alarm-sound-iphone", "iphone-alarm-volume-low", "does-iphone-alarm-ring-on-silent"],
+    posts: ["how-to-set-an-alarm-on-iphone", "iphone-alarm-not-going-off", "loudest-alarm-sound-iphone", "iphone-alarm-volume-low", "does-iphone-alarm-ring-on-silent", "iphone-alarm-apps-alarmkit"],
   },
   {
     slug: "alarm-apps",

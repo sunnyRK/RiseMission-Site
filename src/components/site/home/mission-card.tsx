@@ -20,7 +20,7 @@ export function MissionCard({ c, index, total }: { c: ChallengeFact; index: numb
         <span className="text-[0.8rem] font-bold opacity-80">/ {pad(total)}</span>
       </p>
       <div className="relative mt-auto pt-16">
-        <h3 className="text-[1.85rem] font-extrabold leading-tight tracking-[-0.02em] [text-shadow:0_1px_8px_rgb(0_0_0/0.18)]">{c.name}</h3>
+        <p className="text-[1.85rem] font-extrabold leading-tight tracking-[-0.02em] [text-shadow:0_1px_8px_rgb(0_0_0/0.18)] [text-wrap:balance]">{c.name}</p>
         <p className="mt-0.5 text-[0.95rem] font-semibold opacity-95">{c.tagline}</p>
         <p className="mt-3 flex flex-wrap gap-1.5">
           <span className="rm-meta">
