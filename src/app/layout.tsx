@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Analytics } from "@/components/analytics/analytics";
 import { SiteFooter } from "@/components/site/footer";
 import { SiteHeader } from "@/components/site/header";
+import { StickyCta } from "@/components/site/sticky-cta";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
     google: process.env.GOOGLE_SITE_VERIFICATION || undefined,
     other: process.env.BING_SITE_VERIFICATION ? { "msvalidate.01": process.env.BING_SITE_VERIFICATION } : undefined,
   },
-  // Smart App Banner on iOS Safari — native "Open / Get" for the app.
+  // Smart App Banner on iOS Safari: native "Open / Get" for the app.
   other: { "apple-itunes-app": "app-id=6791305078" },
   alternates: {
     types: { "application/rss+xml": [{ url: "/blog/feed.xml", title: "Rise Mission Blog" }] },
@@ -47,6 +48,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <SiteHeader />
         <main id="main" className="flex-1">
           {children}
+          <StickyCta />
         </main>
         <SiteFooter />
         <Analytics />

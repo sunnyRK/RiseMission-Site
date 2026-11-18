@@ -10,7 +10,6 @@ import { Faq } from "@/components/site/faq";
 import { Icon3D, type Icon3DName } from "@/components/site/icon-3d";
 import { Phone } from "@/components/site/phone";
 import { Section, SectionHeader } from "@/components/site/section";
-import { StickyCta } from "@/components/site/sticky-cta";
 import { LazyVideo } from "@/components/site/lazy-video";
 import { FlipBadge } from "@/components/site/home/flip-badge";
 import { MissionCard } from "@/components/site/home/mission-card";
@@ -122,7 +121,7 @@ export default function HomePage() {
 
       {/* HERO: the app's time-of-day header wash, the pitch, and the real v1.6
           Home screen in a device frame with the welcome-scene icon orbit. */}
-      <section className="rm-wash -mt-16 overflow-hidden pt-16">
+      <section className="rm-wash -mt-[var(--header-h)] overflow-hidden pt-[var(--header-h)]">
         <div className="container-rm grid items-center gap-6 pb-10 pt-8 md:pt-12 lg:grid-cols-[1.02fr_1fr] lg:gap-8 lg:pb-16">
           <div className="fade-up-group text-center lg:text-left">
             <Link
@@ -592,7 +591,6 @@ export default function HomePage() {
         </CtaBand>
       </section>
 
-      <StickyCta />
     </>
   );
 }

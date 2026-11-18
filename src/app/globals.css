@@ -30,6 +30,8 @@
   --shadow-lift: 0 1px 2px rgb(20 23 28 / 0.05), 0 22px 44px -18px rgb(20 23 28 / 0.24);
   --glass: rgb(255 255 255 / 0.74);
   --glass-line: rgb(255 255 255 / 0.85);
+  /* Height reserved for the floating pill header (sticky, in flow: no CLS). */
+  --header-h: 4.5rem;
 
   /* Time-of-day header wash (RMTimeOfDay). Morning by default; a tiny client
      script sets data-tod on <html> to the visitor's local part of the day. */
@@ -135,7 +137,8 @@
 
 html {
   -webkit-text-size-adjust: 100%;
-  scroll-padding-top: 5rem;
+  /* Anchor jumps land below the floating header with a little air. */
+  scroll-padding-top: calc(var(--header-h) + 0.75rem);
 }
 body {
   background: var(--paper);
@@ -854,9 +857,60 @@ dd {
 @keyframes rm-fill { from { transform: scaleX(0); } }
 
 /* Mobile sticky CTA: slides up from below (transform only, no CLS). */
-.rm-sticky-cta { transform: translateY(140%); transition: transform 380ms var(--ease-out); }
-.rm-sticky-cta[data-show="true"] { transform: none; }
-@media (prefers-reduced-motion: reduce) { .rm-sticky-cta { transition: none; } }
+/* ---------- Floating chrome: pill header, get-app card, back-to-top ---------- */
+.rm-pill {
+  background: color-mix(in oklab, var(--glass) 82%, transparent);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  backdrop-filter: blur(18px) saturate(180%);
+  border: 1px solid var(--glass-line);
+  box-shadow: 0 1px 2px rgb(20 23 28 / 0.04), 0 10px 30px -18px rgb(20 23 28 / 0.22);
+  transition-property: height, background-color, box-shadow;
+}
+.rm-pill[data-solid="true"] {
+  background: color-mix(in oklab, var(--card) 88%, transparent);
+  box-shadow: 0 1px 2px rgb(20 23 28 / 0.06), 0 16px 40px -18px rgb(20 23 28 / 0.32);
+}
+
+/* Bottom CTA (phone bar + desktop card) and back-to-top: slide + fade in. */
+.rm-sticky-cta,
+.rm-totop {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(24px);
+  transition: transform 420ms var(--ease-out), opacity 260ms ease, visibility 0s linear 420ms, bottom 300ms var(--ease-out);
+}
+.rm-sticky-cta[data-show="true"],
+.rm-totop[data-show="true"] {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: transform 420ms var(--ease-out), opacity 260ms ease, visibility 0s, bottom 300ms var(--ease-out);
+}
+@media (prefers-reduced-motion: reduce) {
+  .rm-sticky-cta, .rm-totop, .rm-sticky-cta[data-show="true"], .rm-totop[data-show="true"] { transform: none; transition: none; }
+}
+
+/* Desktop get-app card: a dark, glossy card in both themes (like the app's
+   immersive wake-up screens), lit top edge, deep shadow. */
+.rm-getapp {
+  color: #fff;
+  background:
+    radial-gradient(120% 140% at 0% 0%, rgb(47 91 255 / 0.28), transparent 55%),
+    linear-gradient(180deg, #1b2029, #111419);
+  border: 1px solid rgb(255 255 255 / 0.09);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.08), 0 2px 4px rgb(0 0 0 / 0.12), 0 28px 60px -20px rgb(11 13 16 / 0.6);
+}
+.rm-getapp-sub { color: rgb(255 255 255 / 0.7); }
+
+.rm-totop {
+  color: var(--ink);
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--glass-line);
+  box-shadow: 0 1px 2px rgb(20 23 28 / 0.1), 0 10px 24px -8px rgb(20 23 28 / 0.35);
+}
+.rm-totop:hover { background: var(--card); }
 
 /* Confetti (demo success). */
 @keyframes rm-confetti {

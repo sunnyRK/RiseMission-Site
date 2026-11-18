@@ -19,20 +19,21 @@ export function AppStoreButton({
   className = "",
 }: {
   placement: string;
-  size?: "md" | "lg";
+  size?: "sm" | "md" | "lg";
   className?: string;
 }) {
   const lg = size === "lg";
+  const sm = size === "sm";
   return (
     <a
       href={appStoreHref(placement)}
       data-cta={placement}
-      className={`inline-flex items-center gap-2.5 rounded-[14px] bg-ink text-paper shadow-[0_1px_2px_rgb(22_20_31/0.08),0_8px_20px_-10px_rgb(22_20_31/0.45)] transition-[translate,box-shadow,opacity] duration-200 ease-[var(--ease-out)] hover:-translate-y-0.5 hover:shadow-[0_1px_2px_rgb(22_20_31/0.08),0_14px_28px_-12px_rgb(22_20_31/0.5)] active:translate-y-0 motion-reduce:hover:translate-y-0 ${lg ? "h-[60px] px-6" : "h-[52px] px-5"} ${className}`}
+      className={`inline-flex items-center bg-ink text-paper shadow-[0_1px_2px_rgb(22_20_31/0.08),0_8px_20px_-10px_rgb(22_20_31/0.45)] transition-[translate,box-shadow,opacity] duration-200 ease-[var(--ease-out)] hover:-translate-y-0.5 hover:shadow-[0_1px_2px_rgb(22_20_31/0.08),0_14px_28px_-12px_rgb(22_20_31/0.5)] active:translate-y-0 motion-reduce:hover:translate-y-0 ${lg ? "h-[60px] gap-2.5 rounded-[14px] px-6" : sm ? "h-10 gap-1.5 rounded-[11px] px-3" : "h-[52px] gap-2.5 rounded-[14px] px-5"} ${className}`}
     >
-      <AppleLogo className={lg ? "h-7 w-7" : "h-6 w-6"} />
+      <AppleLogo className={lg ? "h-7 w-7" : sm ? "h-[18px] w-[18px]" : "h-6 w-6"} />
       <span className="flex flex-col items-start leading-none">
-        <span className={lg ? "text-[11px]" : "text-[10px]"}>Download on the</span>
-        <span className={`mt-0.5 font-semibold tracking-tight ${lg ? "text-[22px]" : "text-[19px]"}`}>App Store</span>
+        <span className={lg ? "text-[11px]" : sm ? "text-[8.5px]" : "text-[10px]"}>Download on the</span>
+        <span className={`mt-0.5 font-semibold tracking-tight ${lg ? "text-[22px]" : sm ? "text-[15px]" : "text-[19px]"}`}>App Store</span>
       </span>
     </a>
   );
