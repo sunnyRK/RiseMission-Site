@@ -67,7 +67,7 @@ export default function GalleryPage() {
         <div className="container-rm pb-10 pt-8 text-center md:pt-12">
           <Breadcrumbs path="/gallery" bare className="mb-5 [&_ol]:justify-center" />
           <HeroIcon name="3d-camera" center />
-          <p className="t-eyebrow justify-center">Gallery · Version {LIVE_VERSION}</p>
+          <p className="t-eyebrow justify-center">{`Gallery · Version ${LIVE_VERSION}`}</p>
           <h1 className="t-h1 mx-auto mt-3 max-w-3xl">Rise Mission screenshots &amp; videos</h1>
           <p className="t-lead mx-auto mt-4 max-w-2xl">
             See exactly what happens when the alarm rings: the ringing screen, the {CHALLENGES.length} wake-up challenges, camera-counted

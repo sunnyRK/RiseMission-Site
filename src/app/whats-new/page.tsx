@@ -67,7 +67,9 @@ export default function WhatsNewPage() {
           <div className="mx-auto max-w-3xl">
             <Breadcrumbs path="/whats-new" bare className="mb-5" />
             <HeroIcon name="3d-gift" />
+            {/* One span: .t-eyebrow is inline-flex, so bare text + <time> nodes would each become a column on phones. */}
             <p className="t-eyebrow">
+              <span>
               Release notes · Version {LIVE_VERSION}
               {live.date ? (
                 <>
@@ -75,6 +77,7 @@ export default function WhatsNewPage() {
                 </>
               ) : null}{" "}
               · Page updated <time dateTime={UPDATED}>{fmt(UPDATED)}</time>
+              </span>
             </p>
             <h1 className="t-h1 mt-3">What&apos;s new in Rise Mission {LIVE_VERSION}</h1>
             <p className="t-lead mt-4">{live.summary}</p>

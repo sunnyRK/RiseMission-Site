@@ -93,7 +93,7 @@ export default function VsAppleClockPage() {
             <Breadcrumbs path="/rise-mission-vs-apple-clock" bare className="mb-5" />
             <HeroIcon name="3d-clock" />
             <p className="t-eyebrow">
-              Comparison · Updated <time dateTime={UPDATED}>November 17, 2026</time>
+              <span>Comparison · Updated <time dateTime={UPDATED}>November 17, 2026</time></span>
             </p>
             <h1 className="t-h1 mt-3">Rise Mission vs the iPhone Clock app: when the built-in alarm isn&apos;t enough</h1>
             <p className="t-lead mt-4">

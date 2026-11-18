@@ -70,7 +70,7 @@ export default function SizeComparisonPage() {
           <div className="mx-auto max-w-3xl">
             <Breadcrumbs path="/alarm-app-size-comparison" bare className="mb-5" />
             <HeroIcon name="3d-flask" />
-            <p className="t-eyebrow">Data · Updated <time dateTime={SNAPSHOT_DATE}>{dateLabel}</time>
+            <p className="t-eyebrow"><span>Data · Updated <time dateTime={SNAPSHOT_DATE}>{dateLabel}</time></span>
             </p>
             <h1 className="t-h1 mt-3">How big are iPhone alarm apps?</h1>
             <p className="t-lead mt-4">

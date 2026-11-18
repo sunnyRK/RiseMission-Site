@@ -87,7 +87,7 @@ export default function CompatibilityPage() {
             <Breadcrumbs path="/compatibility" bare className="mb-5" />
             <HeroIcon name="3d-phone" />
             <p className="t-eyebrow">
-              Requirements · Version {LIVE_VERSION} · Updated <time dateTime={UPDATED}>November 17, 2026</time>
+              <span>Requirements · Version {LIVE_VERSION} · Updated <time dateTime={UPDATED}>November 17, 2026</time></span>
             </p>
             <h1 className="t-h1 mt-3">Rise Mission requirements: iPhone and iOS 26</h1>
             <p className="t-lead mt-4">

@@ -64,7 +64,7 @@ export function RankLadder() {
                 {r.xp.toLocaleString("en-US")} XP
               </span>
             </div>
-            <p className="t-eyebrow mt-3">Level {r.level}</p>
+            <p className="t-eyebrow mt-3">{`Level ${r.level}`}</p>
             <h3 className="mt-1 text-[1.45rem] font-extrabold tracking-tight text-ink">{r.name}</h3>
             <p className="mt-auto pt-4 text-[0.92rem] font-semibold text-ink-2" aria-live="polite">
               {i === 0 ? "Where everyone starts" : (
