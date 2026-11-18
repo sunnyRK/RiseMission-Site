@@ -88,7 +88,8 @@ export default function Page() {
       </p>
       <p>
         That applies to alarms you set in Apple&apos;s Clock app. So you can flip the switch at bedtime without losing
-        your morning Clock alarm.
+        your morning Clock alarm. If you haven&apos;t made one yet, see{" "}
+        <Link href="/blog/how-to-set-an-alarm-on-iphone">how to set an alarm on iPhone</Link>.
       </p>
 
       <H2>Does the alarm still ring with the Action button set to Silent?</H2>

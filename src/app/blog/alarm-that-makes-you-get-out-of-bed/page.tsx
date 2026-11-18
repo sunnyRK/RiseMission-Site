@@ -101,7 +101,9 @@ export default function Page() {
       <p>
         A smart plug set to switch on at your wake time can turn on a lamp or a fan across the room. It gives you a
         second signal besides sound, and a lamp you have to cross the room to switch off adds a small walk. But a plug can&apos;t make
-        you get up; plenty of people sleep with a light on. I see it as a good add-on, not a replacement for an alarm.
+        you get up; plenty of people sleep with a light on. I see it as a good add-on, not a replacement for an alarm. The
+        same goes for a wake-up light: see{" "}
+        <Link href="/blog/sunrise-alarm-clock-vs-alarm-app">sunrise alarm clock vs an alarm app</Link>.
       </p>
 
       <H3>QR code or barcode in another room</H3>

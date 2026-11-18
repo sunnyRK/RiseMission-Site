@@ -116,7 +116,8 @@ export default function Page() {
       <p>
         Light is the strongest signal your body clock has (<a href={SRC.blume2019.href}>Blume et al., 2019</a>).
         Open the curtains, switch on the main light, or step outside. A smart bulb on a schedule helps on dark winter
-        mornings.
+        mornings. If you&apos;re weighing up a wake-up light, see{" "}
+        <Link href="/blog/sunrise-alarm-clock-vs-alarm-app">sunrise alarm clock vs an alarm app</Link>.
       </p>
 
       <H3>5. Make the alarm ask for something a sleeping brain can&apos;t do</H3>

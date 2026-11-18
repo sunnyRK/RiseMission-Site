@@ -281,6 +281,30 @@ export const BLOG_POSTS: BlogPost[] = [
     date: "2026-11-17",
     readMinutes: 10,
   },
+  {
+    slug: "how-to-set-an-alarm-on-iphone",
+    title: "How to Set an Alarm on iPhone (and Actually Wake Up to It)",
+    metaTitle: "How to Set an Alarm on iPhone (iOS 26)",
+    description:
+      "Step-by-step: set, edit, turn off and delete an alarm in the iPhone Clock app or with Siri, set a sleep schedule in Health, and fix an alarm that doesn't wake you.",
+    metaDescription:
+      "Set an alarm on iPhone step by step: Clock app, Repeat, Label, Sound, Snooze, plus Siri, editing, deleting, sleep schedules and fixes if you oversleep.",
+    eyebrow: "iPhone alarms",
+    date: "2026-11-18",
+    readMinutes: 7,
+  },
+  {
+    slug: "sunrise-alarm-clock-vs-alarm-app",
+    title: "Sunrise Alarm Clock vs an Alarm App: Which Wakes a Heavy Sleeper?",
+    metaTitle: "Sunrise Alarm Clock vs Alarm App",
+    description:
+      "An honest comparison of a sunrise alarm clock (a light that brightens before you wake) and a phone alarm with wake-up challenges: what each does well, where each fails, and why some people use both.",
+    metaDescription:
+      "Sunrise alarm clock or challenge alarm app? What wake-up light research shows, why light won't get you out of bed, and when combining both makes sense.",
+    eyebrow: "Heavy sleepers",
+    date: "2026-11-18",
+    readMinutes: 8,
+  },
 ];
 
 export type BlogTopic = {
@@ -309,7 +333,7 @@ export const BLOG_TOPICS: BlogTopic[] = [
       "If you've ever slept through three alarms and woken up to a missed meeting, these guides are for you. They focus on what changes behaviour on a real morning, not generic sleep tips.",
     answer:
       "Heavy sleepers usually miss alarms for a few reasons: too little sleep, waking from deep sleep, an alarm the brain has learned to ignore, or a setup that lets you switch it off without standing up. The guides below cover each cause with sourced fixes for placement, light, sound and wake-up challenges, and say when to see a doctor.",
-    posts: ["how-to-wake-up-as-a-heavy-sleeper", "how-to-stop-hitting-snooze", "sleep-inertia", "why-do-i-sleep-through-my-alarm", "does-iphone-alarm-ring-on-silent", "loudest-alarm-sound-iphone", "iphone-alarm-volume-low", "alarm-that-makes-you-get-out-of-bed"],
+    posts: ["how-to-wake-up-as-a-heavy-sleeper", "how-to-stop-hitting-snooze", "sleep-inertia", "why-do-i-sleep-through-my-alarm", "does-iphone-alarm-ring-on-silent", "loudest-alarm-sound-iphone", "iphone-alarm-volume-low", "alarm-that-makes-you-get-out-of-bed", "sunrise-alarm-clock-vs-alarm-app"],
   },
   {
     slug: "snooze-habit",
@@ -361,7 +385,7 @@ export const BLOG_TOPICS: BlogTopic[] = [
       "A wake-up challenge keeps the alarm ringing until you've done something a sleeping brain can't. These guides explain each type, who it suits, and where it stops working.",
     answer:
       "A wake-up challenge, or alarm mission, asks you to do a task before the alarm stops: push-ups or squats counted by the camera, a walk, scanning a QR code in another room, or math. A task needs a working brain or your feet on the floor, which a tap does not. These guides explain each type and who it suits.",
-    posts: ["wake-up-challenges-explained", "push-up-alarm-clock", "squat-alarm-clock", "qr-code-alarm-clock", "math-alarm-clock", "step-alarm-clock", "alarm-that-makes-you-get-out-of-bed"],
+    posts: ["wake-up-challenges-explained", "push-up-alarm-clock", "squat-alarm-clock", "qr-code-alarm-clock", "math-alarm-clock", "step-alarm-clock", "alarm-that-makes-you-get-out-of-bed", "sunrise-alarm-clock-vs-alarm-app"],
   },
   {
     slug: "iphone-alarms",
@@ -374,7 +398,7 @@ export const BLOG_TOPICS: BlogTopic[] = [
       "Every fix here is checked against Apple's support documentation, with the exact setting names, and we say plainly when Apple doesn't document something.",
     answer:
       "Most iPhone alarm problems come down to a few settings: an alarm sound set to None, the ringer-linked volume slider, Attention Aware Features, headphones, or a sleep schedule alarm with its own volume. The iPhone Clock alarm does ring on Silent and in Focus. These guides walk through each fix using Apple's own support pages.",
-    posts: ["iphone-alarm-not-going-off", "loudest-alarm-sound-iphone", "iphone-alarm-volume-low", "does-iphone-alarm-ring-on-silent"],
+    posts: ["how-to-set-an-alarm-on-iphone", "iphone-alarm-not-going-off", "loudest-alarm-sound-iphone", "iphone-alarm-volume-low", "does-iphone-alarm-ring-on-silent"],
   },
   {
     slug: "alarm-apps",

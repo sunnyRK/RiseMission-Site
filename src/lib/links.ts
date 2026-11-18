@@ -282,6 +282,8 @@ export const POST_TOOL: Record<string, string> = {
   "alarm-app-for-adhd": "chronotype-quiz",
   "alarm-that-makes-you-get-out-of-bed": "snooze-calculator",
   "morning-routine-that-sticks": "chronotype-quiz",
+  "how-to-set-an-alarm-on-iphone": "online-alarm-clock",
+  "sunrise-alarm-clock-vs-alarm-app": "sleep-calculator",
 };
 
 /** Anchor + one-line pitch for the post → tool card. */
@@ -297,7 +299,7 @@ export const TOOL_PITCH: Record<string, string> = {
 /** Every tool links to 2–4 guides (rendered under the tool as "Related guides"). */
 export const TOOL_POSTS: Record<string, string[]> = {
   "sleep-calculator": ["how-to-wake-up-at-5am", "how-to-wake-up-as-a-heavy-sleeper", "sleep-inertia", "squat-alarm-clock"],
-  "online-alarm-clock": ["math-alarm-clock", "wake-up-challenges-explained", "iphone-alarm-not-going-off", "best-alarm-apps-for-heavy-sleepers"],
+  "online-alarm-clock": ["math-alarm-clock", "wake-up-challenges-explained", "iphone-alarm-not-going-off", "how-to-set-an-alarm-on-iphone"],
   "nap-calculator": ["sleep-inertia", "why-do-i-sleep-through-my-alarm", "benefits-of-waking-up-early"],
   "snooze-calculator": ["how-to-stop-hitting-snooze", "alarm-that-makes-you-get-out-of-bed", "sleep-inertia"],
   "sleep-debt-calculator": ["why-do-i-sleep-through-my-alarm", "how-to-wake-up-as-a-heavy-sleeper", "sleep-inertia"],

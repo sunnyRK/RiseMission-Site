@@ -213,6 +213,8 @@ export default function Page() {
         <a href={EXTRA.setAlarm26.href}>Apple iPhone User Guide</a>), which also means a stray tap while you check the time
         at night can disable it. While you&apos;re there, check three things: the AM/PM, the Repeat days (an alarm with no
         Repeat days rings once and then stays off), and whether you have duplicate alarms where only the wrong one is on.
+        If you want to start over cleanly, here is{" "}
+        <Link href="/blog/how-to-set-an-alarm-on-iphone">how to set an alarm on iPhone</Link> step by step.
       </p>
 
       <H2>Why did my alarm only vibrate, or make no sound at all?</H2>
